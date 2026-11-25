@@ -39,6 +39,32 @@
       "global_p95_mm": 0.1926,
       "dense_hands_torso_median_mm": 0.0549,
       "dense_hands_torso_p95_mm": 0.0892
+    },
+    "spacing_3_regions_mm": {
+      "region_1_head": {
+        "xyz_points": 315213,
+        "xyz_median_mm": 0.0301,
+        "xyz_p95_mm": 0.0629,
+        "web_ply_points": 32501,
+        "web_ply_median_mm": 0.1197,
+        "web_ply_p95_mm": 0.1944
+      },
+      "region_2_barrel_pot_hand": {
+        "xyz_points": 1044508,
+        "xyz_median_mm": 0.0191,
+        "xyz_p95_mm": 0.0398,
+        "web_ply_points": 209602,
+        "web_ply_median_mm": 0.0547,
+        "web_ply_p95_mm": 0.0888
+      },
+      "region_3_base_pig": {
+        "xyz_points": 253364,
+        "xyz_median_mm": 0.0303,
+        "xyz_p95_mm": 0.0629,
+        "web_ply_points": 24335,
+        "web_ply_median_mm": 0.1246,
+        "web_ply_p95_mm": 0.2048
+      }
     }
   },
   "models": {
@@ -71,10 +97,13 @@
         }
       ],
       "deviation_vs_highpoly_mm": {
-        "median_mm": 0.3131,
-        "p95_mm": 0.6211,
-        "max_mm": 13.1602,
-        "within_1mm_pct": 99.87
+        "reference_model": "MPŁW_E_1212_highpoly_spod_drewno 45.blend (6 520 428 trójkątów)",
+        "median_mm": 0.0665,
+        "mean_mm": 0.0688,
+        "p95_mm": 0.1249,
+        "p99_mm": 0.1604,
+        "max_mm": 13.3238,
+        "within_1mm_pct": 99.983
       }
     },
     "stl_export": {
@@ -82,6 +111,19 @@
       "format": "Binary STL",
       "triangles": 72066560,
       "unit": "m"
+    },
+    "high_poly_edited": {
+      "name": "MPLW_E_1212_HighPoly (MPŁW_E_1212_highpoly_spod_drewno 45.blend)",
+      "triangles": 6520428,
+      "vertices": 3260165,
+      "textures": [
+        {
+          "count": 1,
+          "resolution": "8192x8192",
+          "format": "PNG",
+          "file": "MPLW_E_1212_lowres_diffuse_8K.png"
+        }
+      ]
     }
   },
   "scale": {
@@ -89,8 +131,9 @@
     "scaling_method": "Skalowanie constraintem odległości w RealityScan (-defineDistance + -update) na podstawie przymiaru L-kształtnego (_D1A1330.tif, 25 px/mm) i niezależnej weryfikacji na skali 50 mm ColorChecker (_D1A1331.tif).",
     "dimensions_model_mm": {
       "height_Z": 239.21,
-      "width_X": 174.71,
-      "depth_Y": 143.03
+      "width_X": 183.48,
+      "depth_Y": 117.83,
+      "note": "Wymiary osiowe finalnego modelu po wyrównaniu frontu w osi Y (surowy eksport RS przed wyrównaniem osiowym miał bbox X×Y: 174,71 × 143,03 mm przy tej samej wysokości 239,21 mm)."
     },
     "physical_dimensions_reference_mm": {
       "dimension_1_height_from_L_ruler": 239.2,
@@ -99,7 +142,8 @@
     }
   },
   "interpolated_or_filled_areas": [
-    "Spód drewnianej podstawy zamknięty płasko po odcięciu płaszczyzny stołu (Z = 0) z symulowaną teksturą drewna.",
-    "Punktowo usunięto drobne artefakty siatki i uzupełniono kolor w miejscach zasłoniętych na zdjęciach (pod dłonią/dzbankiem i pod ogonem koguta)."
+    "Spód drewnianej podstawy zamknięty płasko po odcięciu płaszczyzny stołu (Z = 0) z proceduralną teksturą drewna lipowego i wygładzeniem krawędzi.",
+    "Punktowo usunięto drobne artefakty siatki oraz uzupełniono kolor i geometrię pod dłonią/dzbankiem, na styku ręki z tułowiem oraz pod ogonem koguta.",
+    "Chmura punktów XYZRGB (36,00 mln pkt) i web PLY (4,34 mln pkt) wygenerowane z poprawionego modelu lowres_naprawiony + tekstura 8K z 2,5x lokalnym zagęszczeniem pod dłońmi trzymającymi garnek oraz przy styku ręki z tułowiem."
   ]
 }

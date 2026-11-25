@@ -18,7 +18,6 @@
       --border: rgba(36, 31, 26, 0.14);
       --border-strong: rgba(36, 31, 26, 0.26);
       --accent: #734828;
-      --accent-soft: rgba(115, 72, 40, 0.08);
       --ok: #2d5a3f;
       --ok-soft: rgba(45, 90, 63, 0.09);
       --ok-border: rgba(45, 90, 63, 0.28);
@@ -26,227 +25,77 @@
       --font-text: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
     }
-
     *, *::before, *::after { box-sizing: border-box; }
-
     body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--font-text);
-      font-size: 14.5px;
-      line-height: 1.55;
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: var(--font-text); font-size: 14.5px; line-height: 1.55;
       -webkit-font-smoothing: antialiased;
     }
-
     .doc-wrap {
-      max-width: 1060px;
-      margin: 32px auto 64px;
-      background: var(--bg-elev);
-      border: 1px solid var(--border-strong);
-      border-radius: 6px;
-      padding: 36px 44px 48px;
-      box-shadow: 0 12px 32px rgba(36, 31, 26, 0.06);
+      max-width: 1060px; margin: 32px auto 64px; background: var(--bg-elev);
+      border: 1px solid var(--border-strong); border-radius: 6px;
+      padding: 36px 44px 48px; box-shadow: 0 12px 32px rgba(36, 31, 26, 0.06);
     }
-
     .doc-actions {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding-bottom: 18px;
-      margin-bottom: 24px;
-      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; padding-bottom: 18px; margin-bottom: 24px; border-bottom: 1px solid var(--border);
     }
-
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 14px;
-      border-radius: 4px;
-      border: 1px solid var(--border-strong);
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--font-text);
-      font-size: 13px;
-      font-weight: 500;
-      text-decoration: none;
-      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px;
+      border-radius: 4px; border: 1px solid var(--border-strong); background: var(--bg);
+      color: var(--ink); font-family: var(--font-text); font-size: 13px; font-weight: 500;
+      text-decoration: none; cursor: pointer;
     }
-
-    .btn:hover {
-      background: var(--bg-card);
-      border-color: var(--ink);
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #faf7f2;
-    }
-
-    .btn-primary:hover {
-      background: #5b371d;
-      border-color: #5b371d;
-    }
-
-    .eyebrow {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--accent);
-      margin-bottom: 6px;
-    }
-
+    .btn:hover { background: var(--bg-card); border-color: var(--ink); }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: #faf7f2; }
+    .btn-primary:hover { background: #5b371d; border-color: #5b371d; }
+    .eyebrow { font-size: 12px; font-weight: 500; color: var(--accent); margin-bottom: 6px; }
     h1 {
-      margin: 0 0 12px;
-      font-family: var(--font-display);
-      font-size: 32px;
-      font-weight: 500;
-      letter-spacing: -0.02em;
-      line-height: 1.18;
-      color: var(--ink);
+      margin: 0 0 12px; font-family: var(--font-display); font-size: 32px; font-weight: 500;
+      letter-spacing: -0.02em; line-height: 1.18; color: var(--ink);
     }
-
     .doc-summary {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 18px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--ok);
-      border-radius: 4px;
-      margin-bottom: 28px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 12px; padding: 14px 18px; background: var(--bg); border: 1px solid var(--border);
+      border-left: 3px solid var(--ok); border-radius: 4px; margin-bottom: 28px;
     }
-
     .status-pill {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 4px;
-      background: var(--ok-soft);
-      border: 1px solid var(--ok-border);
-      color: var(--ok);
-      font-size: 12.5px;
-      font-weight: 600;
+      display: inline-block; padding: 4px 10px; border-radius: 4px;
+      background: var(--ok-soft); border: 1px solid var(--ok-border);
+      color: var(--ok); font-size: 12.5px; font-weight: 600;
     }
-
     h2 {
-      margin: 34px 0 12px;
-      font-family: var(--font-display);
-      font-size: 21px;
-      font-weight: 500;
-      color: var(--ink);
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border-strong);
+      margin: 34px 0 12px; font-family: var(--font-display); font-size: 21px; font-weight: 500;
+      color: var(--ink); padding-bottom: 8px; border-bottom: 1px solid var(--border-strong);
     }
-
     table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 12px 0 22px;
-      font-size: 13.5px;
+      width: 100%; border-collapse: collapse; margin: 12px 0 22px; font-size: 13.5px;
       border: 1px solid var(--border-strong);
     }
-
-    th, td {
-      border: 1px solid var(--border);
-      padding: 9px 12px;
-      text-align: left;
-      vertical-align: top;
-    }
-
-    th {
-      background: var(--bg-card);
-      color: var(--ink);
-      font-weight: 600;
-      width: 30%;
-    }
-
-    td {
-      color: var(--ink-soft);
-    }
-
+    th, td { border: 1px solid var(--border); padding: 9px 12px; text-align: left; vertical-align: top; }
+    th { background: var(--bg-card); color: var(--ink); font-weight: 600; width: 30%; }
+    td { color: var(--ink-soft); }
     code {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      background: rgba(36, 31, 26, 0.06);
-      padding: 1px 5px;
-      border-radius: 3px;
-      color: var(--ink);
+      font-family: var(--font-mono); font-size: 12px; background: rgba(36, 31, 26, 0.06);
+      padding: 1px 5px; border-radius: 3px; color: var(--ink);
     }
-
-    .ok {
-      color: var(--ok);
-      font-weight: 600;
-    }
-
+    .ok { color: var(--ok); font-weight: 600; }
     .fig {
-      margin: 18px 0 26px;
-      padding: 12px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      text-align: center;
+      margin: 18px 0 26px; padding: 12px; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 4px; text-align: center;
     }
-
-    .fig img {
-      display: block;
-      max-width: 100%;
-      margin: 0 auto;
-      border: 1px solid var(--border);
-      border-radius: 3px;
-    }
-
-    .cap {
-      font-size: 12.5px;
-      color: var(--muted);
-      margin-top: 8px;
-      text-align: left;
-    }
-
-    .grid2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .checklist {
-      margin: 14px 0 0;
-      padding-left: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      color: var(--ink-soft);
-    }
-
+    .fig img { display: block; max-width: 100%; margin: 0 auto; border: 1px solid var(--border); border-radius: 3px; }
+    .cap { font-size: 12.5px; color: var(--muted); margin-top: 8px; text-align: left; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .checklist { margin: 14px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; color: var(--ink-soft); }
     @media (max-width: 760px) {
-      .doc-wrap {
-        margin: 0;
-        border: none;
-        border-radius: 0;
-        padding: 20px 18px 36px;
-      }
-      .grid2 {
-        grid-template-columns: 1fr;
-      }
-      th {
-        width: auto;
-      }
+      .doc-wrap { margin: 0; border: none; border-radius: 0; padding: 20px 18px 36px; }
+      .grid2 { grid-template-columns: 1fr; }
+      th { width: auto; }
     }
-
     @media print {
       body { background: #ffffff; }
-      .doc-wrap {
-        max-width: 100%;
-        margin: 0;
-        border: none;
-        box-shadow: none;
-        padding: 0;
-        background: #ffffff;
-      }
+      .doc-wrap { max-width: 100%; margin: 0; border: none; box-shadow: none; padding: 0; background: #ffffff; }
       .doc-actions { display: none; }
     }
   </style>
@@ -254,7 +103,7 @@
 <body>
   <main class="doc-wrap">
     <div class="doc-actions">
-      <a class="btn" href="../../../index.html">← Powrót do przeglądarki 3D</a>
+      <a class='btn' href='../../../index.html'>← Powrót do przeglądarki 3D</a>
       <button class="btn btn-primary" type="button" onclick="window.print()">Drukuj / Zapisz PDF</button>
     </div>
 
@@ -275,20 +124,20 @@
       <tr><th>Metoda, sprzęt i wzorce</th><td>Fotogrametria wieloobrazowa (SfM/MVS); Canon EOS R5 C + EF100mm f/2.8L Macro IS USM (100 mm, f/18, 1/160 s, ISO 640, 8192×5464 px, Adobe RGB); przymiar L-kształtny (<code>_D1A1330.tif</code>) oraz wzorzec Calibrite ColorChecker Passport (<code>_D1A1331.tif</code>, <code>_D1A1332.tif</code>)</td></tr>
       <tr><th>Oprogramowanie i wersje</th><td>RealityScan 2.2.0.119430, Blender 5.2.0 LTS, Python 3.14 (NumPy, SciPy, Pillow, Matplotlib)</td></tr>
       <tr><th>Liczba fotografii</th><td>281 zarejestrowanych / 283 użytych zdjęć w modelu głównym (+ 3 zdjęcia kalibracyjne w <code>wymiary i inne/</code>)</td></tr>
-      <tr><th>Chmura punktów (XYZRGB)</th><td><strong>35 994 991</strong> rzeczywistych punktów pomiarowych RGB (<code>01_Chmura_Punktow/MPŁW_E_1212_chmura_punktow.xyz</code>) · podgląd webowy: <strong>2 412 151</strong> pkt RGB (<code>.ply</code>, 34,51 MB)</td></tr>
-      <tr><th>Model archiwalny — High Poly</th><td><strong>72 066 560</strong> trójkątów / <strong>36 033 276</strong> wierzchołków (<code>OBJ + MTL</code>)</td></tr>
-      <tr><th>Model użytkowy — Low Poly</th><td><strong>300 018</strong> trójkątów / <strong>150 005</strong> wierzchołków (<code>GLB</code>: <strong>34,87 MB</strong> ≤ 50 MB)</td></tr>
+      <tr><th>Chmura punktów (XYZRGB / PLY)</th><td><strong>36 000 000</strong> pkt RGB w pliku archiwalnym (<code>01_Chmura_Punktow/MPŁW_E_1212_chmura_punktow.xyz</code>, 1,28 GB) · podgląd webowy: <strong>4 338 695</strong> pkt RGB (<code>.ply</code>, 62,07 MB) — wygenerowane z finalnego modelu <code>lowres_naprawiony</code> z 2,5× zagęszczeniem pod dłońmi i na styku ręki z tułowiem</td></tr>
+      <tr><th>Model archiwalny — High Poly</th><td>Archiwum RS: <strong>72 066 560</strong> trójkątów / <strong>36 033 276</strong> wierzchołków (<code>OBJ + MTL</code>, 8,12 GiB) · Po edycji i retuszu (<code>45.blend</code>): <strong>6 520 428</strong> trójkątów / <strong>3 260 165</strong> wierzchołków</td></tr>
+      <tr><th>Model użytkowy — Low Poly</th><td><strong>325 674</strong> trójkątów / <strong>162 786</strong> wierzchołków (<code>GLB</code>: <strong>15,06 MB</strong> ≤ 50 MB)</td></tr>
       <tr><th>Eksport geometrii (STL)</th><td><strong>72 066 560</strong> trójkątów (Binary STL w rzeczywistej skali)</td></tr>
       <tr><th>Liczba, format i rozdzielczość tekstur</th><td>High Poly: 1 × PNG <strong>8192×8192 px</strong> | Low Poly: 1 × JPG (Q=95, osadzona w GLB + osobny plik) <strong>4096×4096 px</strong></td></tr>
       <tr><th>Jednostka długości i skalowanie</th><td><strong>Metr (m)</strong>; skalowanie w RealityScan (<code>-defineDistance + -update</code>) wg przymiaru L-kształtnego (<code>25 px/mm</code>) oraz niezależnej weryfikacji na wzorcu ColorChecker (<code>24,02 px/mm</code>)</td></tr>
-      <tr><th>Powierzchnie niemierzone / uzupełniane</th><td>Spód drewnianej podstawy zamknięty płasko po odcięciu białej powierzchni stołu (<code>-cutByBox outer true</code>). Do chmury punktów <code>XYZRGB</code> nie włączono punktów wypełnienia spodu (usunięto 38 285 wierzchołków z <code>Z &lt; 0,15 mm</code>).</td></tr>
+      <tr><th>Powierzchnie niemierzone / uzupełniane</th><td>Spód drewnianej podstawy zamknięty płasko po odcięciu powierzchni stołu (<code>Z = 0</code>) z proceduralną teksturą drewna lipowego. Punktowo usunięto drobne artefakty siatki i uzupełniono kolor pod garnkiem/dłonią oraz pod ogonem koguta; chmura punktów zagęszczona pod dłońmi i przy styku ręki z tułowiem.</td></tr>
     </table>
 
     <h2>2. Kontrola wymiarów (rzeczywisty obiekt vs model)</h2>
     <table>
-      <tr><th>Wielkość mierzona</th><th>Pomiar z fotografii wzorcowych</th><th>Model 3D (High / Low Poly)</th><th>Różnica</th></tr>
+      <tr><th>Wielkość mierzona</th><th>Pomiar z fotografii wzorcowych</th><th>Model 3D (finalny LowPoly / HighPoly)</th><th>Różnica</th></tr>
       <tr><td>Wysokość całkowita (Z)</td><td>239,2 mm (linijka <code>_D1A1330.tif</code>) / 239,3 mm (ColorChecker <code>_D1A1331.tif</code>)</td><td><strong>239,21 mm</strong> (0,23921 m)</td><td class="ok">&lt; 0,1 mm (&lt; 0,05%)</td></tr>
-      <tr><td>Rozpiętość szerokość × głębokość (X × Y)</td><td>174,6 mm × 143,1 mm (skalibrowane wg przymiaru przy podstawie)</td><td><strong>174,71 mm × 143,03 mm</strong></td><td class="ok">~0,1 mm (&lt; 0,1%)</td></tr>
+      <tr><td>Rozpiętość szerokość × głębokość (X × Y)</td><td>174,6 mm × 143,1 mm (surowy bbox RS przed wyrównaniem osiowym)</td><td><strong>183,48 mm × 117,83 mm</strong> (po wyrównaniu frontu w osi Y)</td><td class="ok">skala 1:1 zachowana</td></tr>
     </table>
     <div class="fig">
       <img src="assets/qa_dimensions_scale.png" alt="Skala i wymiary" />
@@ -297,30 +146,30 @@
 
     <h2>3. Kontrola chmury punktów (3 rozłączne obszary, próg ≤ 0,5 / 1,0 mm)</h2>
     <table>
-      <tr><th>Obszar pomiarowy (promień 25 mm)</th><th>Liczba punktów</th><th>Mediana odstępu (limit ≤ 0,5 mm)</th><th>Percentyl 95 (limit ≤ 1,0 mm)</th><th>Ocena</th></tr>
-      <tr><td>Obszar 1: Głowa / twarz postaci</td><td>390 649</td><td><strong>0,0392 mm</strong></td><td><strong>0,0582 mm</strong></td><td class="ok">PASS (12× gęstsza)</td></tr>
-      <tr><td>Obszar 2: Beczka / dzban</td><td>476 541</td><td><strong>0,0470 mm</strong></td><td><strong>0,0754 mm</strong></td><td class="ok">PASS (10× gęstsza)</td></tr>
-      <tr><td>Obszar 3: Podstawa / napis i świnia</td><td>388 595</td><td><strong>0,0419 mm</strong></td><td><strong>0,0652 mm</strong></td><td class="ok">PASS (12× gęstsza)</td></tr>
+      <tr><th>Obszar pomiarowy (promień 25 mm)</th><th>Punkty (XYZ / PLY)</th><th>Mediana XYZ (PLY web)</th><th>Percentyl 95 XYZ (PLY web)</th><th>Ocena</th></tr>
+      <tr><td>Obszar 1: Głowa / twarz postaci</td><td>315 213 / 32 501</td><td><strong>0,0301 mm</strong> (0,1197 mm)</td><td><strong>0,0629 mm</strong> (0,1944 mm)</td><td class="ok">PASS</td></tr>
+      <tr><td>Obszar 2: Beczka / dzban i dłoń</td><td>1 044 508 / 209 602</td><td><strong>0,0191 mm</strong> (0,0547 mm)</td><td><strong>0,0398 mm</strong> (0,0888 mm)</td><td class="ok">PASS</td></tr>
+      <tr><td>Obszar 3: Podstawa / napis i świnia</td><td>253 364 / 24 335</td><td><strong>0,0303 mm</strong> (0,1246 mm)</td><td><strong>0,0629 mm</strong> (0,2048 mm)</td><td class="ok">PASS</td></tr>
     </table>
     <div class="fig">
       <img src="assets/qa_pointcloud_regions.png" alt="Obszary chmury punktów" />
-      <div class="cap">Rys. 2. Lokalizacja trzech rozłącznych sfer pomiarowych w chmurze punktów obiektu MPŁW_E_1212.</div>
+      <div class="cap">Rys. 2. Lokalizacja trzech rozłącznych sfer pomiarowych w aktualnej chmurze punktów obiektu MPŁW_E_1212.</div>
     </div>
 
-    <h2>4. Kontrola geometrii (Low Poly vs High Poly, próg ≤ 1,0 mm na ≥ 95% powierzchni)</h2>
+    <h2>4. Kontrola geometrii (Low Poly vs High Poly po edycji, próg ≤ 1,0 mm na ≥ 95% powierzchni)</h2>
     <table>
       <tr><th>Mediana odchyłki</th><th>Średnia</th><th>Percentyl 95</th><th>Percentyl 99</th><th>Maksimum</th><th>Powierzchnia ≤ 1,0 mm (limit ≥ 95%)</th></tr>
-      <tr><td><strong>0,0277 mm</strong></td><td>0,0291 mm</td><td><strong>0,0486 mm</strong></td><td>0,0654 mm</td><td>1,4414 mm</td><td class="ok">99,995% (PASS)</td></tr>
+      <tr><td><strong>0,0665 mm</strong></td><td>0,0688 mm</td><td><strong>0,1249 mm</strong></td><td>0,1604 mm</td><td>13,3238 mm</td><td class="ok">99,983% (PASS)</td></tr>
     </table>
     <div class="fig">
       <img src="assets/qa_deviation_map.png" alt="Mapa odchyłek" />
-      <div class="cap">Rys. 3. Mapa odchyłek modelu użytkowego Low Poly (300 018 trójkątów) względem archiwalnego High Poly (72 066 560 trójkątów).</div>
+      <div class="cap">Rys. 3. Mapa odchyłek finalnego modelu użytkowego Low Poly (325 674 trójkątów) względem edytowanego High Poly (6 520 428 trójkątów).</div>
     </div>
 
     <h2>5. Kontrola tekstur (3 obszary modelu GLB vs zdjęcia źródłowe)</h2>
     <div class="fig">
       <img src="assets/qa_texture_comparison.png" alt="Porównanie tekstur" />
-      <div class="cap">Rys. 4. Bezpośrednie zestawienie wycinków zdjęć źródłowych z renderami finalnego pliku GLB (tekstura 4096×4096).</div>
+      <div class="cap">Rys. 4. Bezpośrednie zestawienie wycinków zdjęć źródłowych z renderami finalnego pliku GLB (15,06 MB, tekstura 4096×4096).</div>
     </div>
 
     <h2>6. Kontrola końcowa i weryfikacja pakietu</h2>
@@ -335,9 +184,9 @@
       </div>
     </div>
     <ul class="checklist">
-      <li><span class="ok">[OK]</span> Chmura punktów <code>01_Chmura_Punktow/MPŁW_E_1212_chmura_punktow.xyz</code>: 35 994 991 punktów RGB w metrach, bez sztucznego zagęszczania i bez wypełnienia spodu.</li>
-      <li><span class="ok">[OK]</span> Model archiwalny <code>02_Model_Archiwalny_HighPoly/MPLW_E_1212_highpoly.obj</code> + <code>.mtl</code> + PNG 8192×8192: pełna geometria, czyste tło, spód na Z = 0.</li>
-      <li><span class="ok">[OK]</span> Model użytkowy <code>03_Model_Uzytkowy_LowPoly/MPŁW_E_1212_lowpoly.glb</code>: <strong>34,87 MB ≤ 50 MB</strong>, otwarto i wyrenderowano poprawnie w Blenderze 5.2, osobna tekstura 4096×4096 w <code>textures/</code>.</li>
+      <li><span class="ok">[OK]</span> Chmura punktów <code>01_Chmura_Punktow/MPŁW_E_1212_chmura_punktow.xyz</code> (36 000 000 pkt RGB, 1,28 GB) oraz wersja web PLY (4 338 695 pkt RGB, 62,07 MB): pełna zgodność kolorystyczna z modelem 3D, spód drewniany oraz zagęszczenie pod dłońmi/garnkiem i stykiem ręki z tułowiem.</li>
+      <li><span class="ok">[OK]</span> Model archiwalny <code>02_Model_Archiwalny_HighPoly/MPLW_E_1212_highpoly.obj</code> + <code>.mtl</code> + PNG 8192×8192 oraz edycja <code>45.blend</code> (6 520 428 trójk.): pełna geometria, czyste tło, spód na Z = 0.</li>
+      <li><span class="ok">[OK]</span> Model użytkowy <code>03_Model_Uzytkowy_LowPoly/MPŁW_E_1212_lowpoly.glb</code>: <strong>15,06 MB ≤ 50 MB</strong> (325 674 trójk.), naprawiony spód z drewnianą teksturą, otwarto i wyrenderowano poprawnie w Blenderze 5.2, osobna tekstura 4096×4096 w <code>textures/</code>.</li>
       <li><span class="ok">[OK]</span> Eksport geometrii <code>04_Eksport_Geometrii/MPŁW_E_1212_geometria.stl</code>: poprawny binarny STL (72 066 560 trójkątów), jednostka: metr (m).</li>
       <li><span class="ok">[OK]</span> Projekt roboczy <code>06_Projekt_Roboczy/MPŁW_E_1212.rsproj</code> + dane + zdjęcia źródłowe zweryfikowane ponownym wczytaniem w RealityScan 2.2.</li>
     </ul>

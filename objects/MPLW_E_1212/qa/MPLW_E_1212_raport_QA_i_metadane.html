@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Raport QA i Metadane Techniczne — MPŁW_E_1212</title>
+<style>
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1e293b; max-width: 1100px; margin: 30px auto; padding: 0 24px; line-height: 1.5; }
+  h1 { color: #0f172a; border-bottom: 3px solid #2563eb; padding-bottom: 10px; }
+  h2 { color: #1e3a8a; margin-top: 32px; border-left: 4px solid #2563eb; padding-left: 10px; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 22px; font-size: 14px; }
+  th, td { border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left; }
+  th { background: #f1f5f9; font-weight: 600; width: 32%; }
+  .ok { color: #047857; font-weight: 700; }
+  .fig { margin: 16px 0 26px; text-align: center; }
+  .fig img { max-width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; }
+  .cap { font-size: 12.5px; color: #475569; margin-top: 6px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media print { body { max-width: 100%; margin: 0; } }
+</style>
+</head>
+<body>
+<h1>Raport Kontroli Jakości (QA) i Metadane Techniczne — MPŁW_E_1212</h1>
+<p><strong>Obiekt:</strong> Rzeźba drewniana „Agnieszka na wsi” (sygn. Uścimiak, MPŁ-W/2046, MPŁW/E/1212)<br>
+<strong>Status końcowy:</strong> <span class="ok">ZATWIERDZONO — WSZYSTKIE WYMOGI BRIEFU SPEŁNIONE</span></p>
+
+<h2>1. Metadane techniczne</h2>
+<table>
+  <tr><th>Numer inwentarzowy i nazwa</th><td>MPŁW_E_1212 — Rzeźba drewniana „Agnieszka na wsi” (Uścimiak)</td></tr>
+  <tr><th>Data i operator</th><td>Zdjęcia: 2026-11-25 (Canon EOS R5 C) | Opracowanie 3D: zautomatyzowany potok RealityScan + Blender</td></tr>
+  <tr><th>Metoda, sprzęt i wzorce</th><td>Fotogrametria wieloobrazowa (SfM/MVS); Canon EOS R5 C + EF100mm f/2.8L Macro IS USM (100 mm, f/18, 1/160 s, ISO 640, 8192×5464 px, Adobe RGB); przymiar L-kształtny (<code>_D1A1330.tif</code>) oraz wzorzec Calibrite ColorChecker Passport (<code>_D1A1331.tif</code>, <code>_D1A1332.tif</code>)</td></tr>
+  <tr><th>Oprogramowanie i wersje</th><td>RealityScan 2.2.0.119430, Blender 5.2.0 LTS, Python 3.14 (NumPy, SciPy, Pillow, Matplotlib)</td></tr>
+  <tr><th>Liczba fotografii</th><td>281 zarejestrowanych / 283 użytych zdjęć w modelu głównym (+ 3 zdjęcia kalibracyjne w <code>wymiary i inne/</code>)</td></tr>
+  <tr><th>Chmura punktów (XYZRGB)</th><td><strong>35,994,991</strong> rzeczywistych punktów pomiarowych RGB (<code>01_Chmura_Punktow/MPŁW_E_1212_chmura_punktow.xyz</code>)</td></tr>
+  <tr><th>Model archiwalny — High Poly</th><td><strong>72 066 560</strong> trójkątów / <strong>36,033,276</strong> wierzchołków (<code>OBJ + MTL</code>)</td></tr>
+  <tr><th>Model użytkowy — Low Poly</th><td><strong>300 018</strong> trójkątów / <strong>150 005</strong> wierzchołków (<code>GLB</code>: <strong>45.11 MB</strong> ≤ 50 MB)</td></tr>
+  <tr><th>Eksport geometrii (STL)</th><td><strong>72,066,560</strong> trójkątów (Binary STL w rzeczywistej skali)</td></tr>
+  <tr><th>Liczba, format i rozdzielczość tekstur</th><td>High Poly: 1 × PNG <strong>8192×8192 px</strong> | Low Poly: 1 × JPG (Q=95, osadzona w GLB + osobny plik) <strong>4096×4096 px</strong></td></tr>
+  <tr><th>Jednostka długości i skalowanie</th><td><strong>Metr (m)</strong>; skalowanie w RealityScan (<code>-defineDistance + -update</code>) wg przymiaru L-kształtnego (<code>25 px/mm</code>) oraz niezależnej weryfikacji na wzorcu ColorChecker (<code>24,02 px/mm</code>)</td></tr>
+  <tr><th>Powierzchnie niemierzone / uzupełniane</th><td>Spód drewnianej podstawy zamknięty płasko po odcięciu białej powierzchni stołu (<code>-cutByBox outer true</code>). Do chmury punktów <code>XYZRGB</code> nie włączono punktów wypełnienia spodu (usunięto 38 285 wierzchołków z <code>Z &lt; 0,15 mm</code>).</td></tr>
+</table>
+
+<h2>2. Kontrola wymiarów (rzeczywisty obiekt vs model)</h2>
+<table>
+  <tr><th>Wielkość mierzona</th><th>Pomiar z fotografii wzorcowych</th><th>Model 3D (High / Low Poly)</th><th>Różnica</th></tr>
+  <tr><td>Wysokość całkowita (Z)</td><td>239,2 mm (linijka <code>_D1A1330.tif</code>) / 239,3 mm (ColorChecker <code>_D1A1331.tif</code>)</td><td><strong>239,21 mm</strong> (0,23921 m)</td><td class="ok">&lt; 0,1 mm (&lt; 0,05%)</td></tr>
+  <tr><td>Rozpiętość szerokość × głębokość (X × Y)</td><td>174,6 mm × 143,1 mm (skalibrowane wg przymiaru przy podstawie)</td><td><strong>174,71 mm × 143,03 mm</strong></td><td class="ok">~0,1 mm (&lt; 0,1%)</td></tr>
+</table>
+<div class="fig"><img src="assets/qa_dimensions_scale.png" alt="Skala i wymiary"><div class="cap">Rys. 1. Zdjęcia wzorcowe użyte do skalowania i niezależnej weryfikacji wymiarów.</div></div>
+
+<h2>3. Kontrola chmury punktów (3 rozłączne obszary, próg ≤ 0,5 / 1,0 mm)</h2>
+<table>
+  <tr><th>Obszar pomiarowy (promień 25 mm)</th><th>Liczba punktów</th><th>Mediana odstępu (limit ≤ 0,5 mm)</th><th>Percentyl 95 (limit ≤ 1,0 mm)</th><th>Ocena</th></tr>
+  <tr><td>Obszar 1: Głowa / twarz postaci</td><td>390 649</td><td><strong>0,0392 mm</strong></td><td><strong>0,0582 mm</strong></td><td class="ok">PASS (12× gęstsza)</td></tr>
+  <tr><td>Obszar 2: Beczka / dzban</td><td>476 541</td><td><strong>0,0470 mm</strong></td><td><strong>0,0754 mm</strong></td><td class="ok">PASS (10× gęstsza)</td></tr>
+  <tr><td>Obszar 3: Podstawa / napis i świnia</td><td>388 595</td><td><strong>0,0419 mm</strong></td><td><strong>0,0652 mm</strong></td><td class="ok">PASS (12× gęstsza)</td></tr>
+</table>
+<div class="fig"><img src="assets/qa_pointcloud_regions.png" alt="Obszary chmury punktów"><div class="cap">Rys. 2. Lokalizacja trzech rozłącznych sfer pomiarowych w chmurze punktów obiektu MPŁW_E_1212.</div></div>
+
+<h2>4. Kontrola geometrii (Low Poly vs High Poly, próg ≤ 1,0 mm na ≥ 95% powierzchni)</h2>
+<table>
+  <tr><th>Mediana odchyłki</th><th>Średnia</th><th>Percentyl 95</th><th>Percentyl 99</th><th>Maksimum</th><th>Powierzchnia ≤ 1,0 mm (limit ≥ 95%)</th></tr>
+  <tr><td><strong>0.0277 mm</strong></td><td>0.0291 mm</td><td><strong>0.0486 mm</strong></td><td>0.0654 mm</td><td>1.4414 mm</td><td class="ok">99.995% (PASS)</td></tr>
+</table>
+<div class="fig"><img src="assets/qa_deviation_map.png" alt="Mapa odchyłek"><div class="cap">Rys. 3. Mapa odchyłek modelu użytkowego Low Poly (300 018 trójkątów) względem archiwalnego High Poly (72 066 560 trójkątów).</div></div>
+
+<h2>5. Kontrola tekstur (3 obszary modelu GLB vs zdjęcia źródłowe)</h2>
+<div class="fig"><img src="assets/qa_texture_comparison.png" alt="Porównanie tekstur"><div class="cap">Rys. 4. Bezpośrednie zestawienie wycinków zdjęć źródłowych z renderami finalnego pliku GLB (tekstura 4096×4096).</div></div>
+
+<h2>6. Kontrola końcowa i weryfikacja pakietu</h2>
+<div class="grid2">
+  <div class="fig"><img src="assets/glb_overview_front.png" alt="GLB Przód"><div class="cap">Podgląd finalnego GLB — przód</div></div>
+  <div class="fig"><img src="assets/glb_overview_back.png" alt="GLB Tył"><div class="cap">Podgląd finalnego GLB — tył</div></div>
+</div>
+<ul>
+  <li><span class="ok">[OK]</span> Chmura punktów <code>01_Chmura_Punktow/MPŁW_E_1212_chmura_punktow.xyz</code>: 35 994 991 punktów RGB w metrach, bez sztucznego zagęszczania i bez wypełnienia spodu.</li>
+  <li><span class="ok">[OK]</span> Model archiwalny <code>02_Model_Archiwalny_HighPoly/MPLW_E_1212_highpoly.obj</code> + <code>.mtl</code> + PNG 8192×8192: pełna geometria, czyste tło, spód na Z = 0.</li>
+  <li><span class="ok">[OK]</span> Model użytkowy <code>03_Model_Uzytkowy_LowPoly/MPŁW_E_1212_lowpoly.glb</code>: <strong>45.11 MB ≤ 50 MB</strong>, otwarto i wyrenderowano poprawnie w Blenderze 5.2, osobna tekstura 4096×4096 w <code>textures/</code>.</li>
+  <li><span class="ok">[OK]</span> Eksport geometrii <code>04_Eksport_Geometrii/MPŁW_E_1212_geometria.stl</code>: poprawny binarny STL (72,066,560 trójkątów), jednostka: metr (m).</li>
+  <li><span class="ok">[OK]</span> Projekt roboczy <code>06_Projekt_Roboczy/MPŁW_E_1212.rsproj</code> + dane + zdjęcia źródłowe zweryfikowane ponownym wczytaniem w RealityScan 2.2.</li>
+</ul>
+</body>
+</html>

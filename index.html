@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyfrowe Archiwum Muzealne 3D — Przeglądarka modeli i QA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Header -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-badge" aria-hidden="true">3D</div>
+        <div>
+          <h1 id="collectionTitle">Cyfrowe Archiwum Muzealne 3D</h1>
+          <p class="subtitle">Przeglądarka modeli fotogrametrycznych i dokumentacji QA</p>
+        </div>
+      </div>
+
+      <div class="topbar-controls">
+        <label class="select-wrap" for="objectSelect">
+          <span>Obiekt:</span>
+          <select id="objectSelect" aria-label="Wybierz obiekt muzealny"></select>
+        </label>
+        <button id="toggleSidebarBtn" class="btn btn-secondary" type="button" title="Pokaż lub ukryj panel metadanych">
+          Panel QA i Metadane
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="workspace">
+      <!-- 3D Viewport -->
+      <section class="viewport-wrap" aria-label="Podgląd 3D">
+        <canvas id="viewerCanvas"></canvas>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay" role="status" aria-live="polite">
+          <div class="loader-card">
+            <div class="spinner" aria-hidden="true"></div>
+            <h2 id="loadingTitle">Ładowanie modelu 3D…</h2>
+            <div class="progress-track">
+              <div id="loadingBar" class="progress-bar" style="width: 0%"></div>
+            </div>
+            <p id="loadingText" class="mono">Przygotowanie sceny…</p>
+          </div>
+        </div>
+
+        <!-- Ruler Hint / Result HUD -->
+        <div id="rulerHud" class="ruler-hud hidden" role="status">
+          <div class="ruler-hud-header">
+            <span>📏 Linijka 3D (mm)</span>
+            <button id="clearRulerBtn" class="btn-link" type="button">Wyczyść</button>
+          </div>
+          <p id="rulerStatus">Kliknij pierwszy punkt na powierzchni modelu.</p>
+          <p id="rulerResult" class="mono ruler-value hidden"></p>
+        </div>
+
+        <!-- Floating Camera & Inspection Toolbar -->
+        <div class="viewport-toolbar" role="toolbar" aria-label="Narzędzia widoku 3D">
+          <div class="tool-group" aria-label="Rzuty kamery">
+            <button class="tool-btn" data-view="front" type="button" title="Widok od frontu">Przód</button>
+            <button class="tool-btn" data-view="back" type="button" title="Widok od tyłu">Tył</button>
+            <button class="tool-btn" data-view="side" type="button" title="Widok z boku">Bok</button>
+            <button class="tool-btn" data-view="top" type="button" title="Widok z góry">Góra</button>
+            <button class="tool-btn" data-view="reset" type="button" title="Widok domyślny">Reset</button>
+          </div>
+
+          <div class="tool-divider" aria-hidden="true"></div>
+
+          <div class="tool-group" aria-label="Tryby inspekcji">
+            <button id="autoRotateBtn" class="tool-btn" type="button" aria-pressed="false" title="Automatyczny obrót">Obrót</button>
+            <button id="wireframeBtn" class="tool-btn" type="button" aria-pressed="false" title="Pokaż siatkę trójkątów">Siatka</button>
+            <button id="gridBtn" class="tool-btn active" type="button" aria-pressed="true" title="Siatka skali (kratka 10 cm / 1 cm)">Skala</button>
+            <button id="rulerBtn" class="tool-btn" type="button" aria-pressed="false" title="Pomiar odległości w mm (2 kliknięcia)">Linijka</button>
+          </div>
+
+          <div class="tool-divider" aria-hidden="true"></div>
+
+          <div class="tool-sliders" aria-label="Oświetlenie studyjne">
+            <label class="slider-label" title="Kąt światła kluczowego">
+              <span>Światło</span>
+              <input id="lightAngleInput" type="range" min="0" max="360" value="35" />
+            </label>
+            <label class="slider-label" title="Ekspozycja sceny">
+              <span>Jasność</span>
+              <input id="exposureInput" type="range" min="0.5" max="2.0" step="0.05" value="1.10" />
+            </label>
+          </div>
+        </div>
+
+        <!-- Bottom-left quick legend -->
+        <div class="viewport-hint">
+          <span>LPM: obrót</span>
+          <span>PPM: przesunięcie</span>
+          <span>Rolka: zbliżenie</span>
+          <span id="scaleLegend" class="mono">Siatka: 1 kratka = 10 mm</span>
+        </div>
+      </section>
+
+      <!-- Sidebar: Metadata & QA -->
+      <aside id="sidebar" class="sidebar" aria-label="Informacje o obiekcie i raport QA">
+        <div class="object-header">
+          <div class="object-id-row">
+            <span id="objIdBadge" class="badge mono">—</span>
+            <span id="objCategory" class="badge badge-muted">—</span>
+          </div>
+          <h2 id="objTitle">Wczytywanie…</h2>
+          <p id="objAuthor" class="obj-author">—</p>
+        </div>
+
+        <!-- Key KPI cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-label">Wymiary rzeczywiste</span>
+            <strong id="kpiDims" class="kpi-val mono">—</strong>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Model webowy GLB</span>
+            <strong id="kpiGlb" class="kpi-val mono">—</strong>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Chmura punktów</span>
+            <strong id="kpiCloud" class="kpi-val mono">—</strong>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Odchyłka Low/High</span>
+            <strong id="kpiDeviation" class="kpi-val mono">—</strong>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs" role="tablist">
+          <button class="tab-btn active" data-tab="specs" role="tab" aria-selected="true" type="button">Specyfikacja i Pliki</button>
+          <button class="tab-btn" data-tab="qa" role="tab" aria-selected="false" type="button">Kontrola Jakości (QA)</button>
+        </div>
+
+        <!-- Tab 1: Specs & Downloads -->
+        <div id="tabSpecs" class="tab-panel active" role="tabpanel">
+          <dl id="specsList" class="specs-list"></dl>
+
+          <div class="downloads-box">
+            <h3>Pliki i dokumentacja</h3>
+            <div class="download-actions">
+              <a id="dlGlb" class="btn btn-primary" href="#" download>Pobierz GLB (45 MB)</a>
+              <a id="dlQaHtml" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Pełny raport QA (HTML)</a>
+              <a id="dlJson" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Metadane (JSON)</a>
+              <a id="dlManifest" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Wykaz SHA-256 (TXT)</a>
+            </div>
+            <p class="archive-note">
+              Pliki archiwalne &gt;100 MB (<code>OBJ HighPoly 8,71 GB</code>, <code>STL 3,60 GB</code>, <code>XYZ 1,314 GB</code>)
+              przechowywane są poza repozytorium GitHub w lokalnym archiwum produkcyjnym.
+            </p>
+          </div>
+        </div>
+
+        <!-- Tab 2: QA Gallery -->
+        <div id="tabQa" class="tab-panel" role="tabpanel">
+          <p class="qa-intro">Kliknij dowolną wizualizację, aby otworzyć powiększenie z opisem kontrolnym.</p>
+          <div id="qaGallery" class="qa-gallery"></div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- Lightbox Modal for QA Images -->
+  <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <div class="lightbox-backdrop"></div>
+    <div class="lightbox-dialog">
+      <div class="lightbox-head">
+        <h3 id="lightboxTitle">Podgląd QA</h3>
+        <button id="lightboxCloseBtn" class="btn btn-secondary" type="button" aria-label="Zamknij podgląd">Zamknij ✕</button>
+      </div>
+      <div class="lightbox-body">
+        <img id="lightboxImg" src="" alt="" />
+      </div>
+      <p id="lightboxCaption" class="lightbox-caption"></p>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

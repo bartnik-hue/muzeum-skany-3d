@@ -1,0 +1,14 @@
+# Archiwalne pliki >100 MB przechowywane lokalnie
+*.obj
+*.stl
+*.xyz
+*.rsproj
+*.dat
+*.tif
+*.tiff
+*.cr2
+*.cr3
+*.nef
+*.arw
+.DS_Store
+Thumbs.db

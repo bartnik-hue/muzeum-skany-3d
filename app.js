@@ -562,7 +562,7 @@ async function ensureMeshLoaded(obj) {
 async function ensurePointCloudLoaded(obj) {
   if (cachedPointCloudGroup) return cachedPointCloudGroup;
 
-  showLoading(`Ładowanie chmury punktów ${obj.id}…`, 'Pobieranie chmury PLY RGB (34,5 MB)…');
+  showLoading(`Ładowanie chmury punktów ${obj.id}…`, 'Pobieranie chmury PLY RGB (62,5 MB)…');
   const geometry = await new Promise((resolve, reject) => {
     plyLoader.load(obj.pointCloudUrl, resolve, handleProgress, reject);
   });

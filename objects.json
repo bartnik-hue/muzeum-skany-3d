@@ -26,13 +26,13 @@
         "scaleMethod": "Jednostka: metr (m), skala 1:1 • Przymiar L-ruler (_D1A1330) + wzorzec ColorChecker (_D1A1331)",
         "pointCloud": {
           "format": "XYZRGB (archiwum) / PLY RGB (web)",
-          "pointsFull": "35 994 991 pkt RGB",
-          "pointsWeb": "2 412 151 pkt RGB",
-          "webFileSize": "34,51 MB",
-          "fullFileSize": "1,314 GB (.xyz, archiwum lokalne)",
-          "webSpacing": "mediana 0,105 mm • P95 0,215 mm",
-          "fullSpacing": "mediana 0,039–0,047 mm • P95 0,058–0,075 mm",
-          "specLimit": "limit dla 10–100 cm: mediana ≤ 0,50 mm, P95 ≤ 1,00 mm (bez sztucznego zagęszczania)"
+          "pointsFull": "36 000 000 pkt RGB",
+          "pointsWeb": "4 366 419 pkt RGB",
+          "webFileSize": "62,46 MB",
+          "fullFileSize": "1,28 GB (.xyz, archiwum lokalne)",
+          "webSpacing": "mediana 0,087 mm • P95 0,192 mm (strefa rąk/tułowia: med. 0,055 mm)",
+          "fullSpacing": "mediana ~0,04–0,06 mm (strefa rąk/tułowia zagęszczona 2,5×)",
+          "specLimit": "limit dla 10–100 cm: mediana ≤ 0,50 mm, P95 ≤ 1,00 mm (zagęszczona pod dłońmi i stykiem ręki z tułowiem)"
         },
         "highPoly": {
           "triangles": "72 066 560 trójkątów (archiwum) / 6 520 428 (po edycji)",

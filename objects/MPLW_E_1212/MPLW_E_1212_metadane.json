@@ -30,22 +30,15 @@
   "point_cloud": {
     "file": "01_Chmura_Punktow/MPŁW_E_1212_chmura_punktow.xyz",
     "format": "XYZRGB (ASCII, X Y Z R G B)",
-    "points_count": 35994991,
+    "points_count": 36000000,
+    "web_points_count": 4366419,
     "unit": "m",
-    "note": "Rzeczywiste wierzchołki pomiarowe MVS sprzed zamknięcia spodu (wyłączono 38 285 wierzchołków płaskiego zamknięcia Z < 0,15 mm).",
-    "spacing_3_regions_mm": {
-      "region_1_head": {
-        "median_mm": 0.0392,
-        "p95_mm": 0.0582
-      },
-      "region_2_barrel_jug": {
-        "median_mm": 0.047,
-        "p95_mm": 0.0754
-      },
-      "region_3_base_pig": {
-        "median_mm": 0.0419,
-        "p95_mm": 0.0652
-      }
+    "note": "Chmura wygenerowana z finalnego poprawionego modelu (z drewnianym spodem) oraz 2,5x zagęszczeniem pod dłońmi trzymającymi garnek i przy styku ręki z tułowiem.",
+    "web_spacing_mm": {
+      "global_median_mm": 0.0869,
+      "global_p95_mm": 0.1921,
+      "dense_hands_torso_median_mm": 0.0549,
+      "dense_hands_torso_p95_mm": 0.0892
     }
   },
   "models": {

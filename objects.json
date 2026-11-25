@@ -43,8 +43,8 @@
         "lowPolyGlb": {
           "triangles": "300 018 trójkątów",
           "vertices": "150 005 wierzchołków",
-          "fileSize": "45,11 MB (.glb)",
-          "texture": "4096 × 4096 px JPG (3,92 MB)"
+          "fileSize": "34,87 MB (.glb)",
+          "texture": "4096 × 4096 px JPG"
         },
         "stl": {
           "triangles": "72 066 560 trójkątów",
@@ -84,7 +84,7 @@
           {
             "title": "5. Kontrola końcowa i weryfikacja pakietu",
             "status": "PASS",
-            "detail": "Komplet 7 grup plików: XYZRGB (35,99 mln pkt, bez wypełnienia spodu), OBJ+MTL (8K PNG), GLB (45,11 MB ≤ 50 MB), STL (72,07 mln trójk.) i projekt .rsproj."
+            "detail": "Komplet 7 grup plików: XYZRGB (35,99 mln pkt, bez wypełnienia spodu), OBJ+MTL (8K PNG), GLB (34,87 MB ≤ 50 MB), STL (72,07 mln trójk.) i projekt .rsproj."
           }
         ]
       },

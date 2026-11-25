@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { PLYLoader } from 'three/addons/loaders/PLYLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 const canvas = document.getElementById('viewerCanvas');
@@ -13,23 +14,24 @@ const objectSelect = document.getElementById('objectSelect');
 const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
 const sidebar = document.getElementById('sidebar');
 
+const modeMeshBtn = document.getElementById('modeMeshBtn');
+const modeCloudBtn = document.getElementById('modeCloudBtn');
+
 const autoRotateBtn = document.getElementById('autoRotateBtn');
 const wireframeBtn = document.getElementById('wireframeBtn');
 const gridBtn = document.getElementById('gridBtn');
 const rulerBtn = document.getElementById('rulerBtn');
+
+const lightAngleControl = document.getElementById('lightAngleControl');
+const pointSizeControl = document.getElementById('pointSizeControl');
 const lightAngleInput = document.getElementById('lightAngleInput');
+const pointSizeInput = document.getElementById('pointSizeInput');
 const exposureInput = document.getElementById('exposureInput');
 
 const rulerHud = document.getElementById('rulerHud');
 const rulerStatus = document.getElementById('rulerStatus');
 const rulerResult = document.getElementById('rulerResult');
 const clearRulerBtn = document.getElementById('clearRulerBtn');
-
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightboxImg');
-const lightboxTitle = document.getElementById('lightboxTitle');
-const lightboxCaption = document.getElementById('lightboxCaption');
-const lightboxCloseBtn = document.getElementById('lightboxCloseBtn');
 
 // --- Three.js Scene Setup ---
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
@@ -50,7 +52,7 @@ const camera = new THREE.PerspectiveCamera(40, 1, 0.005, 25);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.dampingFactor = 0.06;
-controls.minDistance = 0.06;
+controls.minDistance = 0.05;
 controls.maxDistance = 4.0;
 controls.autoRotateSpeed = 1.4;
 
@@ -99,7 +101,11 @@ scene.add(shadowPlane);
 
 // State
 let catalogData = null;
-let currentModelGroup = null;
+let currentObject = null;
+let displayMode = 'mesh'; // 'mesh' | 'pointcloud'
+let cachedMeshGroup = null;
+let cachedPointCloudGroup = null;
+let sharedAlignmentOffset = null; // keeps GLB and point cloud locked to the exact same origin
 let modelCenter = new THREE.Vector3(0, 0.12, 0);
 let modelRadius = 0.16;
 let isWireframe = false;
@@ -110,9 +116,11 @@ let rulerPoints = [];
 const rulerGroup = new THREE.Group();
 scene.add(rulerGroup);
 const raycaster = new THREE.Raycaster();
+raycaster.params.Points.threshold = 0.0025;
 let pointerDownPos = { x: 0, y: 0 };
 
 const gltfLoader = new GLTFLoader();
+const plyLoader = new PLYLoader();
 
 function resizeRenderer() {
   const rect = canvas.parentElement.getBoundingClientRect();
@@ -125,7 +133,6 @@ function resizeRenderer() {
 window.addEventListener('resize', resizeRenderer);
 resizeRenderer();
 
-// Render loop
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
@@ -177,11 +184,12 @@ autoRotateBtn.addEventListener('click', () => {
 });
 
 wireframeBtn.addEventListener('click', () => {
+  if (displayMode !== 'mesh') return;
   isWireframe = !isWireframe;
   wireframeBtn.classList.toggle('active', isWireframe);
   wireframeBtn.setAttribute('aria-pressed', String(isWireframe));
-  if (currentModelGroup) {
-    currentModelGroup.traverse((child) => {
+  if (cachedMeshGroup) {
+    cachedMeshGroup.traverse((child) => {
       if (child.isMesh && child.material) {
         const mats = Array.isArray(child.material) ? child.material : [child.material];
         mats.forEach((m) => {
@@ -203,22 +211,19 @@ lightAngleInput.addEventListener('input', (e) => {
   updateKeyLightPosition(parseFloat(e.target.value));
 });
 
-exposureInput.addEventListener('input', (e) => {
-  renderer.toneMappingExposure = parseFloat(e.target.value);
+pointSizeInput.addEventListener('input', (e) => {
+  const sizeMeters = parseFloat(e.target.value) * 0.001;
+  if (cachedPointCloudGroup) {
+    cachedPointCloudGroup.traverse((child) => {
+      if (child.isPoints && child.material) {
+        child.material.size = sizeMeters;
+      }
+    });
+  }
 });
 
-// Tabs
-document.querySelectorAll('.tab-btn').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach((b) => {
-      const active = b === btn;
-      b.classList.toggle('active', active);
-      b.setAttribute('aria-selected', String(active));
-    });
-    const tab = btn.dataset.tab;
-    document.getElementById('tabSpecs').classList.toggle('active', tab === 'specs');
-    document.getElementById('tabQa').classList.toggle('active', tab === 'qa');
-  });
+exposureInput.addEventListener('input', (e) => {
+  renderer.toneMappingExposure = parseFloat(e.target.value);
 });
 
 // --- Ruler Logic ---
@@ -229,7 +234,7 @@ function clearRuler() {
     if (child.geometry) child.geometry.dispose();
     if (child.material) child.material.dispose();
   }
-  rulerStatus.textContent = 'Kliknij pierwszy punkt na powierzchni modelu.';
+  rulerStatus.textContent = 'Kliknij pierwszy punkt na powierzchni obiektu.';
   rulerResult.classList.add('hidden');
   rulerResult.textContent = '';
 }
@@ -252,10 +257,11 @@ canvas.addEventListener('pointerdown', (e) => {
 });
 
 canvas.addEventListener('pointerup', (e) => {
-  if (!isRulerActive || !currentModelGroup || e.button !== 0) return;
+  const activeTarget = displayMode === 'mesh' ? cachedMeshGroup : cachedPointCloudGroup;
+  if (!isRulerActive || !activeTarget || e.button !== 0) return;
   const dx = e.clientX - pointerDownPos.x;
   const dy = e.clientY - pointerDownPos.y;
-  if (Math.hypot(dx, dy) > 4) return; // Ignore orbit drags
+  if (Math.hypot(dx, dy) > 4) return;
 
   const rect = canvas.getBoundingClientRect();
   const ndc = new THREE.Vector2(
@@ -263,7 +269,7 @@ canvas.addEventListener('pointerup', (e) => {
     -((e.clientY - rect.top) / rect.height) * 2 + 1
   );
   raycaster.setFromCamera(ndc, camera);
-  const hits = raycaster.intersectObject(currentModelGroup, true);
+  const hits = raycaster.intersectObject(activeTarget, true);
   if (!hits.length) return;
 
   if (rulerPoints.length >= 2) {
@@ -281,7 +287,7 @@ canvas.addEventListener('pointerup', (e) => {
   rulerGroup.add(marker);
 
   if (rulerPoints.length === 1) {
-    rulerStatus.textContent = 'Kliknij drugi punkt na modelu, aby zmierzyć odcinek.';
+    rulerStatus.textContent = 'Kliknij drugi punkt, aby zmierzyć odcinek.';
   } else if (rulerPoints.length === 2) {
     const [a, b] = rulerPoints;
     const lineGeo = new THREE.BufferGeometry().setFromPoints([a, b]);
@@ -294,35 +300,13 @@ canvas.addEventListener('pointerup', (e) => {
     const dX = Math.abs(b.x - a.x) * 1000;
     const dY = Math.abs(b.y - a.y) * 1000;
     const dZ = Math.abs(b.z - a.z) * 1000;
-    rulerStatus.textContent = 'Kliknij ponownie na model, aby rozpocząć nowy pomiar.';
+    rulerStatus.textContent = 'Kliknij ponownie, aby rozpocząć nowy pomiar.';
     rulerResult.textContent = `${distMm.toFixed(2)} mm (ΔX ${dX.toFixed(1)}, ΔY ${dY.toFixed(1)}, ΔZ ${dZ.toFixed(1)})`;
     rulerResult.classList.remove('hidden');
   }
 });
 
-// --- Lightbox ---
-function openLightbox(title, url, caption) {
-  lightboxTitle.textContent = title;
-  lightboxImg.src = url;
-  lightboxImg.alt = title;
-  lightboxCaption.textContent = caption || '';
-  lightbox.classList.remove('hidden');
-}
-
-function closeLightbox() {
-  lightbox.classList.add('hidden');
-  lightboxImg.src = '';
-}
-
-lightboxCloseBtn.addEventListener('click', closeLightbox);
-lightbox.querySelector('.lightbox-backdrop').addEventListener('click', closeLightbox);
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
-    closeLightbox();
-  }
-});
-
-// --- Object Loading & Sidebar Population ---
+// --- Sidebar Population ---
 function populateSidebar(obj) {
   document.getElementById('objIdBadge').textContent = obj.id;
   document.getElementById('objCategory').textContent = obj.category;
@@ -331,16 +315,26 @@ function populateSidebar(obj) {
 
   document.getElementById('kpiDims').textContent = obj.dimensionsMm.label;
   document.getElementById('kpiGlb').textContent = `${obj.specs.lowPolyGlb.triangles} • ${obj.specs.lowPolyGlb.fileSize}`;
-  document.getElementById('kpiCloud').textContent = obj.specs.pointCloud.points;
-  document.getElementById('kpiDeviation').textContent = `${obj.specs.deviation.median} (${obj.specs.deviation.within1mm})`;
+  document.getElementById('kpiCloudFull').textContent = obj.specs.pointCloud.pointsFull;
+  document.getElementById('kpiCloudWeb').textContent = `${obj.specs.pointCloud.pointsWeb} • ${obj.specs.pointCloud.webFileSize}`;
 
   const specRows = [
-    ['Fotogrametria i skala', `${obj.specs.photosCount} zdjęć • ${obj.specs.scaleMethod}`],
-    ['Model użytkowy (GLB)', `${obj.specs.lowPolyGlb.triangles}, ${obj.specs.lowPolyGlb.vertices} • tekstura ${obj.specs.lowPolyGlb.texture}`],
-    ['Odchyłka LowPoly vs HighPoly', `Mediana: ${obj.specs.deviation.median} • P95: ${obj.specs.deviation.p95} • ${obj.specs.deviation.within1mm}`],
-    ['Chmura punktów (XYZ)', `${obj.specs.pointCloud.points} • mediana gęstości ${obj.specs.pointCloud.medianSpacing}, P95 ${obj.specs.pointCloud.p95Spacing}`],
-    ['Model archiwalny HighPoly', `${obj.specs.highPoly.triangles} • ${obj.specs.highPoly.fileSize} • tekstura ${obj.specs.highPoly.texture}`],
-    ['Eksport geometrii (STL)', `${obj.specs.stl.triangles} • ${obj.specs.stl.fileSize}`]
+    ['Digitalizacja i oprogramowanie', obj.specs.digitization],
+    ['Skala i kalibracja', obj.specs.scaleMethod],
+    [
+      'Chmura punktów (wg specyfikacji)',
+      `Format: ${obj.specs.pointCloud.format} • Archiwum: ${obj.specs.pointCloud.pointsFull} (${obj.specs.pointCloud.fullSpacing}) • Podgląd webowy: ${obj.specs.pointCloud.pointsWeb} (${obj.specs.pointCloud.webSpacing}) • ${obj.specs.pointCloud.specLimit}`
+    ],
+    [
+      'Model użytkowy LowPoly (GLB)',
+      `${obj.specs.lowPolyGlb.triangles}, ${obj.specs.lowPolyGlb.vertices} • ${obj.specs.lowPolyGlb.fileSize} • tekstura ${obj.specs.lowPolyGlb.texture}`
+    ],
+    [
+      'Model archiwalny HighPoly',
+      `${obj.specs.highPoly.triangles}, ${obj.specs.highPoly.vertices} • ${obj.specs.highPoly.fileSize} • tekstura ${obj.specs.highPoly.texture}`
+    ],
+    ['Eksport geometrii (STL)', `${obj.specs.stl.triangles} • ${obj.specs.stl.fileSize}`],
+    ['Powierzchnie uzupełniane', obj.specs.filledAreas]
   ];
 
   const specsList = document.getElementById('specsList');
@@ -357,33 +351,15 @@ function populateSidebar(obj) {
   }
 
   document.getElementById('dlGlb').href = obj.glbUrl;
-  document.getElementById('dlQaHtml').href = obj.qaReportUrl;
+  document.getElementById('dlPly').href = obj.pointCloudUrl;
   document.getElementById('dlJson').href = obj.metadataUrl;
-  document.getElementById('dlManifest').href = obj.manifestUrl;
-
-  const qaGallery = document.getElementById('qaGallery');
-  qaGallery.innerHTML = '';
-  for (const item of obj.qaImages || []) {
-    const card = document.createElement('button');
-    card.type = 'button';
-    card.className = 'qa-card';
-    card.innerHTML = `
-      <img src="${item.url}" alt="${item.title}" loading="lazy" />
-      <div class="qa-card-body">
-        <div class="qa-card-title">${item.title}</div>
-        <div class="qa-card-caption">${item.caption}</div>
-      </div>
-    `;
-    card.addEventListener('click', () => openLightbox(item.title, item.url, item.caption));
-    qaGallery.appendChild(card);
-  }
 }
 
-function disposeModel(group) {
+function disposeGroup(group) {
   if (!group) return;
   scene.remove(group);
   group.traverse((child) => {
-    if (child.isMesh) {
+    if (child.isMesh || child.isPoints) {
       if (child.geometry) child.geometry.dispose();
       const mats = Array.isArray(child.material) ? child.material : [child.material];
       mats.forEach((m) => {
@@ -397,73 +373,158 @@ function disposeModel(group) {
   });
 }
 
-async function loadObject(obj) {
-  populateSidebar(obj);
-  clearRuler();
-  disposeModel(currentModelGroup);
-  currentModelGroup = null;
-
-  loadingTitle.textContent = `Ładowanie modelu ${obj.id}…`;
+function showLoading(title, subtitle) {
+  loadingTitle.textContent = title;
   loadingBar.style.width = '0%';
-  loadingText.textContent = 'Pobieranie siatki GLB i tekstury…';
+  loadingText.textContent = subtitle;
   loadingOverlay.classList.remove('hidden');
+}
+
+function handleProgress(xhr) {
+  if (xhr.lengthComputable && xhr.total > 0) {
+    const pct = Math.min(100, Math.round((xhr.loaded / xhr.total) * 100));
+    const mbLoaded = (xhr.loaded / (1024 * 1024)).toFixed(1);
+    const mbTotal = (xhr.total / (1024 * 1024)).toFixed(1);
+    loadingBar.style.width = `${pct}%`;
+    loadingText.textContent = `${pct}% (${mbLoaded} / ${mbTotal} MB)`;
+  } else if (xhr.loaded > 0) {
+    const mbLoaded = (xhr.loaded / (1024 * 1024)).toFixed(1);
+    loadingText.textContent = `Pobrano ${mbLoaded} MB…`;
+  }
+}
+
+async function ensureMeshLoaded(obj) {
+  if (cachedMeshGroup) return cachedMeshGroup;
+
+  showLoading(`Ładowanie modelu 3D ${obj.id}…`, 'Pobieranie siatki GLB i tekstury…');
+  const gltf = await new Promise((resolve, reject) => {
+    gltfLoader.load(obj.glbUrl, resolve, handleProgress, reject);
+  });
+
+  const root = gltf.scene;
+  root.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+      if (child.material) {
+        const mats = Array.isArray(child.material) ? child.material : [child.material];
+        mats.forEach((m) => {
+          m.wireframe = isWireframe;
+          if (m.roughness !== undefined && m.roughness < 0.7) m.roughness = 0.85;
+          if (m.metalness !== undefined) m.metalness = 0.0;
+        });
+      }
+    }
+  });
+
+  const box = new THREE.Box3().setFromObject(root);
+  const center = box.getCenter(new THREE.Vector3());
+  if (!sharedAlignmentOffset) {
+    sharedAlignmentOffset = new THREE.Vector3(-center.x, -box.min.y, -center.z);
+  }
+  root.position.copy(sharedAlignmentOffset);
+
+  const wrapper = new THREE.Group();
+  wrapper.add(root);
+  scene.add(wrapper);
+  cachedMeshGroup = wrapper;
+
+  const finalBox = new THREE.Box3().setFromObject(wrapper);
+  modelCenter = finalBox.getCenter(new THREE.Vector3());
+  const sphere = finalBox.getBoundingSphere(new THREE.Sphere());
+  modelRadius = Math.max(0.08, sphere.radius);
+
+  return cachedMeshGroup;
+}
+
+async function ensurePointCloudLoaded(obj) {
+  if (cachedPointCloudGroup) return cachedPointCloudGroup;
+
+  showLoading(`Ładowanie chmury punktów ${obj.id}…`, 'Pobieranie chmury PLY RGB (34,5 MB)…');
+  const geometry = await new Promise((resolve, reject) => {
+    plyLoader.load(obj.pointCloudUrl, resolve, handleProgress, reject);
+  });
+
+  // Original PLY preserves Z-up coordinates from XYZ; rotate -90 deg around X to match Three.js Y-up
+  geometry.rotateX(-Math.PI / 2);
+  geometry.computeBoundingBox();
+
+  if (!sharedAlignmentOffset) {
+    const c = geometry.boundingBox.getCenter(new THREE.Vector3());
+    sharedAlignmentOffset = new THREE.Vector3(-c.x, -geometry.boundingBox.min.y, -c.z);
+  }
+
+  const sizeMeters = parseFloat(pointSizeInput.value) * 0.001;
+  const material = new THREE.PointsMaterial({
+    size: sizeMeters,
+    sizeAttenuation: true,
+    vertexColors: true
+  });
+
+  const points = new THREE.Points(geometry, material);
+  points.position.copy(sharedAlignmentOffset);
+
+  const wrapper = new THREE.Group();
+  wrapper.add(points);
+  scene.add(wrapper);
+  cachedPointCloudGroup = wrapper;
+
+  return cachedPointCloudGroup;
+}
+
+function updateModeUI() {
+  const isMesh = displayMode === 'mesh';
+  modeMeshBtn.classList.toggle('active', isMesh);
+  modeMeshBtn.setAttribute('aria-pressed', String(isMesh));
+  modeCloudBtn.classList.toggle('active', !isMesh);
+  modeCloudBtn.setAttribute('aria-pressed', String(!isMesh));
+
+  wireframeBtn.disabled = !isMesh;
+  lightAngleControl.classList.toggle('hidden', !isMesh);
+  pointSizeControl.classList.toggle('hidden', isMesh);
+  shadowPlane.visible = isMesh;
+
+  if (cachedMeshGroup) cachedMeshGroup.visible = isMesh;
+  if (cachedPointCloudGroup) cachedPointCloudGroup.visible = !isMesh;
+}
+
+async function setDisplayMode(mode) {
+  if (!currentObject || displayMode === mode) return;
+  displayMode = mode;
 
   try {
-    const gltf = await new Promise((resolve, reject) => {
-      gltfLoader.load(
-        obj.glbUrl,
-        resolve,
-        (xhr) => {
-          if (xhr.lengthComputable && xhr.total > 0) {
-            const pct = Math.min(100, Math.round((xhr.loaded / xhr.total) * 100));
-            const mbLoaded = (xhr.loaded / (1024 * 1024)).toFixed(1);
-            const mbTotal = (xhr.total / (1024 * 1024)).toFixed(1);
-            loadingBar.style.width = `${pct}%`;
-            loadingText.textContent = `${pct}% (${mbLoaded} / ${mbTotal} MB)`;
-          } else if (xhr.loaded > 0) {
-            const mbLoaded = (xhr.loaded / (1024 * 1024)).toFixed(1);
-            loadingText.textContent = `Pobrano ${mbLoaded} MB…`;
-          }
-        },
-        reject
-      );
-    });
+    if (mode === 'mesh') {
+      await ensureMeshLoaded(currentObject);
+    } else {
+      await ensurePointCloudLoaded(currentObject);
+    }
+    updateModeUI();
+    loadingOverlay.classList.add('hidden');
+  } catch (err) {
+    console.error('Błąd ładowania reprezentacji 3D:', err);
+    loadingTitle.textContent = 'Nie udało się załadować danych 3D';
+    loadingText.textContent = err?.message || 'Sprawdź połączenie lub serwer HTTP.';
+  }
+}
 
-    const root = gltf.scene;
-    root.traverse((child) => {
-      if (child.isMesh) {
-        child.castShadow = true;
-        child.receiveShadow = true;
-        if (child.material) {
-          const mats = Array.isArray(child.material) ? child.material : [child.material];
-          mats.forEach((m) => {
-            m.wireframe = isWireframe;
-            if (m.roughness !== undefined && m.roughness < 0.7) {
-              m.roughness = 0.85;
-            }
-            if (m.metalness !== undefined) {
-              m.metalness = 0.0;
-            }
-          });
-        }
-      }
-    });
+modeMeshBtn.addEventListener('click', () => setDisplayMode('mesh'));
+modeCloudBtn.addEventListener('click', () => setDisplayMode('pointcloud'));
 
-    // Center X and Z while preserving real-world scale in meters (Y = 0 base)
-    const box = new THREE.Box3().setFromObject(root);
-    const center = box.getCenter(new THREE.Vector3());
-    root.position.set(-center.x, -box.min.y, -center.z);
+async function loadObject(obj) {
+  currentObject = obj;
+  populateSidebar(obj);
+  clearRuler();
 
-    const wrapper = new THREE.Group();
-    wrapper.add(root);
-    scene.add(wrapper);
-    currentModelGroup = wrapper;
+  disposeGroup(cachedMeshGroup);
+  disposeGroup(cachedPointCloudGroup);
+  cachedMeshGroup = null;
+  cachedPointCloudGroup = null;
+  sharedAlignmentOffset = null;
+  displayMode = 'mesh';
 
-    const finalBox = new THREE.Box3().setFromObject(wrapper);
-    modelCenter = finalBox.getCenter(new THREE.Vector3());
-    const sphere = finalBox.getBoundingSphere(new THREE.Sphere());
-    modelRadius = Math.max(0.08, sphere.radius);
-
+  try {
+    await ensureMeshLoaded(obj);
+    updateModeUI();
     setCameraView('reset');
     loadingOverlay.classList.add('hidden');
   } catch (err) {

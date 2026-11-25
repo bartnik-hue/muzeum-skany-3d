@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cyfrowe Archiwum Muzealne 3D — Przeglądarka modeli i QA</title>
+  <title>Cyfrowe Archiwum Muzealne 3D — Modele i Chmury Punktów</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -25,7 +25,7 @@
         <div class="brand-badge" aria-hidden="true">3D</div>
         <div>
           <h1 id="collectionTitle">Cyfrowe Archiwum Muzealne 3D</h1>
-          <p class="subtitle">Przeglądarka modeli fotogrametrycznych i dokumentacji QA</p>
+          <p class="subtitle">Przeglądarka modeli fotogrametrycznych i chmur punktów RGB</p>
         </div>
       </div>
 
@@ -35,7 +35,7 @@
           <select id="objectSelect" aria-label="Wybierz obiekt muzealny"></select>
         </label>
         <button id="toggleSidebarBtn" class="btn btn-secondary" type="button" title="Pokaż lub ukryj panel metadanych">
-          Panel QA i Metadane
+          Metadane i Specyfikacja
         </button>
       </div>
     </header>
@@ -45,6 +45,16 @@
       <!-- 3D Viewport -->
       <section class="viewport-wrap" aria-label="Podgląd 3D">
         <canvas id="viewerCanvas"></canvas>
+
+        <!-- Display Mode Switcher: Mesh GLB vs RGB Point Cloud -->
+        <div class="mode-switcher" role="group" aria-label="Tryb reprezentacji obiektu">
+          <button id="modeMeshBtn" class="mode-btn active" data-mode="mesh" type="button" aria-pressed="true">
+            Model 3D (GLB)
+          </button>
+          <button id="modeCloudBtn" class="mode-btn" data-mode="pointcloud" type="button" aria-pressed="false">
+            Chmura punktów (RGB)
+          </button>
+        </div>
 
         <!-- Loading Overlay -->
         <div id="loadingOverlay" class="loading-overlay" role="status" aria-live="polite">
@@ -64,7 +74,7 @@
             <span>📏 Linijka 3D (mm)</span>
             <button id="clearRulerBtn" class="btn-link" type="button">Wyczyść</button>
           </div>
-          <p id="rulerStatus">Kliknij pierwszy punkt na powierzchni modelu.</p>
+          <p id="rulerStatus">Kliknij pierwszy punkt na powierzchni obiektu.</p>
           <p id="rulerResult" class="mono ruler-value hidden"></p>
         </div>
 
@@ -83,16 +93,20 @@
           <div class="tool-group" aria-label="Tryby inspekcji">
             <button id="autoRotateBtn" class="tool-btn" type="button" aria-pressed="false" title="Automatyczny obrót">Obrót</button>
             <button id="wireframeBtn" class="tool-btn" type="button" aria-pressed="false" title="Pokaż siatkę trójkątów">Siatka</button>
-            <button id="gridBtn" class="tool-btn active" type="button" aria-pressed="true" title="Siatka skali (kratka 10 cm / 1 cm)">Skala</button>
+            <button id="gridBtn" class="tool-btn active" type="button" aria-pressed="true" title="Siatka skali (1 kratka = 10 mm)">Skala</button>
             <button id="rulerBtn" class="tool-btn" type="button" aria-pressed="false" title="Pomiar odległości w mm (2 kliknięcia)">Linijka</button>
           </div>
 
           <div class="tool-divider" aria-hidden="true"></div>
 
-          <div class="tool-sliders" aria-label="Oświetlenie studyjne">
-            <label class="slider-label" title="Kąt światła kluczowego">
+          <div class="tool-sliders" aria-label="Ustawienia wyświetlania">
+            <label id="lightAngleControl" class="slider-label" title="Kąt światła kluczowego">
               <span>Światło</span>
               <input id="lightAngleInput" type="range" min="0" max="360" value="35" />
+            </label>
+            <label id="pointSizeControl" class="slider-label hidden" title="Wielkość pojedynczego punktu w chmurze">
+              <span>Punkt</span>
+              <input id="pointSizeInput" type="range" min="0.4" max="3.0" step="0.1" value="1.1" />
             </label>
             <label class="slider-label" title="Ekspozycja sceny">
               <span>Jasność</span>
@@ -101,7 +115,7 @@
           </div>
         </div>
 
-        <!-- Bottom-left quick legend -->
+        <!-- Bottom-left / top-left quick legend -->
         <div class="viewport-hint">
           <span>LPM: obrót</span>
           <span>PPM: przesunięcie</span>
@@ -110,8 +124,8 @@
         </div>
       </section>
 
-      <!-- Sidebar: Metadata & QA -->
-      <aside id="sidebar" class="sidebar" aria-label="Informacje o obiekcie i raport QA">
+      <!-- Sidebar: Technical Metadata & Files -->
+      <aside id="sidebar" class="sidebar" aria-label="Metadane techniczne i pliki obiektu">
         <div class="object-header">
           <div class="object-id-row">
             <span id="objIdBadge" class="badge mono">—</span>
@@ -128,66 +142,36 @@
             <strong id="kpiDims" class="kpi-val mono">—</strong>
           </div>
           <div class="kpi-card">
-            <span class="kpi-label">Model webowy GLB</span>
+            <span class="kpi-label">Model użytkowy (GLB)</span>
             <strong id="kpiGlb" class="kpi-val mono">—</strong>
           </div>
           <div class="kpi-card">
-            <span class="kpi-label">Chmura punktów</span>
-            <strong id="kpiCloud" class="kpi-val mono">—</strong>
+            <span class="kpi-label">Chmura archiwalna (XYZ)</span>
+            <strong id="kpiCloudFull" class="kpi-val mono">—</strong>
           </div>
           <div class="kpi-card">
-            <span class="kpi-label">Odchyłka Low/High</span>
-            <strong id="kpiDeviation" class="kpi-val mono">—</strong>
+            <span class="kpi-label">Chmura webowa (PLY RGB)</span>
+            <strong id="kpiCloudWeb" class="kpi-val mono">—</strong>
           </div>
         </div>
 
-        <!-- Tabs -->
-        <div class="tabs" role="tablist">
-          <button class="tab-btn active" data-tab="specs" role="tab" aria-selected="true" type="button">Specyfikacja i Pliki</button>
-          <button class="tab-btn" data-tab="qa" role="tab" aria-selected="false" type="button">Kontrola Jakości (QA)</button>
-        </div>
+        <dl id="specsList" class="specs-list"></dl>
 
-        <!-- Tab 1: Specs & Downloads -->
-        <div id="tabSpecs" class="tab-panel active" role="tabpanel">
-          <dl id="specsList" class="specs-list"></dl>
-
-          <div class="downloads-box">
-            <h3>Pliki i dokumentacja</h3>
-            <div class="download-actions">
-              <a id="dlGlb" class="btn btn-primary" href="#" download>Pobierz GLB (45 MB)</a>
-              <a id="dlQaHtml" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Pełny raport QA (HTML)</a>
-              <a id="dlJson" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Metadane (JSON)</a>
-              <a id="dlManifest" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Wykaz SHA-256 (TXT)</a>
-            </div>
-            <p class="archive-note">
-              Pliki archiwalne &gt;100 MB (<code>OBJ HighPoly 8,71 GB</code>, <code>STL 3,60 GB</code>, <code>XYZ 1,314 GB</code>)
-              przechowywane są poza repozytorium GitHub w lokalnym archiwum produkcyjnym.
-            </p>
+        <div class="downloads-box">
+          <h3>Pliki do pobrania</h3>
+          <div class="download-actions">
+            <a id="dlGlb" class="btn btn-primary" href="#" download>Pobierz Model GLB</a>
+            <a id="dlPly" class="btn btn-secondary" href="#" download>Pobierz Chmurę PLY</a>
+            <a id="dlJson" class="btn btn-secondary btn-full" href="#" target="_blank" rel="noopener">Metadane techniczne (JSON)</a>
           </div>
-        </div>
-
-        <!-- Tab 2: QA Gallery -->
-        <div id="tabQa" class="tab-panel" role="tabpanel">
-          <p class="qa-intro">Kliknij dowolną wizualizację, aby otworzyć powiększenie z opisem kontrolnym.</p>
-          <div id="qaGallery" class="qa-gallery"></div>
+          <p class="archive-note">
+            Pełne pliki archiwalne &gt;100 MB (<code>OBJ HighPoly 8,71 GB</code>, <code>STL 3,60 GB</code>, <code>XYZ 1,314 GB</code>)
+            przechowywane są w lokalnym archiwum produkcyjnym. Wersja webowa chmury punktów (<code>2,41 mln pkt</code>)
+            zawiera wyłącznie punkty pomiarowe bez sztucznego zagęszczania.
+          </p>
         </div>
       </aside>
     </main>
-  </div>
-
-  <!-- Lightbox Modal for QA Images -->
-  <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
-    <div class="lightbox-backdrop"></div>
-    <div class="lightbox-dialog">
-      <div class="lightbox-head">
-        <h3 id="lightboxTitle">Podgląd QA</h3>
-        <button id="lightboxCloseBtn" class="btn btn-secondary" type="button" aria-label="Zamknij podgląd">Zamknij ✕</button>
-      </div>
-      <div class="lightbox-body">
-        <img id="lightboxImg" src="" alt="" />
-      </div>
-      <p id="lightboxCaption" class="lightbox-caption"></p>
-    </div>
   </div>
 
   <script type="module" src="app.js"></script>

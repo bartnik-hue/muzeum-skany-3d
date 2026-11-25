@@ -9,12 +9,10 @@
       "author": "Uścimiak (sygnatura)",
       "category": "Rzeźba drewniana / etnografia",
       "material": "Drewno polichromowane",
-      "thumbnail": "objects/MPLW_E_1212/qa/assets/glb_overview_front.png",
       "glbUrl": "objects/MPLW_E_1212/MPLW_E_1212_lowpoly.glb",
+      "pointCloudUrl": "objects/MPLW_E_1212/MPLW_E_1212_chmura_punktow_web.ply",
       "textureUrl": "objects/MPLW_E_1212/textures/MPLW_E_1212_lowpoly_diffuse.jpg",
-      "metadataUrl": "objects/MPLW_E_1212/qa/MPLW_E_1212_metadane.json",
-      "qaReportUrl": "objects/MPLW_E_1212/qa/MPLW_E_1212_raport_QA_i_metadane.html",
-      "manifestUrl": "objects/MPLW_E_1212/qa/MPLW_E_1212_wykaz_plikow.txt",
+      "metadataUrl": "objects/MPLW_E_1212/MPLW_E_1212_metadane.json",
       "dimensionsMm": {
         "height": 239.21,
         "width": 174.71,
@@ -22,18 +20,22 @@
         "label": "239,21 × 174,71 × 143,03 mm"
       },
       "specs": {
-        "photosCount": 283,
-        "scaleMethod": "Przymiar L-ruler (_D1A1330) + wzorzec ColorChecker (_D1A1331)",
+        "digitization": "Fotogrametria (Canon EOS R5 C + EF 100mm Macro) • 283 zdjęcia (281 dopasowanych) • RealityScan 2.2",
+        "scaleMethod": "Jednostka: metr (m), skala 1:1 • Przymiar L-ruler (_D1A1330) + wzorzec ColorChecker (_D1A1331)",
         "pointCloud": {
-          "points": "35 994 991 pkt RGB",
-          "fileSize": "1,314 GB (.xyz, lokalny archiwum)",
-          "medianSpacing": "0,039–0,047 mm (limit ≤ 0,50 mm)",
-          "p95Spacing": "0,058–0,075 mm (limit ≤ 1,00 mm)"
+          "format": "XYZRGB (archiwum) / PLY RGB (web)",
+          "pointsFull": "35 994 991 pkt RGB",
+          "pointsWeb": "2 412 151 pkt RGB",
+          "webFileSize": "34,51 MB",
+          "fullFileSize": "1,314 GB (.xyz, archiwum lokalne)",
+          "webSpacing": "mediana 0,105 mm • P95 0,215 mm",
+          "fullSpacing": "mediana 0,039–0,047 mm • P95 0,058–0,075 mm",
+          "specLimit": "limit dla 10–100 cm: mediana ≤ 0,50 mm, P95 ≤ 1,00 mm (bez sztucznego zagęszczania)"
         },
         "highPoly": {
           "triangles": "72 066 560 trójkątów",
           "vertices": "36 033 276 wierzchołków",
-          "fileSize": "8,71 GB (.obj, lokalny archiwum)",
+          "fileSize": "8,71 GB (.obj + .mtl, archiwum lokalne)",
           "texture": "8192 × 8192 px PNG"
         },
         "lowPolyGlb": {
@@ -44,46 +46,10 @@
         },
         "stl": {
           "triangles": "72 066 560 trójkątów",
-          "fileSize": "3,60 GB (.stl, lokalny archiwum)"
+          "fileSize": "3,60 GB (.stl, archiwum lokalne)"
         },
-        "deviation": {
-          "median": "0,0277 mm",
-          "p95": "0,0486 mm",
-          "within1mm": "99,995% ≤ 1,0 mm (limit ≥ 95%)"
-        }
-      },
-      "qaImages": [
-        {
-          "title": "Widok modelu LowPoly GLB (przód)",
-          "url": "objects/MPLW_E_1212/qa/assets/glb_overview_front.png",
-          "caption": "Kontrola bryły i tekstury 4K modelu użytkowego GLB od strony frontowej."
-        },
-        {
-          "title": "Widok modelu LowPoly GLB (tył)",
-          "url": "objects/MPLW_E_1212/qa/assets/glb_overview_back.png",
-          "caption": "Kontrola kompletności geometrii i podstawy (Z = 0) od strony tylnej."
-        },
-        {
-          "title": "Wymiarowanie i kalibracja skali",
-          "url": "objects/MPLW_E_1212/qa/assets/qa_dimensions_scale.png",
-          "caption": "Weryfikacja wymiarów rzeczywistych (239,21 × 174,71 × 143,03 mm) względem przymiaru L-ruler."
-        },
-        {
-          "title": "Analiza chmury punktów",
-          "url": "objects/MPLW_E_1212/qa/assets/qa_pointcloud_regions.png",
-          "caption": "Rozkład gęstości chmury punktów (mediana 0,039–0,047 mm; P95 0,058–0,075 mm)."
-        },
-        {
-          "title": "Mapa odchyłek LowPoly vs HighPoly",
-          "url": "objects/MPLW_E_1212/qa/assets/qa_deviation_map.png",
-          "caption": "Odchyłka geometryczna: mediana 0,0277 mm, P95 0,0486 mm, 99,995% w tolerancji ≤ 1,0 mm."
-        },
-        {
-          "title": "Porównanie tekstur 8K vs 4K",
-          "url": "objects/MPLW_E_1212/qa/assets/qa_texture_comparison.png",
-          "caption": "Zestawienie szczegółowości tekstury archiwalnej 8192×8192 PNG oraz użytkowej 4096×4096 JPG."
-        }
-      ]
+        "filledAreas": "Spód drewnianej podstawy zamknięty płasko po odcięciu płaszczyzny stołu (Z = 0)."
+      }
     }
   ]
 }

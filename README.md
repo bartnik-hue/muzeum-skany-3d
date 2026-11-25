@@ -1,29 +1,22 @@
-# Cyfrowe Archiwum Muzealne 3D — Przeglądarka modeli
+# Cyfrowe Archiwum Muzealne 3D — Przeglądarka modeli i chmur punktów
 
-Statyczna aplikacja webowa (Three.js + ES Modules) do prezentacji i kontroli jakości (QA) zdigitalizowanych obiektów muzealnych.
+Statyczna aplikacja webowa (Three.js + ES Modules) do interaktywnego przeglądania zdigitalizowanych obiektów muzealnych w dwóch trybach: teksturowanej siatki **Model 3D (GLB)** oraz kolorowej **Chmury punktów (RGB)**.
 
 ## Obiekty w repozytorium
 
-| ID obiektu | Nazwa | Wymiary (W × S × G) | Model webowy (GLB) | Jakość geometryczna |
+| ID obiektu | Nazwa | Wymiary (W × S × G) | Model webowy (GLB) | Chmura punktów web (PLY RGB) |
 |---|---|---|---|---|
-| `MPŁW_E_1212` | Rzeźba drewniana „Agnieszka na wsi” (sygn. Uścimiak) | `239,21 × 174,71 × 143,03 mm` | `300 018` trójkątów, tekstura `4096×4096 JPG`, `45,11 MB` | Mediana `0,0277 mm`, `99,995% ≤ 1,0 mm` |
+| `MPŁW_E_1212` | Rzeźba drewniana „Agnieszka na wsi” (sygn. Uścimiak) | `239,21 × 174,71 × 143,03 mm` | `300 018` trójkątów, `4096×4096 JPG`, `45,11 MB` | `2 412 151` pkt RGB (`34,51 MB`), odstępy: mediana `0,105 mm`, P95 `0,215 mm` |
 
 ## Funkcje przeglądarki
 
-- Interaktywna inspekcja 3D w przeglądarce (obrót, zoom, przesuwanie, automatyczny obrót).
-- Predefiniowane rzuty kamery: **Przód**, **Tył**, **Bok**, **Góra**, **Reset**.
-- Kontrola oświetlenia studyjnego (obrót światła kluczowego, ekspozycja) oraz tryb **Siatka (Wireframe)** i **Siatka skali (10 cm)**.
-- **Linijka 3D**: pomiar odległości w milimetrach bezpośrednio na powierzchni obiektu (2 kliknięcia).
-- Panel metadanych technicznych oraz galeria **QA** z powiększeniem (lightbox) i bezpośrednim linkiem do pełnego raportu HTML, pliku JSON oraz wykazu SHA-256.
+- Przełączanie trybu podglądu: **Model 3D (GLB)** oraz **Chmura punktów (RGB)** w jednej wspólnej skali `1:1` (`1 jednostka = 1 m`).
+- Regulacja rozmiaru punktów w trybie chmury punktów (`0,4–3,0 mm`), kąta światła w trybie modelu oraz ekspozycji.
+- Predefiniowane rzuty kamery (**Przód**, **Tył**, **Bok**, **Góra**, **Reset**), automatyczny obrót, siatka trójkątów (`Wireframe`) oraz siatka skali (`10 mm/kratka`).
+- **Linijka 3D**: pomiar odległości w milimetrach zarówno na powierzchni modelu GLB, jak i na chmurze punktów.
+- Panel metadanych technicznych oraz bezpośrednie pobieranie `GLB`, `PLY` i `metadane.json`.
 
-## Struktura repozytorium i pliki archiwalne
+## Zgodność ze specyfikacją i pliki archiwalne
 
-Ze względu na limit pojedynczego pliku GitHub (`100 MB`), w repozytorium umieszczono wersję webową **LowPoly GLB** (`45,11 MB`), teksturę **4K JPG** oraz kompletną dokumentację **QA i metadane**. Pełne pliki archiwalne (`OBJ HighPoly 8,71 GB`, `STL 3,60 GB`, `XYZ 1,314 GB` oraz projekt roboczy RealityScan) przechowywane są w lokalnym archiwum produkcyjnym.
-
-## Uruchomienie lokalne
-
-```bash
-python -m http.server 8080
-```
-
-Następnie otwórz w przeglądarce `http://localhost:8080`.
+- Chmura punktów w przeglądarce (`2 412 151` pkt) pochodzi wprost z rzeczywistych punktów pomiarowych pliku archiwalnego `MPŁW_E_1212_chmura_punktow.xyz` (`35 994 991` pkt) bez sztucznego zagęszczania i zachowuje wymagania gęstości dla obiektów `10–100 cm` (`mediana 0,105 mm ≤ 0,50 mm`, `P95 0,215 mm ≤ 1,00 mm`).
+- Pełne pliki archiwalne powyżej limitu `100 MB` dla GitHuba (`OBJ HighPoly 8,71 GB`, `STL 3,60 GB`, `XYZ 1,314 GB` oraz projekt roboczy RealityScan) przechowywane są w lokalnym archiwum produkcyjnym.

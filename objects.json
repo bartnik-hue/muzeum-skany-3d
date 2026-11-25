@@ -41,8 +41,8 @@
         "lowPolyGlb": {
           "triangles": "300 018 trójkątów",
           "vertices": "150 005 wierzchołków",
-          "fileSize": "45,11 MB (.glb)",
-          "texture": "4096 × 4096 px JPG (3,92 MB)"
+          "fileSize": "34,87 MB (.glb)",
+          "texture": "4096 × 4096 px JPG"
         },
         "stl": {
           "triangles": "72 066 560 trójkątów",

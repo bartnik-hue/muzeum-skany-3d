@@ -33,8 +33,14 @@ const rulerStatus = document.getElementById('rulerStatus');
 const rulerResult = document.getElementById('rulerResult');
 const clearRulerBtn = document.getElementById('clearRulerBtn');
 
-// --- Three.js Scene Setup ---
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+// --- Three.js Scene Setup (Light-Beige Museum Gallery Stage) ---
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  antialias: true,
+  alpha: true,
+  powerPreference: 'high-performance'
+});
+renderer.setClearColor(0x000000, 0);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -46,7 +52,7 @@ const scene = new THREE.Scene();
 const pmrem = new THREE.PMREMGenerator(renderer);
 const envTexture = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 scene.environment = envTexture;
-scene.environmentIntensity = 0.55;
+scene.environmentIntensity = 0.48;
 
 const camera = new THREE.PerspectiveCamera(40, 1, 0.005, 25);
 const controls = new OrbitControls(camera, canvas);
@@ -56,11 +62,11 @@ controls.minDistance = 0.05;
 controls.maxDistance = 4.0;
 controls.autoRotateSpeed = 1.4;
 
-// Studio lighting
-const hemiLight = new THREE.HemisphereLight(0xf6f3ec, 0x262a33, 0.65);
+// Museum Gallery Lighting (calibrated for warm limestone/beige stage)
+const hemiLight = new THREE.HemisphereLight(0xfcf9f2, 0xd8cec0, 0.85);
 scene.add(hemiLight);
 
-const keyLight = new THREE.DirectionalLight(0xfff8ee, 1.85);
+const keyLight = new THREE.DirectionalLight(0xfffaf0, 1.75);
 keyLight.castShadow = true;
 keyLight.shadow.mapSize.set(2048, 2048);
 keyLight.shadow.bias = -0.0004;
@@ -73,7 +79,7 @@ keyLight.shadow.camera.top = shadowBounds;
 keyLight.shadow.camera.bottom = -shadowBounds;
 scene.add(keyLight);
 
-const rimLight = new THREE.DirectionalLight(0xd2e1ff, 0.55);
+const rimLight = new THREE.DirectionalLight(0xe4ecf4, 0.45);
 rimLight.position.set(-0.6, 0.45, -0.7);
 scene.add(rimLight);
 
@@ -85,14 +91,16 @@ function updateKeyLightPosition(deg) {
 updateKeyLightPosition(parseFloat(lightAngleInput.value));
 
 // Scale Reference Grid (0.50 m x 0.50 m, 50 divisions => 10 mm per square)
-const gridHelper = new THREE.GridHelper(0.5, 50, 0xd4a359, 0x363e4f);
+const gridHelper = new THREE.GridHelper(0.5, 50, 0x8b6b4a, 0xcfc4b2);
+gridHelper.material.transparent = true;
+gridHelper.material.opacity = 0.55;
 gridHelper.position.y = -0.0003;
 scene.add(gridHelper);
 
-// Soft shadow catcher plane
+// Soft warm shadow catcher plane
 const shadowPlane = new THREE.Mesh(
   new THREE.CircleGeometry(0.45, 64),
-  new THREE.ShadowMaterial({ opacity: 0.35 })
+  new THREE.ShadowMaterial({ opacity: 0.22, color: 0x261f17 })
 );
 shadowPlane.rotation.x = -Math.PI / 2;
 shadowPlane.position.y = -0.0005;
@@ -173,7 +181,8 @@ document.querySelectorAll('[data-view]').forEach((btn) => {
 
 // --- UI Controls ---
 toggleSidebarBtn.addEventListener('click', () => {
-  sidebar.classList.toggle('collapsed');
+  const isCollapsed = sidebar.classList.toggle('collapsed');
+  toggleSidebarBtn.setAttribute('aria-expanded', String(!isCollapsed));
   setTimeout(resizeRenderer, 20);
 });
 
@@ -281,7 +290,7 @@ canvas.addEventListener('pointerup', (e) => {
 
   const marker = new THREE.Mesh(
     new THREE.SphereGeometry(0.0028, 16, 16),
-    new THREE.MeshBasicMaterial({ color: 0xffc857 })
+    new THREE.MeshBasicMaterial({ color: 0x9e3b24 })
   );
   marker.position.copy(pt);
   rulerGroup.add(marker);
@@ -291,7 +300,7 @@ canvas.addEventListener('pointerup', (e) => {
   } else if (rulerPoints.length === 2) {
     const [a, b] = rulerPoints;
     const lineGeo = new THREE.BufferGeometry().setFromPoints([a, b]);
-    const lineMat = new THREE.LineBasicMaterial({ color: 0xffc857, depthTest: false });
+    const lineMat = new THREE.LineBasicMaterial({ color: 0x9e3b24, depthTest: false });
     const line = new THREE.Line(lineGeo, lineMat);
     line.renderOrder = 999;
     rulerGroup.add(line);

@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" data-motion>
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#f4efe6" />
+  <meta name="description" content="Cyfrowe Archiwum Muzealne 3D — przeglądarka modeli fotogrametrycznych GLB i pomiarowych chmur punktów RGB w skali rzeczywistej." />
   <title>Cyfrowe Archiwum Muzealne 3D — Modele i Chmury Punktów</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <script type="importmap">
     {
@@ -18,33 +20,56 @@
   </script>
 </head>
 <body>
+  <a class="skip-link" href="#mainWorkspace">Przejdź do podglądu 3D</a>
+
   <div class="app-shell">
-    <!-- Top Header -->
+    <!-- Top Institutional Header -->
     <header class="topbar">
       <div class="brand">
-        <div class="brand-badge" aria-hidden="true">3D</div>
-        <div>
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2.5" y="2.5" width="15" height="15" stroke="currentColor" stroke-width="1.25" />
+            <path d="M10 2.5V17.5M2.5 10H17.5" stroke="currentColor" stroke-width="0.9" stroke-opacity="0.45" />
+            <polygon points="10,5.2 14.2,10 10,14.8 5.8,10" stroke="currentColor" stroke-width="1.25" fill="none" />
+          </svg>
+        </div>
+        <div class="brand-text">
           <h1 id="collectionTitle">Cyfrowe Archiwum Muzealne 3D</h1>
-          <p class="subtitle">Przeglądarka modeli fotogrametrycznych i chmur punktów RGB</p>
+          <p class="subtitle">Dokumentacja fotogrametryczna i chmury punktów RGB w skali 1:1</p>
         </div>
       </div>
 
       <div class="topbar-controls">
         <label class="select-wrap" for="objectSelect">
-          <span>Obiekt:</span>
+          <span class="select-label">Obiekt katalogowy</span>
           <select id="objectSelect" aria-label="Wybierz obiekt muzealny"></select>
         </label>
-        <button id="toggleSidebarBtn" class="btn btn-secondary" type="button" title="Pokaż lub ukryj panel metadanych">
-          Metadane i Specyfikacja
+        <button
+          id="toggleSidebarBtn"
+          class="btn btn-secondary"
+          type="button"
+          aria-expanded="true"
+          aria-controls="sidebar"
+          title="Pokaż lub ukryj kartę katalogową obiektu"
+        >
+          Karta katalogowa
         </button>
       </div>
     </header>
 
     <!-- Main Workspace -->
-    <main class="workspace">
-      <!-- 3D Viewport -->
-      <section class="viewport-wrap" aria-label="Podgląd 3D">
+    <main id="mainWorkspace" class="workspace">
+      <!-- 3D Exhibition Stage -->
+      <section class="viewport-wrap" aria-label="Podgląd 3D obiektu">
         <canvas id="viewerCanvas"></canvas>
+
+        <!-- Subtle architectural framing ticks -->
+        <div class="stage-frame" aria-hidden="true">
+          <span class="stage-corner stage-corner--tl"></span>
+          <span class="stage-corner stage-corner--tr"></span>
+          <span class="stage-corner stage-corner--bl"></span>
+          <span class="stage-corner stage-corner--br"></span>
+        </div>
 
         <!-- Display Mode Switcher: Mesh GLB vs RGB Point Cloud -->
         <div class="mode-switcher" role="group" aria-label="Tryb reprezentacji obiektu">
@@ -71,14 +96,20 @@
         <!-- Ruler Hint / Result HUD -->
         <div id="rulerHud" class="ruler-hud hidden" role="status">
           <div class="ruler-hud-header">
-            <span>📏 Linijka 3D (mm)</span>
+            <span class="ruler-title">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M2 11.5L11.5 2L14 4.5L4.5 14L2 11.5Z" stroke="currentColor" stroke-width="1.3"/>
+                <path d="M6 7.5L7.5 9M8.5 5L10 6.5" stroke="currentColor" stroke-width="1.2"/>
+              </svg>
+              Pomiar odległości (mm)
+            </span>
             <button id="clearRulerBtn" class="btn-link" type="button">Wyczyść</button>
           </div>
           <p id="rulerStatus">Kliknij pierwszy punkt na powierzchni obiektu.</p>
           <p id="rulerResult" class="mono ruler-value hidden"></p>
         </div>
 
-        <!-- Floating Camera & Inspection Toolbar -->
+        <!-- Floating Camera & Inspection Console -->
         <div class="viewport-toolbar" role="toolbar" aria-label="Narzędzia widoku 3D">
           <div class="tool-group" aria-label="Rzuty kamery">
             <button class="tool-btn" data-view="front" type="button" title="Widok od frontu">Przód</button>
@@ -110,33 +141,38 @@
             </label>
             <label class="slider-label" title="Ekspozycja sceny">
               <span>Jasność</span>
-              <input id="exposureInput" type="range" min="0.5" max="2.0" step="0.05" value="1.10" />
+              <input id="exposureInput" type="range" min="0.5" max="2.0" step="0.05" value="1.05" />
             </label>
           </div>
         </div>
 
-        <!-- Bottom-left / top-left quick legend -->
+        <!-- Quiet museum navigation legend -->
         <div class="viewport-hint">
           <span>LPM: obrót</span>
+          <span class="hint-sep" aria-hidden="true">·</span>
           <span>PPM: przesunięcie</span>
+          <span class="hint-sep" aria-hidden="true">·</span>
           <span>Rolka: zbliżenie</span>
+          <span class="hint-sep" aria-hidden="true">·</span>
           <span id="scaleLegend" class="mono">Siatka: 1 kratka = 10 mm</span>
         </div>
       </section>
 
-      <!-- Sidebar: Technical Metadata & Files -->
-      <aside id="sidebar" class="sidebar" aria-label="Metadane techniczne i pliki obiektu">
-        <div class="object-header">
+      <!-- Curatorial & Technical Dossier Sidebar -->
+      <aside id="sidebar" class="sidebar" aria-label="Karta katalogowa i dokumentacja techniczna obiektu">
+        <div class="dossier-eyebrow">Karta katalogowa obiektu</div>
+
+        <header class="object-header">
           <div class="object-id-row">
             <span id="objIdBadge" class="badge mono">—</span>
-            <span id="objCategory" class="badge badge-muted">—</span>
+            <span id="objCategory" class="category-tag">—</span>
           </div>
           <h2 id="objTitle">Wczytywanie…</h2>
           <p id="objAuthor" class="obj-author">—</p>
-        </div>
+        </header>
 
-        <!-- Key KPI cards -->
-        <div class="kpi-grid">
+        <!-- Key Architectural Metric Table (hairline-ruled 2x2) -->
+        <div class="kpi-grid" aria-label="Podstawowe parametry obiektu">
           <div class="kpi-card">
             <span class="kpi-label">Wymiary rzeczywiste</span>
             <strong id="kpiDims" class="kpi-val mono">—</strong>
@@ -155,13 +191,18 @@
           </div>
         </div>
 
-        <dl id="specsList" class="specs-list"></dl>
+        <!-- Ruled Archival Technical Specifications -->
+        <section class="specs-section" aria-label="Specyfikacja digitalizacji">
+          <h3 class="section-heading">Specyfikacja digitalizacji</h3>
+          <dl id="specsList" class="specs-list"></dl>
+        </section>
 
-        <div class="downloads-box">
-          <h3>Pliki do pobrania</h3>
+        <!-- Archive Downloads -->
+        <section class="downloads-box" aria-label="Dokumentacja do pobrania">
+          <h3>Dokumentacja i pliki źródłowe</h3>
           <div class="download-actions">
-            <a id="dlGlb" class="btn btn-primary" href="#" download>Pobierz Model GLB</a>
-            <a id="dlPly" class="btn btn-secondary" href="#" download>Pobierz Chmurę PLY</a>
+            <a id="dlGlb" class="btn btn-primary" href="#" download>Pobierz model GLB</a>
+            <a id="dlPly" class="btn btn-secondary" href="#" download>Pobierz chmurę PLY</a>
             <a id="dlJson" class="btn btn-secondary btn-full" href="#" target="_blank" rel="noopener">Metadane techniczne (JSON)</a>
           </div>
           <p class="archive-note">
@@ -169,7 +210,7 @@
             przechowywane są w lokalnym archiwum produkcyjnym. Wersja webowa chmury punktów (<code>2,41 mln pkt</code>)
             zawiera wyłącznie punkty pomiarowe bez sztucznego zagęszczania.
           </p>
-        </div>
+        </section>
       </aside>
     </main>
   </div>

@@ -66,9 +66,9 @@
     "low_poly": {
       "name": "Model_LowPoly",
       "file": "03_Model_Uzytkowy_LowPoly/MPŁW_E_1212_lowpoly.glb",
-      "file_size_mb": 45.11,
-      "triangles": 300018,
-      "vertices": 150005,
+      "file_size_mb": 15.06,
+      "triangles": 325674,
+      "vertices": 162786,
       "textures": [
         {
           "count": 1,
@@ -78,10 +78,10 @@
         }
       ],
       "deviation_vs_highpoly_mm": {
-        "median_mm": 0.0277,
-        "p95_mm": 0.0486,
-        "max_mm": 1.4414,
-        "within_1mm_pct": 99.995
+        "median_mm": 0.3131,
+        "p95_mm": 0.6211,
+        "max_mm": 13.1602,
+        "within_1mm_pct": 99.87
       }
     },
     "stl_export": {
@@ -106,6 +106,7 @@
     }
   },
   "interpolated_or_filled_areas": [
-    "Spód drewnianej podstawy zamknięty płasko po odcięciu płaszczyzny stołu (-cutByBox outer true)."
+    "Spód drewnianej podstawy zamknięty płasko po odcięciu płaszczyzny stołu (Z = 0) z symulowaną teksturą drewna.",
+    "Punktowo usunięto drobne artefakty siatki i uzupełniono kolor w miejscach zasłoniętych na zdjęciach (pod dłonią/dzbankiem i pod ogonem koguta)."
   ]
 }

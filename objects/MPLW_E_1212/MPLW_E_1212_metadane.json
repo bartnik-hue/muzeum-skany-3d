@@ -31,12 +31,12 @@
     "file": "01_Chmura_Punktow/MPŁW_E_1212_chmura_punktow.xyz",
     "format": "XYZRGB (ASCII, X Y Z R G B)",
     "points_count": 36000000,
-    "web_points_count": 4366419,
+    "web_points_count": 4338695,
     "unit": "m",
-    "note": "Chmura wygenerowana z finalnego poprawionego modelu (z drewnianym spodem) oraz 2,5x zagęszczeniem pod dłońmi trzymającymi garnek i przy styku ręki z tułowiem.",
+    "note": "Chmura wygenerowana z finalnego modelu lowres_naprawiony (tego samego co model 3D na stronie, z drewnianym spodem) oraz 2,5x zagęszczeniem pod dłońmi trzymającymi garnek i przy styku ręki z tułowiem.",
     "web_spacing_mm": {
-      "global_median_mm": 0.0869,
-      "global_p95_mm": 0.1921,
+      "global_median_mm": 0.0873,
+      "global_p95_mm": 0.1926,
       "dense_hands_torso_median_mm": 0.0549,
       "dense_hands_torso_p95_mm": 0.0892
     }

@@ -6,7 +6,7 @@ Statyczna aplikacja webowa (Three.js + ES Modules) do interaktywnego przeglądan
 
 | ID obiektu | Nazwa | Wymiary (W × S × G) | Model webowy (GLB) | Chmura punktów web (PLY RGB) |
 |---|---|---|---|---|
-| `MPŁW_E_1212` | Rzeźba drewniana „Agnieszka na wsi” (sygn. Uścimiak) | `239,21 × 183,48 × 117,83 mm` | `325 674` trójkątów, `4096×4096 JPG`, `15,06 MB` | `4 366 419` pkt RGB (`62,46 MB`), mediana `0,087 mm`, P95 `0,192 mm` (ręce/tułów: `0,055 mm`) |
+| `MPŁW_E_1212` | Rzeźba drewniana „Agnieszka na wsi” (sygn. Uścimiak) | `239,21 × 183,48 × 117,83 mm` | `325 674` trójkątów, `4096×4096 JPG`, `15,06 MB` | `4 338 695` pkt RGB (`62,07 MB`), mediana `0,087 mm`, P95 `0,193 mm` (ręce/tułów: `0,055 mm`) |
 
 ## Funkcje przeglądarki
 
@@ -18,5 +18,5 @@ Statyczna aplikacja webowa (Three.js + ES Modules) do interaktywnego przeglądan
 
 ## Zgodność ze specyfikacją i pliki archiwalne
 
-- Chmura punktów w przeglądarce (`4 366 419` pkt RGB, `62,46 MB`) została wygenerowana na bazie ostatecznego modelu `MPŁW_E_1212` z drewnianym spodem oraz lokalnym zagęszczeniem pod dłońmi trzymającymi garnek i przy styku ręki z tułowiem (`mediana 0,055 mm` w tej strefie, globalnie `0,087 mm ≤ 0,50 mm`, `P95 0,192 mm ≤ 1,00 mm`).
+- Chmura punktów w przeglądarce (`4 338 695` pkt RGB, `62,07 MB`) została wygenerowana na bazie ostatecznego modelu `MPŁW_E_1212` z drewnianym spodem oraz lokalnym zagęszczeniem pod dłońmi trzymającymi garnek i przy styku ręki z tułowiem (`mediana 0,055 mm` w tej strefie, globalnie `0,087 mm ≤ 0,50 mm`, `P95 0,193 mm ≤ 1,00 mm`).
 - Pełne pliki archiwalne powyżej limitu `100 MB` dla GitHuba (`OBJ HighPoly 8,71 GB`, `STL 3,60 GB`, `XYZ 1,314 GB` oraz projekt roboczy RealityScan) przechowywane są w lokalnym archiwum produkcyjnym.

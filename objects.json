@@ -27,10 +27,10 @@
         "pointCloud": {
           "format": "XYZRGB (archiwum) / PLY RGB (web)",
           "pointsFull": "36 000 000 pkt RGB",
-          "pointsWeb": "4 366 419 pkt RGB",
-          "webFileSize": "62,46 MB",
+          "pointsWeb": "4 338 695 pkt RGB",
+          "webFileSize": "62,07 MB",
           "fullFileSize": "1,28 GB (.xyz, archiwum lokalne)",
-          "webSpacing": "mediana 0,087 mm • P95 0,192 mm (strefa rąk/tułowia: med. 0,055 mm)",
+          "webSpacing": "mediana 0,087 mm • P95 0,193 mm (strefa rąk/tułowia: med. 0,055 mm)",
           "fullSpacing": "mediana ~0,04–0,06 mm (strefa rąk/tułowia zagęszczona 2,5×)",
           "specLimit": "limit dla 10–100 cm: mediana ≤ 0,50 mm, P95 ≤ 1,00 mm (zagęszczona pod dłońmi i stykiem ręki z tułowiem)"
         },

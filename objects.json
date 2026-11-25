@@ -17,12 +17,12 @@
       "manifestUrl": "objects/MPLW_E_1212/qa/MPLW_E_1212_wykaz_plikow.txt",
       "dimensionsMm": {
         "height": 239.21,
-        "width": 174.71,
-        "depth": 143.03,
-        "label": "239,21 × 174,71 × 143,03 mm"
+        "width": 183.48,
+        "depth": 117.83,
+        "label": "239,21 × 183,48 × 117,83 mm"
       },
       "specs": {
-        "digitization": "Fotogrametria (Canon EOS R5 C + EF 100mm Macro) • 283 zdjęcia (281 dopasowanych) • RealityScan 2.2",
+        "digitization": "Fotogrametria (Canon EOS R5 C + EF 100mm Macro) • 283 zdjęcia (281 dopasowanych) • RealityScan 2.2 + Blender 5.2",
         "scaleMethod": "Jednostka: metr (m), skala 1:1 • Przymiar L-ruler (_D1A1330) + wzorzec ColorChecker (_D1A1331)",
         "pointCloud": {
           "format": "XYZRGB (archiwum) / PLY RGB (web)",
@@ -35,28 +35,28 @@
           "specLimit": "limit dla 10–100 cm: mediana ≤ 0,50 mm, P95 ≤ 1,00 mm (bez sztucznego zagęszczania)"
         },
         "highPoly": {
-          "triangles": "72 066 560 trójkątów",
-          "vertices": "36 033 276 wierzchołków",
+          "triangles": "72 066 560 trójkątów (archiwum) / 6 520 428 (po edycji)",
+          "vertices": "36 033 276 wierzchołków (archiwum) / 3 260 165 (po edycji)",
           "fileSize": "8,71 GB (.obj + .mtl, archiwum lokalne)",
           "texture": "8192 × 8192 px PNG"
         },
         "lowPolyGlb": {
-          "triangles": "300 018 trójkątów",
-          "vertices": "150 005 wierzchołków",
-          "fileSize": "34,87 MB (.glb)",
-          "texture": "4096 × 4096 px JPG"
+          "triangles": "300 000 trójkątów",
+          "vertices": "149 951 wierzchołków",
+          "fileSize": "14,58 MB (.glb)",
+          "texture": "4096 × 4096 px JPG (4,66 MB)"
         },
         "stl": {
           "triangles": "72 066 560 trójkątów",
           "fileSize": "3,60 GB (.stl, archiwum lokalne)"
         },
         "deviation": {
-          "median": "0,0277 mm",
-          "p95": "0,0486 mm",
-          "max": "1,4414 mm",
-          "within1mm": "99,995% ≤ 1,0 mm (limit ≥ 95%)"
+          "median": "0,3274 mm",
+          "p95": "0,6463 mm",
+          "max": "13,1602 mm",
+          "within1mm": "99,843% ≤ 1,0 mm (limit ≥ 95%)"
         },
-        "filledAreas": "Spód drewnianej podstawy zamknięty płasko po odcięciu płaszczyzny stołu (Z = 0)."
+        "filledAreas": "Spód podstawy zamknięty płasko (Z = 0) z symulacją drewna lipowego oraz ręczny retusz artefaktów w Blenderze."
       },
       "qa": {
         "status": "ZATWIERDZONO — WSZYSTKIE WYMOGI SPEŁNIONE",

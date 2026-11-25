@@ -33,6 +33,12 @@ const rulerStatus = document.getElementById('rulerStatus');
 const rulerResult = document.getElementById('rulerResult');
 const clearRulerBtn = document.getElementById('clearRulerBtn');
 
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxTitle = document.getElementById('lightboxTitle');
+const lightboxCaption = document.getElementById('lightboxCaption');
+const lightboxCloseBtn = document.getElementById('lightboxCloseBtn');
+
 // --- Three.js Scene Setup (Light-Beige Museum Gallery Stage) ---
 const renderer = new THREE.WebGLRenderer({
   canvas,
@@ -235,6 +241,43 @@ exposureInput.addEventListener('input', (e) => {
   renderer.toneMappingExposure = parseFloat(e.target.value);
 });
 
+// --- Sidebar Tabs ---
+document.querySelectorAll('.tab-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach((b) => {
+      const active = b === btn;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-selected', String(active));
+    });
+    const tab = btn.dataset.tab;
+    document.getElementById('tabSpecs').classList.toggle('active', tab === 'specs');
+    document.getElementById('tabQa').classList.toggle('active', tab === 'qa');
+  });
+});
+
+// --- Lightbox ---
+function openLightbox(title, url, caption) {
+  lightboxTitle.textContent = title;
+  lightboxImg.src = url;
+  lightboxImg.alt = title;
+  lightboxCaption.textContent = caption || '';
+  lightbox.classList.remove('hidden');
+  lightboxCloseBtn.focus();
+}
+
+function closeLightbox() {
+  lightbox.classList.add('hidden');
+  lightboxImg.src = '';
+}
+
+lightboxCloseBtn.addEventListener('click', closeLightbox);
+lightbox.querySelector('.lightbox-backdrop').addEventListener('click', closeLightbox);
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+    closeLightbox();
+  }
+});
+
 // --- Ruler Logic ---
 function clearRuler() {
   rulerPoints = [];
@@ -325,7 +368,9 @@ function populateSidebar(obj) {
   document.getElementById('kpiDims').textContent = obj.dimensionsMm.label;
   document.getElementById('kpiGlb').textContent = `${obj.specs.lowPolyGlb.triangles} • ${obj.specs.lowPolyGlb.fileSize}`;
   document.getElementById('kpiCloudFull').textContent = obj.specs.pointCloud.pointsFull;
-  document.getElementById('kpiCloudWeb').textContent = `${obj.specs.pointCloud.pointsWeb} • ${obj.specs.pointCloud.webFileSize}`;
+  document.getElementById('kpiDeviation').textContent = obj.specs.deviation
+    ? `${obj.specs.deviation.median} (${obj.specs.deviation.within1mm})`
+    : `${obj.specs.pointCloud.pointsWeb} • ${obj.specs.pointCloud.webFileSize}`;
 
   const specRows = [
     ['Digitalizacja i oprogramowanie', obj.specs.digitization],
@@ -338,6 +383,12 @@ function populateSidebar(obj) {
       'Model użytkowy LowPoly (GLB)',
       `${obj.specs.lowPolyGlb.triangles}, ${obj.specs.lowPolyGlb.vertices} • ${obj.specs.lowPolyGlb.fileSize} • tekstura ${obj.specs.lowPolyGlb.texture}`
     ],
+    ...(obj.specs.deviation
+      ? [[
+          'Odchyłka LowPoly vs HighPoly',
+          `Mediana: ${obj.specs.deviation.median} • P95: ${obj.specs.deviation.p95} • ${obj.specs.deviation.within1mm}`
+        ]]
+      : []),
     [
       'Model archiwalny HighPoly',
       `${obj.specs.highPoly.triangles}, ${obj.specs.highPoly.vertices} • ${obj.specs.highPoly.fileSize} • tekstura ${obj.specs.highPoly.texture}`
@@ -362,6 +413,68 @@ function populateSidebar(obj) {
   document.getElementById('dlGlb').href = obj.glbUrl;
   document.getElementById('dlPly').href = obj.pointCloudUrl;
   document.getElementById('dlJson').href = obj.metadataUrl;
+
+  const qaReportHref = obj.qaReportUrl || '#';
+  document.getElementById('dlQaHtml').href = qaReportHref;
+  document.getElementById('dlQaHtmlTab').href = qaReportHref;
+  document.getElementById('dlManifest').href = obj.manifestUrl || '#';
+
+  const qaStatusText = document.getElementById('qaStatusText');
+  qaStatusText.textContent = obj.qa?.status || 'Brak danych raportu QA';
+
+  const qaSectionsList = document.getElementById('qaSectionsList');
+  qaSectionsList.innerHTML = '';
+  for (const sec of obj.qa?.sections || []) {
+    const item = document.createElement('div');
+    item.className = 'qa-section-item';
+
+    const head = document.createElement('div');
+    head.className = 'qa-section-head';
+    const titleEl = document.createElement('span');
+    titleEl.className = 'qa-section-title';
+    titleEl.textContent = sec.title;
+    const badgeEl = document.createElement('span');
+    badgeEl.className = 'qa-pass-badge';
+    badgeEl.textContent = sec.status;
+    head.append(titleEl, badgeEl);
+
+    const detailEl = document.createElement('p');
+    detailEl.className = 'qa-section-detail';
+    detailEl.textContent = sec.detail;
+
+    item.append(head, detailEl);
+    qaSectionsList.appendChild(item);
+  }
+
+  const qaGallery = document.getElementById('qaGallery');
+  qaGallery.innerHTML = '';
+  for (const item of obj.qaImages || []) {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'qa-card';
+
+    const imgWrap = document.createElement('div');
+    imgWrap.className = 'qa-card-img-wrap';
+    const img = document.createElement('img');
+    img.src = item.url;
+    img.alt = item.title;
+    img.loading = 'lazy';
+    imgWrap.appendChild(img);
+
+    const body = document.createElement('div');
+    body.className = 'qa-card-body';
+    const titleEl = document.createElement('div');
+    titleEl.className = 'qa-card-title';
+    titleEl.textContent = item.title;
+    const capEl = document.createElement('div');
+    capEl.className = 'qa-card-caption';
+    capEl.textContent = item.caption;
+    body.append(titleEl, capEl);
+
+    card.append(imgWrap, body);
+    card.addEventListener('click', () => openLightbox(item.title, item.url, item.caption));
+    qaGallery.appendChild(card);
+  }
 }
 
 function disposeGroup(group) {

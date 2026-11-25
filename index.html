@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#f4efe6" />
-  <meta name="description" content="Cyfrowe Archiwum Muzealne 3D — przeglądarka modeli fotogrametrycznych GLB i pomiarowych chmur punktów RGB w skali rzeczywistej." />
-  <title>Cyfrowe Archiwum Muzealne 3D — Modele i Chmury Punktów</title>
+  <meta name="description" content="Cyfrowe Archiwum Muzealne 3D — przeglądarka modeli fotogrametrycznych GLB, chmur punktów RGB oraz dokumentacji kontroli jakości (QA)." />
+  <title>Cyfrowe Archiwum Muzealne 3D — Modele, Chmury Punktów i Raport QA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
@@ -35,7 +35,7 @@
         </div>
         <div class="brand-text">
           <h1 id="collectionTitle">Cyfrowe Archiwum Muzealne 3D</h1>
-          <p class="subtitle">Dokumentacja fotogrametryczna i chmury punktów RGB w skali 1:1</p>
+          <p class="subtitle">Dokumentacja fotogrametryczna, chmury punktów RGB i raporty QA</p>
         </div>
       </div>
 
@@ -50,9 +50,9 @@
           type="button"
           aria-expanded="true"
           aria-controls="sidebar"
-          title="Pokaż lub ukryj kartę katalogową obiektu"
+          title="Pokaż lub ukryj kartę katalogową i raport QA"
         >
-          Karta katalogowa
+          Karta i raport QA
         </button>
       </div>
     </header>
@@ -159,7 +159,7 @@
       </section>
 
       <!-- Curatorial & Technical Dossier Sidebar -->
-      <aside id="sidebar" class="sidebar" aria-label="Karta katalogowa i dokumentacja techniczna obiektu">
+      <aside id="sidebar" class="sidebar" aria-label="Karta katalogowa i raport kontroli jakości obiektu">
         <div class="dossier-eyebrow">Karta katalogowa obiektu</div>
 
         <header class="object-header">
@@ -186,33 +186,104 @@
             <strong id="kpiCloudFull" class="kpi-val mono">—</strong>
           </div>
           <div class="kpi-card">
-            <span class="kpi-label">Chmura webowa (PLY RGB)</span>
-            <strong id="kpiCloudWeb" class="kpi-val mono">—</strong>
+            <span class="kpi-label">Odchyłka Low/High</span>
+            <strong id="kpiDeviation" class="kpi-val mono">—</strong>
           </div>
         </div>
 
-        <!-- Ruled Archival Technical Specifications -->
-        <section class="specs-section" aria-label="Specyfikacja digitalizacji">
-          <h3 class="section-heading">Specyfikacja digitalizacji</h3>
-          <dl id="specsList" class="specs-list"></dl>
-        </section>
+        <!-- Sidebar Tabs: Specyfikacja vs Kontrola jakości (QA) -->
+        <div class="tabs" role="tablist" aria-label="Sekcje karty katalogowej">
+          <button
+            id="tabBtnSpecs"
+            class="tab-btn active"
+            data-tab="specs"
+            role="tab"
+            aria-selected="true"
+            aria-controls="tabSpecs"
+            type="button"
+          >
+            Specyfikacja i pliki
+          </button>
+          <button
+            id="tabBtnQa"
+            class="tab-btn"
+            data-tab="qa"
+            role="tab"
+            aria-selected="false"
+            aria-controls="tabQa"
+            type="button"
+          >
+            Kontrola jakości (QA)
+          </button>
+        </div>
 
-        <!-- Archive Downloads -->
-        <section class="downloads-box" aria-label="Dokumentacja do pobrania">
-          <h3>Dokumentacja i pliki źródłowe</h3>
-          <div class="download-actions">
-            <a id="dlGlb" class="btn btn-primary" href="#" download>Pobierz model GLB</a>
-            <a id="dlPly" class="btn btn-secondary" href="#" download>Pobierz chmurę PLY</a>
-            <a id="dlJson" class="btn btn-secondary btn-full" href="#" target="_blank" rel="noopener">Metadane techniczne (JSON)</a>
+        <!-- Tab 1: Specifications & Downloads -->
+        <div id="tabSpecs" class="tab-panel active" role="tabpanel" aria-labelledby="tabBtnSpecs">
+          <section class="specs-section" aria-label="Specyfikacja digitalizacji">
+            <h3 class="section-heading">Specyfikacja digitalizacji</h3>
+            <dl id="specsList" class="specs-list"></dl>
+          </section>
+
+          <section class="downloads-box" aria-label="Dokumentacja do pobrania">
+            <h3>Dokumentacja i pliki źródłowe</h3>
+            <div class="download-actions">
+              <a id="dlGlb" class="btn btn-primary" href="#" download>Pobierz model GLB</a>
+              <a id="dlPly" class="btn btn-secondary" href="#" download>Pobierz chmurę PLY</a>
+              <a id="dlQaHtml" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Pełny raport QA (HTML)</a>
+              <a id="dlJson" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Metadane (JSON)</a>
+              <a id="dlManifest" class="btn btn-secondary btn-full" href="#" target="_blank" rel="noopener">Wykaz plików i sum SHA-256 (TXT)</a>
+            </div>
+            <p class="archive-note">
+              Pełne pliki archiwalne &gt;100 MB (<code>OBJ HighPoly 8,71 GB</code>, <code>STL 3,60 GB</code>, <code>XYZ 1,314 GB</code>)
+              przechowywane są w lokalnym archiwum produkcyjnym. Wersja webowa chmury punktów (<code>2,41 mln pkt</code>)
+              zawiera wyłącznie punkty pomiarowe bez sztucznego zagęszczania.
+            </p>
+          </section>
+        </div>
+
+        <!-- Tab 2: Quality Assurance (QA) Report & Visual Verification -->
+        <div id="tabQa" class="tab-panel" role="tabpanel" aria-labelledby="tabBtnQa">
+          <div class="qa-status-banner">
+            <span class="qa-status-label">Status odbiorczy QA</span>
+            <strong id="qaStatusText" class="qa-status-value">—</strong>
           </div>
-          <p class="archive-note">
-            Pełne pliki archiwalne &gt;100 MB (<code>OBJ HighPoly 8,71 GB</code>, <code>STL 3,60 GB</code>, <code>XYZ 1,314 GB</code>)
-            przechowywane są w lokalnym archiwum produkcyjnym. Wersja webowa chmury punktów (<code>2,41 mln pkt</code>)
-            zawiera wyłącznie punkty pomiarowe bez sztucznego zagęszczania.
-          </p>
-        </section>
+
+          <section class="qa-checks-section" aria-label="5 sekcji kontroli jakości">
+            <h3 class="section-heading">Weryfikacja wg specyfikacji odbiorczej</h3>
+            <div id="qaSectionsList" class="qa-sections-list"></div>
+          </section>
+
+          <section class="qa-gallery-section" aria-label="Wizualizacje kontrolne QA">
+            <div class="qa-gallery-head">
+              <h3 class="section-heading">Dokumentacja wizualna QA</h3>
+              <p class="qa-intro">Kliknij ilustrację, aby otworzyć powiększenie z pełnym opisem pomiarowym.</p>
+            </div>
+            <div id="qaGallery" class="qa-gallery"></div>
+          </section>
+
+          <div class="qa-footer-actions">
+            <a id="dlQaHtmlTab" class="btn btn-primary btn-full" href="#" target="_blank" rel="noopener">
+              Otwórz pełny raport QA do druku (HTML)
+            </a>
+          </div>
+        </div>
       </aside>
     </main>
+  </div>
+
+  <!-- Lightbox Modal for QA Visuals -->
+  <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <div class="lightbox-backdrop"></div>
+    <div class="lightbox-dialog">
+      <div class="lightbox-head">
+        <h3 id="lightboxTitle">Podgląd dokumentacji QA</h3>
+        <button id="lightboxCloseBtn" class="btn btn-secondary" type="button" aria-label="Zamknij podgląd">Zamknij</button>
+      </div>
+      <div class="lightbox-body">
+        <img id="lightboxImg" src="" alt="" />
+      </div>
+      <p id="lightboxCaption" class="lightbox-caption"></p>
+    </div>
   </div>
 
   <script type="module" src="app.js"></script>

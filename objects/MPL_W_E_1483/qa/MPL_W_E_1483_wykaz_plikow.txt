@@ -1,0 +1,13 @@
+WYKAZ PLIKOW DOSTAWCZYCH — OBIEKT: MPŁ_W_E_1483 (Rzeźba drewniana z elementami cienkimi / prześwitami (kategoria 1B — pełna podstawa, bez masek RemBG))
+====================================================================================================
+Sciezka wzgledna                                                   |    Rozmiar [B] | SHA-256
+----------------------------------------------------------------------------------------------------
+01_Chmura_Punktow\MPŁ_W_E_1483_chmura_punktow.xyz                  |    451,513,795 | 88487fc4efde84cd4f64f338b8d1278a1ef1cbf0df90b53d694cb6d93f8a2050
+02_Model_Archiwalny_HighPoly\MPL_W_E_1483_highpoly.obj             |  1,296,532,061 | e58955c5ec2b2ce0a11ee6c3a1798d850d2e26269e3e89a0753551048dbe6681
+02_Model_Archiwalny_HighPoly\MPL_W_E_1483_highpoly.mtl             |            217 | 18a2bd4f4241882be69cbd66ad99b5dece558c196df1b938a3a7e180e46d4b0e
+02_Model_Archiwalny_HighPoly\MPL_W_E_1483_highpoly_u1_v1_diffuse.png |     56,293,676 | 36d5014e56877a1840519c5143ebc8f86c7cfba3c7eceb47c7a210d651b806a1
+03_Model_Uzytkowy_LowPoly\MPŁ_W_E_1483_lowpoly.glb                 |     10,101,188 | 35d674a9a9dc1dbe2b821da1f71ad2b63ceceecf2a29d398bafad61763b36b4d
+03_Model_Uzytkowy_LowPoly\textures\MPL_W_E_1483_lowpoly_diffuse.jpg |      2,338,343 | 6e89b7e379c7a7246a7b99bd5f80946202c7978be9651546db9a54196f901587
+04_Eksport_Geometrii\MPŁ_W_E_1483_geometria.stl                    |    560,187,634 | a4a980e0ff4110dfc1e38f639f332c2543bb044adb770c687eaf68e9c0e7e522
+----------------------------------------------------------------------------------------------------
+Dodatkowo w 05_Dokumentacja_QA/: raport QA + metadane JSON + wykresy kontrolne.

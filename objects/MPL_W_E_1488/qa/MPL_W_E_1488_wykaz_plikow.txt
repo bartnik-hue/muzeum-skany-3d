@@ -1,0 +1,13 @@
+WYKAZ PLIKOW DOSTAWCZYCH — OBIEKT: MPŁ_W_E_1488 (Rzeźba drewniana (kategoria 1A — zwarta))
+====================================================================================================
+Sciezka wzgledna                                                   |    Rozmiar [B] | SHA-256
+----------------------------------------------------------------------------------------------------
+01_Chmura_Punktow\MPŁ_W_E_1488_chmura_punktow.xyz                  |    452,214,794 | b7787c98feae52e77130deadcf7d6a21976b9db6ebecb49720c59247a86e3ac0
+02_Model_Archiwalny_HighPoly\MPL_W_E_1488_highpoly.obj             |    981,774,547 | 5ac562e28cc512b13dd112a868edd4b8a1b379be5b59bd13b07d90d3b70e0579
+02_Model_Archiwalny_HighPoly\MPL_W_E_1488_highpoly.mtl             |            217 | 8b5a5aa0373a791aca05a21745548f69b8a103d465fecfb89591551471feee06
+02_Model_Archiwalny_HighPoly\MPL_W_E_1488_highpoly_u1_v1_diffuse.png |     54,064,603 | 1ed5ad7b07f2c861adb118df07ac0db8d6cfce97cf94aed16bf0e148320e200b
+03_Model_Uzytkowy_LowPoly\MPŁ_W_E_1488_lowpoly.glb                 |      8,743,184 | d26f948b3003d83e4ed8768a01804db5174758177b5a821c132546a4e7e1737e
+03_Model_Uzytkowy_LowPoly\textures\MPL_W_E_1488_lowpoly_diffuse.jpg |      2,211,026 | 42687d03edb449f86b8cf1abb6fc7c1c28e7c7fdb1a796304a9628afdc414ad8
+04_Eksport_Geometrii\MPŁ_W_E_1488_geometria.stl                    |    425,123,984 | 9574b23ad639267afe527e91cf9d21347d1cae6ba89699bc979ebb6e94d3b687
+----------------------------------------------------------------------------------------------------
+Dodatkowo w 05_Dokumentacja_QA/: raport QA + metadane JSON + wykresy kontrolne.

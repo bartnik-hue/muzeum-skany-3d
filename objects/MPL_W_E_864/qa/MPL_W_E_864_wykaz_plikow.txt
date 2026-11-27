@@ -1,0 +1,13 @@
+WYKAZ PLIKOW DOSTAWCZYCH — OBIEKT: MPŁ_W_E_864 (Rzeźba drewniana z elementami cienkimi / prześwitami (kategoria 1B — pełna podstawa, bez masek RemBG))
+====================================================================================================
+Sciezka wzgledna                                                   |    Rozmiar [B] | SHA-256
+----------------------------------------------------------------------------------------------------
+01_Chmura_Punktow\MPŁ_W_E_864_chmura_punktow.xyz                   |    470,144,828 | 222a5a294f9391ca13c8a781126d2945db33c293b29256c71947cc8a706a98c4
+02_Model_Archiwalny_HighPoly\MPL_W_E_864_highpoly.obj              |    886,539,592 | 6076554a7a6b5770409f9fad1887e41f81b75ce8dcd648cb096290c9028f72c8
+02_Model_Archiwalny_HighPoly\MPL_W_E_864_highpoly.mtl              |            215 | 83ffdd07513c4f53a857945634865f13274ffe3d7e70921b902aa48d7055edba
+02_Model_Archiwalny_HighPoly\MPL_W_E_864_highpoly_u1_v1_diffuse.png |     56,629,635 | d05bae1a83c41e806d0ee4bc442e04d314f94947a75d4e6b7af9b6b96eb6529d
+03_Model_Uzytkowy_LowPoly\MPŁ_W_E_864_lowpoly.glb                  |      9,372,004 | 66549dafe984ec5d95f4621a54d1ca27209230b37933a7b3dd1571b39a1ea064
+03_Model_Uzytkowy_LowPoly\textures\MPL_W_E_864_lowpoly_diffuse.jpg |      2,193,688 | c70e2ef4ee57a6ee270d9a21bf71d33a1f6719c3dc144f6f75188f7affc2f578
+04_Eksport_Geometrii\MPŁ_W_E_864_geometria.stl                     |    384,016,384 | e108b0644ec84bcdc638263fce0e376bd9d788226fbd74c13fd70bce2fc511a8
+----------------------------------------------------------------------------------------------------
+Dodatkowo w 05_Dokumentacja_QA/: raport QA + metadane JSON + wykresy kontrolne.

@@ -2,7 +2,7 @@
   "collectionTitle": "Cyfrowe Archiwum Muzealne 3D",
   "institution": "Digitalizacja 3D obiektów zabytkowych",
   "archiveBaseUrl": "",
-  "cacheVersion": "20261127-1920",
+  "cacheVersion": "20261127-1932",
   "objects": [
     {
       "id": "MPŁW_E_1212",
@@ -3430,15 +3430,15 @@
           "pointsFull": "12 000 000 pkt RGB",
           "pointsWeb": "550 000 pkt RGB",
           "webFileSize": "7,87 MB",
-          "fullFileSize": "448,9 MB (.xyz, archiwum lokalne)",
-          "webSpacing": "mediana 0,2384 mm • P95 0,4095 mm",
-          "fullSpacing": "3 strefy kontrolne: Góra obiektu med. 0,0424 mm (P95 0,0880 mm) • Część środkowa med. 0,0423 mm (P95 0,0881 mm) • Dolna partia / podstawa med. 0,0423 mm (P95 0,0880 mm)",
+          "fullFileSize": "448,8 MB (.xyz, archiwum lokalne)",
+          "webSpacing": "mediana 0,2385 mm • P95 0,4085 mm",
+          "fullSpacing": "3 strefy kontrolne: Góra obiektu med. 0,0422 mm (P95 0,0882 mm) • Część środkowa med. 0,0422 mm (P95 0,0883 mm) • Dolna partia / podstawa med. 0,0422 mm (P95 0,0882 mm)",
           "specLimit": "limit dla 10–100 cm: mediana ≤ 0,50 mm, P95 ≤ 1,00 mm"
         },
         "highPoly": {
           "triangles": "5 143 439 trójkątów (surowy scan) / 5 130 623 (po oczyszczeniu i edycji ≤ 5M)",
           "vertices": "2 573 601 wierzchołków (surowy scan) / 2 565 308 (po oczyszczeniu i edycji ≤ 5M)",
-          "fileSize": "560,3 MB surowy / 531,7 MB po edycji (.obj + .mtl, archiwum lokalne)",
+          "fileSize": "560,3 MB surowy / 530,6 MB po edycji (.obj + .mtl, archiwum lokalne)",
           "texture": "8192 × 8192 px PNG"
         },
         "lowPolyGlb": {
@@ -3470,7 +3470,7 @@
           {
             "title": "2. Kontrola chmury punktów (3 obszary)",
             "status": "PASS",
-            "detail": "XYZ (12 000 000 pkt): Góra obiektu med. 0,0424 mm (P95 0,0880 mm) • Część środkowa med. 0,0423 mm (P95 0,0881 mm) • Dolna partia / podstawa med. 0,0423 mm (P95 0,0880 mm). Web PLY (550 000 pkt, 7,87 MB): globalnie med. 0,2384 mm (P95 0,4095 mm). Limit: ≤ 0,50 / 1,00 mm."
+            "detail": "XYZ (12 000 000 pkt): Góra obiektu med. 0,0422 mm (P95 0,0882 mm) • Część środkowa med. 0,0422 mm (P95 0,0883 mm) • Dolna partia / podstawa med. 0,0422 mm (P95 0,0882 mm). Web PLY (550 000 pkt, 7,87 MB): globalnie med. 0,2385 mm (P95 0,4085 mm). Limit: ≤ 0,50 / 1,00 mm."
           },
           {
             "title": "3. Kontrola geometrii (Low Poly vs High Poly po edycji)",
@@ -3485,7 +3485,7 @@
           {
             "title": "5. Kontrola końcowa i weryfikacja pakietu",
             "status": "PASS",
-            "detail": "Komplet 7 grup plików: XYZRGB (12 000 000 pkt, 448,9 MB), Web PLY (550 000 pkt, 7,87 MB), OBJ HighPoly + wersja oczyszczona ≤ 5M z drewnianym spodem + PNG 8K, GLB (8,18 MB ≤ 50 MB, 209 999 trójk.), STL, projekt .rsproj oraz raport QA z sumami SHA-256."
+            "detail": "Komplet 7 grup plików: XYZRGB (12 000 000 pkt, 448,8 MB), Web PLY (550 000 pkt, 7,87 MB), OBJ HighPoly + wersja oczyszczona ≤ 5M z drewnianym spodem + PNG 8K, GLB (8,18 MB ≤ 50 MB, 209 999 trójk.), STL, projekt .rsproj oraz raport QA z sumami SHA-256."
           }
         ]
       },

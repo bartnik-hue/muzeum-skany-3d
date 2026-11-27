@@ -26,7 +26,7 @@
 <table>
   <tr><th>Numer inwentarzowy</th><td>MPŁW_E_1496 (Rzeźba drewniana (kategoria 1A — zwarta))</td></tr>
   <tr><th>Metoda i sprzęt</th><td>Fotogrametria (Canon EOS R5 C + EF100mm Macro); 382 / 399 dopasowanych kadrów</td></tr>
-  <tr><th>Chmura punktów</th><td><strong>12 000 000</strong> pkt XYZRGB (448,9 MB) · Web PLY: <strong>550 000</strong> pkt (7,87 MB, med. 0,2384 mm)</td></tr>
+  <tr><th>Chmura punktów</th><td><strong>12 000 000</strong> pkt XYZRGB (448,8 MB) · Web PLY: <strong>550 000</strong> pkt (7,87 MB, med. 0,2385 mm)</td></tr>
   <tr><th>Model archiwalny High Poly</th><td><strong>5 130 623</strong> trójkątów / <strong>2 565 308</strong> wierzchołków (OBJ 0,55 GB + PNG 8192×8192)</td></tr>
   <tr><th>Model użytkowy Low Poly</th><td><strong>209 999</strong> trójkątów / <strong>104 996</strong> wierzchołków (GLB: <strong>8,18 MB</strong> ≤ 50 MB + JPG 4096×4096)</td></tr>
   <tr><th>Eksport geometrii STL</th><td><strong>5 143 439</strong> trójkątów (245,3 MB), jednostka: metr (m)</td></tr>
@@ -38,13 +38,13 @@
 <h2>3. Kontrola chmury punktów (3 rozłączne obszary)</h2>
 <table>
   <tr><th>Obszar</th><th>Punkty (XYZ / PLY)</th><th>Mediana XYZ (PLY)</th><th>P95 XYZ (PLY)</th><th>Ocena</th></tr>
-  <tr><td>Obszar 1: Góra obiektu</td><td>265 333 / 12 796</td><td><strong>0,0424 mm</strong> (0,2325 mm)</td><td><strong>0,0880 mm</strong> (0,3960 mm)</td><td class='ok'>PASS</td></tr><tr><td>Obszar 2: Część środkowa</td><td>317 796 / 14 646</td><td><strong>0,0423 mm</strong> (0,2391 mm)</td><td><strong>0,0881 mm</strong> (0,4115 mm)</td><td class='ok'>PASS</td></tr><tr><td>Obszar 3: Dolna partia / podstawa</td><td>285 393 / 12 625</td><td><strong>0,0423 mm</strong> (0,2407 mm)</td><td><strong>0,0880 mm</strong> (0,4165 mm)</td><td class='ok'>PASS</td></tr>
+  <tr><td>Obszar 1: Góra obiektu</td><td>266 009 / 12 792</td><td><strong>0,0422 mm</strong> (0,2328 mm)</td><td><strong>0,0882 mm</strong> (0,4001 mm)</td><td class='ok'>PASS</td></tr><tr><td>Obszar 2: Część środkowa</td><td>317 032 / 14 507</td><td><strong>0,0422 mm</strong> (0,2403 mm)</td><td><strong>0,0883 mm</strong> (0,4131 mm)</td><td class='ok'>PASS</td></tr><tr><td>Obszar 3: Dolna partia / podstawa</td><td>284 831 / 12 727</td><td><strong>0,0422 mm</strong> (0,2424 mm)</td><td><strong>0,0882 mm</strong> (0,4166 mm)</td><td class='ok'>PASS</td></tr>
 </table>
 <div class="fig"><img src="assets/qa_pointcloud_regions.png" alt="Strefy chmury"><div class="cap">Rys. 2. Lokalizacja trzech rozłącznych obszarów pomiarowych chmury punktów.</div></div>
 <h2>4. Kontrola geometrii (Low Poly vs High Poly)</h2>
 <table>
   <tr><th>Mediana</th><th>Średnia</th><th>P95</th><th>P99</th><th>Maksimum</th><th>Powierzchnia ≤ 1,0 mm</th></tr>
-  <tr><td><strong>0,0709 mm</strong></td><td>0,0717 mm</td><td><strong>0,1200 mm</strong></td><td>0,1454 mm</td><td>1,5453 mm</td><td class="ok">99,998% (PASS)</td></tr>
+  <tr><td><strong>0,0709 mm</strong></td><td>0,0718 mm</td><td><strong>0,1200 mm</strong></td><td>0,1454 mm</td><td>1,5453 mm</td><td class="ok">99,998% (PASS)</td></tr>
 </table>
 <div class="fig"><img src="assets/qa_deviation_map.png" alt="Mapa odchyłek"><div class="cap">Rys. 3. Rozkład odchyłek Low Poly (209 999 trójk.) względem High Poly (5 130 623 trójk.).</div></div>
 <h2>5. Kontrola tekstur</h2>

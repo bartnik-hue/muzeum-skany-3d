@@ -1,7 +1,7 @@
 {
   "inventory_number": "MPŁW_E_1496",
   "object_name": "Obiekt muzealny MPŁW_E_1496 (Rzeźba drewniana (kategoria 1A — zwarta))",
-  "digitization_date": "2026:11:27 13:34:37",
+  "digitization_date": "2026:11:27 19:31:47",
   "operator": "Digitalizacja: materiał dostarczony przez klienta | Opracowanie 3D: RealityScan 2.2 + Blender 5.2",
   "method_and_equipment": {
     "method": "Fotogrametria wieloobrazowa (SfM / MVS)",
@@ -29,45 +29,45 @@
     "web_points_count": 550000,
     "unit": "m",
     "web_spacing_mm": {
-      "global_median_mm": 0.2384,
-      "global_p95_mm": 0.4095
+      "global_median_mm": 0.2385,
+      "global_p95_mm": 0.4085
     },
     "spacing_3_regions_mm": [
       {
         "name": "Obszar 1: Góra obiektu",
         "center_m": [
           0.013452591374516487,
-          -0.033324550837278366,
+          -0.033324528485536575,
           0.2792153060436249
         ],
         "radius_mm": 25.0,
-        "count": 265333,
-        "median_mm": 0.0424,
-        "p95_mm": 0.088
+        "count": 266009,
+        "median_mm": 0.0422,
+        "p95_mm": 0.0882
       },
       {
         "name": "Obszar 2: Część środkowa",
         "center_m": [
-          -0.02593071386218071,
-          -0.03692951053380966,
+          -0.025930719450116158,
+          -0.036929499357938766,
           0.13911645114421844
         ],
         "radius_mm": 25.0,
-        "count": 317796,
-        "median_mm": 0.0423,
-        "p95_mm": 0.0881
+        "count": 317032,
+        "median_mm": 0.0422,
+        "p95_mm": 0.0883
       },
       {
         "name": "Obszar 3: Dolna partia / podstawa",
         "center_m": [
-          0.026939257979393005,
-          -0.040733035653829575,
+          0.026939256116747856,
+          -0.04073302820324898,
           0.0793466567993164
         ],
         "radius_mm": 25.0,
-        "count": 285393,
-        "median_mm": 0.0423,
-        "p95_mm": 0.088
+        "count": 284831,
+        "median_mm": 0.0422,
+        "p95_mm": 0.0882
       }
     ]
   },
@@ -99,7 +99,7 @@
       "deviation_vs_highpoly_mm": {
         "tol_mm": 1.0,
         "median_mm": 0.0709,
-        "mean_mm": 0.0717,
+        "mean_mm": 0.0718,
         "p95_mm": 0.12,
         "p99_mm": 0.1454,
         "max_mm": 1.5453,

@@ -3682,8 +3682,8 @@
           "pointsWeb": "550 000 pkt RGB",
           "webFileSize": "7,87 MB",
           "fullFileSize": "442,4 MB (.xyz, archiwum lokalne)",
-          "webSpacing": "mediana 0,2505 mm • P95 0,4334 mm",
-          "fullSpacing": "3 strefy kontrolne: Góra obiektu med. 0,0448 mm (P95 0,0934 mm) • Część środkowa med. 0,0451 mm (P95 0,0934 mm) • Dolna partia / podstawa med. 0,0448 mm (P95 0,0935 mm)",
+          "webSpacing": "mediana 0,2505 mm • P95 0,4329 mm",
+          "fullSpacing": "3 strefy kontrolne: Góra obiektu med. 0,0448 mm (P95 0,0935 mm) • Część środkowa med. 0,0450 mm (P95 0,0939 mm) • Dolna partia / podstawa med. 0,0449 mm (P95 0,0936 mm)",
           "specLimit": "limit dla 10–100 cm: mediana ≤ 0,50 mm, P95 ≤ 1,00 mm"
         },
         "highPoly": {
@@ -3721,7 +3721,7 @@
           {
             "title": "2. Kontrola chmury punktów (3 obszary)",
             "status": "PASS",
-            "detail": "XYZ (12 000 000 pkt): Góra obiektu med. 0,0448 mm (P95 0,0934 mm) • Część środkowa med. 0,0451 mm (P95 0,0934 mm) • Dolna partia / podstawa med. 0,0448 mm (P95 0,0935 mm). Web PLY (550 000 pkt, 7,87 MB): globalnie med. 0,2505 mm (P95 0,4334 mm). Limit: ≤ 0,50 / 1,00 mm."
+            "detail": "XYZ (12 000 000 pkt): Góra obiektu med. 0,0448 mm (P95 0,0935 mm) • Część środkowa med. 0,0450 mm (P95 0,0939 mm) • Dolna partia / podstawa med. 0,0449 mm (P95 0,0936 mm). Web PLY (550 000 pkt, 7,87 MB): globalnie med. 0,2505 mm (P95 0,4329 mm). Limit: ≤ 0,50 / 1,00 mm."
           },
           {
             "title": "3. Kontrola geometrii (Low Poly vs High Poly po edycji)",

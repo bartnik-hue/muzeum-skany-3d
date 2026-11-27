@@ -1,7 +1,7 @@
 {
   "inventory_number": "MPŁW_E_1582",
   "object_name": "Obiekt muzealny MPŁW_E_1582 (Rzeźba drewniana z elementami cienkimi / prześwitami (kategoria 1B — pełna podstawa, bez masek RemBG))",
-  "digitization_date": "2026:11:27 16:40:16",
+  "digitization_date": "2026:11:27 19:02:15",
   "operator": "Digitalizacja: materiał dostarczony przez klienta | Opracowanie 3D: RealityScan 2.2 + Blender 5.2",
   "method_and_equipment": {
     "method": "Fotogrametria wieloobrazowa (SfM / MVS)",
@@ -30,7 +30,7 @@
     "unit": "m",
     "web_spacing_mm": {
       "global_median_mm": 0.2505,
-      "global_p95_mm": 0.4334
+      "global_p95_mm": 0.4329
     },
     "spacing_3_regions_mm": [
       {
@@ -41,9 +41,9 @@
           0.31278207898139954
         ],
         "radius_mm": 25.0,
-        "count": 360756,
+        "count": 360861,
         "median_mm": 0.0448,
-        "p95_mm": 0.0934
+        "p95_mm": 0.0935
       },
       {
         "name": "Obszar 2: Część środkowa",
@@ -53,9 +53,9 @@
           0.22844690084457397
         ],
         "radius_mm": 25.0,
-        "count": 243560,
-        "median_mm": 0.0451,
-        "p95_mm": 0.0934
+        "count": 243802,
+        "median_mm": 0.045,
+        "p95_mm": 0.0939
       },
       {
         "name": "Obszar 3: Dolna partia / podstawa",
@@ -65,9 +65,9 @@
           0.09547692537307739
         ],
         "radius_mm": 25.0,
-        "count": 247709,
-        "median_mm": 0.0448,
-        "p95_mm": 0.0935
+        "count": 247276,
+        "median_mm": 0.0449,
+        "p95_mm": 0.0936
       }
     ]
   },

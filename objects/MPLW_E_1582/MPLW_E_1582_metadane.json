@@ -1,7 +1,7 @@
 {
   "inventory_number": "MPŁW_E_1582",
   "object_name": "Obiekt muzealny MPŁW_E_1582 (Rzeźba drewniana z elementami cienkimi / prześwitami (kategoria 1B — pełna podstawa, bez masek RemBG))",
-  "digitization_date": "2026:11:27 13:38:30",
+  "digitization_date": "2026:11:27 16:40:16",
   "operator": "Digitalizacja: materiał dostarczony przez klienta | Opracowanie 3D: RealityScan 2.2 + Blender 5.2",
   "method_and_equipment": {
     "method": "Fotogrametria wieloobrazowa (SfM / MVS)",
@@ -29,45 +29,45 @@
     "web_points_count": 550000,
     "unit": "m",
     "web_spacing_mm": {
-      "global_median_mm": 0.2504,
-      "global_p95_mm": 0.432
+      "global_median_mm": 0.2505,
+      "global_p95_mm": 0.4334
     },
     "spacing_3_regions_mm": [
       {
         "name": "Obszar 1: Góra obiektu",
         "center_m": [
           -0.02794189378619194,
-          -0.03412078320980072,
+          -0.03412076085805893,
           0.31278207898139954
         ],
         "radius_mm": 25.0,
-        "count": 362094,
-        "median_mm": 0.045,
+        "count": 360756,
+        "median_mm": 0.0448,
         "p95_mm": 0.0934
       },
       {
         "name": "Obszar 2: Część środkowa",
         "center_m": [
-          -0.01295085996389389,
-          -0.04526425153017044,
+          -0.012950858101248741,
+          -0.04526423290371895,
           0.22844690084457397
         ],
         "radius_mm": 25.0,
-        "count": 243541,
+        "count": 243560,
         "median_mm": 0.0451,
-        "p95_mm": 0.0937
+        "p95_mm": 0.0934
       },
       {
         "name": "Obszar 3: Dolna partia / podstawa",
         "center_m": [
-          -0.00816221721470356,
-          -0.040963850915431976,
-          0.09603092819452286
+          -0.00869825854897499,
+          -0.04099974036216736,
+          0.09547692537307739
         ],
         "radius_mm": 25.0,
-        "count": 247429,
-        "median_mm": 0.0449,
-        "p95_mm": 0.0934
+        "count": 247709,
+        "median_mm": 0.0448,
+        "p95_mm": 0.0935
       }
     ]
   },
@@ -101,7 +101,7 @@
         "median_mm": 0.06,
         "mean_mm": 0.0607,
         "p95_mm": 0.1017,
-        "p99_mm": 0.1269,
+        "p99_mm": 0.1267,
         "max_mm": 0.8485,
         "within_tol_pct": 100.0
       }

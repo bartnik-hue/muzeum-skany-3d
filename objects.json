@@ -3682,14 +3682,14 @@
           "pointsWeb": "550 000 pkt RGB",
           "webFileSize": "7,87 MB",
           "fullFileSize": "442,4 MB (.xyz, archiwum lokalne)",
-          "webSpacing": "mediana 0,2504 mm • P95 0,4320 mm",
-          "fullSpacing": "3 strefy kontrolne: Góra obiektu med. 0,0450 mm (P95 0,0934 mm) • Część środkowa med. 0,0451 mm (P95 0,0937 mm) • Dolna partia / podstawa med. 0,0449 mm (P95 0,0934 mm)",
+          "webSpacing": "mediana 0,2505 mm • P95 0,4334 mm",
+          "fullSpacing": "3 strefy kontrolne: Góra obiektu med. 0,0448 mm (P95 0,0934 mm) • Część środkowa med. 0,0451 mm (P95 0,0934 mm) • Dolna partia / podstawa med. 0,0448 mm (P95 0,0935 mm)",
           "specLimit": "limit dla 10–100 cm: mediana ≤ 0,50 mm, P95 ≤ 1,00 mm"
         },
         "highPoly": {
           "triangles": "11 262 607 trójkątów (surowy scan) / 9 177 843 (po oczyszczeniu i edycji ≤ 5M)",
           "vertices": "5 632 779 wierzchołków (surowy scan) / 4 589 039 (po oczyszczeniu i edycji ≤ 5M)",
-          "fileSize": "1242,5 MB surowy / 969,6 MB po edycji (.obj + .mtl, archiwum lokalne)",
+          "fileSize": "1242,5 MB surowy / 968,6 MB po edycji (.obj + .mtl, archiwum lokalne)",
           "texture": "8192 × 8192 px PNG"
         },
         "lowPolyGlb": {
@@ -3721,12 +3721,12 @@
           {
             "title": "2. Kontrola chmury punktów (3 obszary)",
             "status": "PASS",
-            "detail": "XYZ (12 000 000 pkt): Góra obiektu med. 0,0450 mm (P95 0,0934 mm) • Część środkowa med. 0,0451 mm (P95 0,0937 mm) • Dolna partia / podstawa med. 0,0449 mm (P95 0,0934 mm). Web PLY (550 000 pkt, 7,87 MB): globalnie med. 0,2504 mm (P95 0,4320 mm). Limit: ≤ 0,50 / 1,00 mm."
+            "detail": "XYZ (12 000 000 pkt): Góra obiektu med. 0,0448 mm (P95 0,0934 mm) • Część środkowa med. 0,0451 mm (P95 0,0934 mm) • Dolna partia / podstawa med. 0,0448 mm (P95 0,0935 mm). Web PLY (550 000 pkt, 7,87 MB): globalnie med. 0,2505 mm (P95 0,4334 mm). Limit: ≤ 0,50 / 1,00 mm."
           },
           {
             "title": "3. Kontrola geometrii (Low Poly vs High Poly po edycji)",
             "status": "PASS",
-            "detail": "Mediana odchyłki: 0,0600 mm • P95: 0,1017 mm • P99: 0,1269 mm • Maks.: 0,8485 mm. Powierzchnia w tolerancji ≤ 1,0 mm: 100,000% (limit ≥ 95%)."
+            "detail": "Mediana odchyłki: 0,0600 mm • P95: 0,1017 mm • P99: 0,1267 mm • Maks.: 0,8485 mm. Powierzchnia w tolerancji ≤ 1,0 mm: 100,000% (limit ≥ 95%)."
           },
           {
             "title": "4. Kontrola tekstur (GLB 4K vs zdjęcia źródłowe)",

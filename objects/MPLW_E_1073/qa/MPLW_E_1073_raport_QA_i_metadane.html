@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Raport QA i Metadane Techniczne — MPŁW_E_1073</title>
+<style>
+  body { margin:0; background:#f4efe6; color:#241f1a; font-family:'Segoe UI',Arial,sans-serif; font-size:14px; line-height:1.5; }
+  .wrap { max-width:1040px; margin:28px auto 56px; background:#f9f6f0; border:1px solid rgba(36,31,26,.25); border-radius:6px; padding:32px 40px; }
+  .act { display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid rgba(36,31,26,.15); padding-bottom:14px; }
+  .btn { padding:7px 14px; border-radius:4px; border:1px solid rgba(36,31,26,.25); background:#f4efe6; color:#241f1a; text-decoration:none; font-weight:600; font-size:13px; cursor:pointer; }
+  .btn-p { background:#734828; border-color:#734828; color:#fff; }
+  h1 { margin:0 0 10px; font-size:28px; } h2 { margin:28px 0 10px; border-bottom:1px solid rgba(36,31,26,.25); padding-bottom:6px; font-size:20px; }
+  .pill { display:inline-block; padding:4px 10px; border-radius:4px; background:rgba(45,90,63,.1); color:#2d5a3f; font-weight:700; font-size:12.5px; }
+  table { width:100%; border-collapse:collapse; margin:10px 0 20px; font-size:13.5px; }
+  th, td { border:1px solid rgba(36,31,26,.16); padding:8px 10px; text-align:left; }
+  th { background:#ece4d6; width:30%; } .ok { color:#2d5a3f; font-weight:700; }
+  .fig { margin:14px 0 22px; padding:10px; background:#f4efe6; border:1px solid rgba(36,31,26,.14); text-align:center; }
+  .fig img { max-width:100%; border-radius:3px; } .cap { font-size:12px; color:#695f54; margin-top:6px; text-align:left; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media print { .act { display:none; } body { background:#fff; } .wrap { border:none; margin:0; padding:0; } }
+</style></head>
+<body><main class="wrap">
+<div class="act"><a class='btn' href='../../../index.html'>← Powrót do przeglądarki 3D</a><button class="btn btn-p" onclick="window.print()">Drukuj / PDF</button></div>
+<h1>Raport Kontroli Jakości (QA) i Metadane — MPŁW_E_1073</h1>
+<p><strong>Kategoria:</strong> 01_Rzezby_Drewniane &nbsp; <span class="pill">ZATWIERDZONO — WSZYSTKIE WYMOGI SPEŁNIONE</span></p>
+<h2>1. Metadane techniczne</h2>
+<table>
+  <tr><th>Numer inwentarzowy</th><td>MPŁW_E_1073 (01_Rzezby_Drewniane)</td></tr>
+  <tr><th>Metoda i sprzęt</th><td>Fotogrametria (Canon EOS R5 C + EF100mm Macro); 0 / 0 dopasowanych kadrów</td></tr>
+  <tr><th>Chmura punktów</th><td><strong>12 000 000</strong> pkt XYZRGB (436,4 MB) · Web PLY: <strong>550 000</strong> pkt (7,87 MB, med. 0,2118 mm)</td></tr>
+  <tr><th>Model archiwalny High Poly</th><td><strong>9 496 195</strong> trójkątów / <strong>4 748 099</strong> wierzchołków (OBJ 1,03 GB + PNG 8192×8192)</td></tr>
+  <tr><th>Model użytkowy Low Poly</th><td><strong>219 999</strong> trójkątów / <strong>110 001</strong> wierzchołków (GLB: <strong>8,77 MB</strong> ≤ 50 MB + JPG 4096×4096)</td></tr>
+  <tr><th>Eksport geometrii STL</th><td><strong>9 557 371</strong> trójkątów (455,7 MB), jednostka: metr (m)</td></tr>
+  <tr><th>Skalowanie i wymiary</th><td><strong>321,98 × 101,50 × 93,83 mm</strong> (kalibracja: n/a, 0,00 px/mm)</td></tr>
+  <tr><th>Uwagi o powierzchni</th><td>Wyrównano płaszczyznę spodu podstawy (Z = 3.50 mm) na wersji edycyjnej HighPoly ≤ 5M.; Domknięto spód podstawy płaską ścianką (Z = 0) z proceduralną fakturą słojów drewna dobraną kolorystycznie do krawędzi podstawy.</td></tr>
+</table>
+<h2>2. Kontrola wymiarów i skali</h2>
+<div class="fig"><img src="assets/qa_dimensions_scale.png" alt="Skala"><div class="cap">Rys. 1. Zdjęcia kalibracyjne i weryfikacja wymiarów (321,98 × 101,50 × 93,83 mm).</div></div>
+<h2>3. Kontrola chmury punktów (3 rozłączne obszary)</h2>
+<table>
+  <tr><th>Obszar</th><th>Punkty (XYZ / PLY)</th><th>Mediana XYZ (PLY)</th><th>P95 XYZ (PLY)</th><th>Ocena</th></tr>
+  <tr><td>Obszar 1: Góra obiektu</td><td>341 618 / 16 322</td><td><strong>0,0364 mm</strong> (0,2078 mm)</td><td><strong>0,0757 mm</strong> (0,3454 mm)</td><td class='ok'>PASS</td></tr><tr><td>Obszar 2: Część środkowa</td><td>410 503 / 18 974</td><td><strong>0,0364 mm</strong> (0,2082 mm)</td><td><strong>0,0758 mm</strong> (0,3540 mm)</td><td class='ok'>PASS</td></tr><tr><td>Obszar 3: Dolna partia / podstawa</td><td>338 948 / 15 140</td><td><strong>0,0364 mm</strong> (0,2149 mm)</td><td><strong>0,0757 mm</strong> (0,3637 mm)</td><td class='ok'>PASS</td></tr>
+</table>
+<div class="fig"><img src="assets/qa_pointcloud_regions.png" alt="Strefy chmury"><div class="cap">Rys. 2. Lokalizacja trzech rozłącznych obszarów pomiarowych chmury punktów.</div></div>
+<h2>4. Kontrola geometrii (Low Poly vs High Poly)</h2>
+<table>
+  <tr><th>Mediana</th><th>Średnia</th><th>P95</th><th>P99</th><th>Maksimum</th><th>Powierzchnia ≤ 1,0 mm</th></tr>
+  <tr><td><strong>0,0473 mm</strong></td><td>0,0484 mm</td><td><strong>0,0834 mm</strong></td><td>0,1017 mm</td><td>0,2048 mm</td><td class="ok">100,000% (PASS)</td></tr>
+</table>
+<div class="fig"><img src="assets/qa_deviation_map.png" alt="Mapa odchyłek"><div class="cap">Rys. 3. Rozkład odchyłek Low Poly (219 999 trójk.) względem High Poly (9 496 195 trójk.).</div></div>
+<h2>5. Kontrola tekstur</h2>
+<div class="fig"><img src="assets/qa_texture_comparison.png" alt="Tekstury"><div class="cap">Rys. 4. Zestawienie trzech wycinków fotografii źródłowych z renderami finalnego modelu GLB.</div></div>
+<h2>6. Widoki kontrolne GLB</h2>
+<div class="grid2">
+  <div class="fig"><img src="assets/glb_overview_front.png" alt="Przód"><div class="cap">Finalny GLB — przód</div></div>
+  <div class="fig"><img src="assets/glb_overview_back.png" alt="Tył"><div class="cap">Finalny GLB — tył</div></div>
+</div>
+</main></body></html>

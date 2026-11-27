@@ -1,0 +1,13 @@
+WYKAZ PLIKOW DOSTAWCZYCH — OBIEKT: MPŁW_E_1189 (01_Rzezby_Drewniane)
+====================================================================================================
+Sciezka wzgledna                                                   |    Rozmiar [B] | SHA-256
+----------------------------------------------------------------------------------------------------
+01_Chmura_Punktow\MPŁW_E_1189_chmura_punktow.xyz                   |    456,374,548 | df226145d5fb3a16c20473b2248752b56e0a49f6b0f44af8367d440b8dfc6637
+02_Model_Archiwalny_HighPoly\MPLW_E_1189_highpoly.obj              |  2,413,493,826 | 1f5817e631d17cfaecf2b973858f2e298633cf1b8ce8b4377c6b2fcaf3cdb432
+02_Model_Archiwalny_HighPoly\MPLW_E_1189_highpoly.mtl              |            215 | afb913dec9d97612a8046a6908da82f30f9f561712a18125deb2be77307895cd
+02_Model_Archiwalny_HighPoly\MPLW_E_1189_highpoly_u1_v1_diffuse.png |     52,579,482 | 34354ccc6c698e520659fff0740d2038e1b9e9a26d989224a1811cc437f29898
+03_Model_Uzytkowy_LowPoly\MPŁW_E_1189_lowpoly.glb                  |     10,903,312 | 15be47b9b1e50b9f97e18e6f816d1643f7568f7a41e2d80eb6cdeb5c57018d87
+03_Model_Uzytkowy_LowPoly\textures\MPLW_E_1189_lowpoly_diffuse.jpg |      2,677,848 | 4305ded8933054e79e8e2a898481b44447a3cca0eb16bffffea479daff2f4dc8
+04_Eksport_Geometrii\MPŁW_E_1189_geometria.stl                     |  1,034,513,684 | 1b61b43e5a3760e84dc573b5a9b97d4e14676d81ebc73a1b293341956a717e99
+----------------------------------------------------------------------------------------------------
+Dodatkowo w 05_Dokumentacja_QA/: raport QA + metadane JSON + wykresy kontrolne.

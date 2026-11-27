@@ -1,0 +1,865 @@
+ï»¿
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta name="GENERATOR" content="Epic Games Slovakia s.r.o."/>
+	<meta charset="UTF-8">
+      <title>RealityScan Selected Model Report</title>
+      <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=10"/><![endif]-->
+      <style>
+/* 
+   (c) Epic Games Slovakia s.r.o.
+*/
+
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,article,aside,audio,canvas,details,figcaption,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,summary,time,video,table {
+	border:0;
+	outline:0;
+	font-size:100%;
+	vertical-align:baseline;
+	background:transparent;
+	margin:0;
+	padding:0;
+}
+
+body {
+	line-height:1;
+}
+
+article,aside,dialog,figure,footer,header,hgroup,nav,section,blockquote {
+	display:block;
+}
+
+nav ul {
+	list-style:none;
+}
+
+ol {
+	list-style:decimal;
+}
+
+ul {
+	list-style:disc;
+}
+
+ul ul {
+	list-style:circle;
+}
+
+blockquote,q {
+	quotes:none;
+}
+
+blockquote:before,blockquote:after,q:before,q:after {
+	content:none;
+}
+
+ins {
+	text-decoration:underline;
+}
+
+del {
+	text-decoration:line-through;
+}
+
+mark {
+	background:none;
+}
+
+sup {
+    vertical-align: super !important;
+    font-size: smaller;
+}
+
+sub {
+    vertical-align: sub !important;
+    font-size: smaller;
+}
+
+
+abbr[title],dfn[title] {
+	border-bottom:1px dotted #000;
+	cursor:help;
+}
+
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+
+hr {
+	display:block;
+	height:1px;
+	border:0;
+	border-top:1px solid #ccc;
+	margin:1em 0;
+	padding:0;
+}
+
+input[type=submit],input[type=button],button {
+	margin:0!important;
+	padding:0!important;
+}
+
+input,select,a img {
+	vertical-align:middle;
+}
+
+* { 
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+body {
+    overflow: auto;
+    overflow-x: hidden;
+    background-color: white;
+    font-size: 0.87em;
+    line-height: 1.42em !important;
+    font-weight: 400;
+    font-family: "Segoe UI", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+    color: #000;
+}
+
+@page { 
+  size: a4 portrait;
+  margin: 20mm;
+}
+
+@media screen {
+  html { background: gray }
+  body { max-width: 60em; margin: 0 auto; background: white; padding: 2em }
+  aside { background: #ddd; padding: 1em }
+}
+
+@media print {
+    div {page-break-after: auto;}
+} 
+
+
+header { 
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	padding: 0;
+}
+
+h1, h2 { color: #3e454c }
+
+h1 { 
+  font-family: 'basic sans heavy sf', sans-serif;
+  font: 100 30pt Montserrat; column-span: all;
+  margin: 0; padding: 0;
+}
+
+h1 em { font-weight: 700; font-style: normal }
+
+h2 { 
+  font: 300 13pt Montserrat; column-span: all; text-align: right;
+  margin: 0.5em 0 0 0; padding: 0;
+}
+
+h3 { 
+  font: 300 10pt Montserrat; column-span: all; text-align: right;
+  margin: 0.0em 0 0 0; padding: 0;
+}
+
+div { margin: 1.7em 0 }
+
+td img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td.figure {
+    text-align:center;
+    font-size: 8pt;
+}
+p.figure {
+    text-align:center;
+    font-size: 8pt;
+	margin-top: 0.5em;
+}
+
+img { display: block; margin: 0.5em; width: 90% }
+img.wide { column-span: all; margin-top: 2em; }
+img.icon { display: inline; width: 2em }
+
+table.listTable {
+    margin: 0.5em;
+    margin-top: 1.5em;
+	width: 98.5%;
+    width: -webkit-fill-available;
+	width: -moz-available;
+    border: 1px solid #ccc;
+    font-size: 8pt;
+}
+
+.listTable th {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin: 0.1em;
+    border: 1px solid #ccc;
+}
+
+.listTable tr {
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.listTable tr:nth-child(2n) {
+    background-color: #eefafe;
+}
+
+.listTable tr:hover {
+    background-color: #eee;
+}
+
+.listTable td {
+    border: 1px solid #ccc;
+}
+
+
+
+table.propertiesTable {
+    margin: 0.5em;
+    margin-top: 1.5em;
+	width: 98.5%;
+    width: -webkit-fill-available;
+	width: -moz-available;
+    border: 1px solid #ccc;
+    font-size: 9pt;
+}
+
+.propertiesTable th {
+    text-align: left;
+    padding-top: 0.3em;
+    padding-left: 0.3em;
+    padding-bottom: 0.3em;
+    margin: 0.1em;
+    border: 1px solid #ccc;
+}
+
+.propertiesTable tr {
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.propertiesTable td:nth-child(2n) {
+    background-color: #eefafe;
+}
+
+.propertiesTable tr:hover {
+    background-color: #eee;
+}
+
+.propertiesTable td:hover {
+    background-color: #eee;
+}
+
+.propertiesTable td {
+    border: 1px solid #ccc;
+}
+
+
+
+table.twocolumnTable {
+    margin: 0.5em;
+    margin-top: 1.5em;
+    width: 95%;
+}
+
+.twocolumnTable tr {
+    vertical-align: top;
+}
+
+
+
+#wrap {
+   width:100%;
+   margin:0 auto;
+}
+#left_col {
+   float:left;
+   width:50%;
+}
+#right_col {
+   float:right;
+   width:50%;
+}
+
+.itemTitle {
+	font-size: 18px;
+	font-weight: 700;
+	margin-top: 2em;
+	margin-left: 0.25em;
+}
+
+.componentSubTitle {
+	font-size: 16px;
+	font-weight: 600;
+	margin-top: 2em;
+	margin-left: 0.25em;
+}
+
+.projectName {
+	font-size: 24px;
+	font-weight: 600;
+	margin-top: 1.5em;
+}
+
+figcaption {
+  font-style: italic;
+  font-size: 0.85em;
+  padding: 2px;
+  text-align: center;
+}
+
+/* 
+   (c) Epic Games Slovakia s.r.o.
+*/
+
+.brightRedTile {
+    background-color: #ff55a1;
+    color: #222;
+}
+.brightGreenTile {
+    background-color: #a0e050;
+    color: #222;
+}
+.brightBlueTile {
+    background-color: #55b3ff;
+    color: #222;
+}
+.orangeTile {
+    background-color: #ffb355;
+    color: #222;
+}
+.coralTile {
+    background-color: #b355ff;
+    color: #222;
+}
+.cyanTile {
+    background-color: #64fff7;
+}
+.redTile {
+    background-color: #f72f2f;
+    color: #311;
+}
+.redTile h2 {
+    color: #111;
+}
+.greenTile {
+    background-color: #588340;
+    color: #131;
+}
+.greenTile h2 {
+    color: #ded;
+}
+.blueTile {
+    background-color: #405883;
+    color: #113;
+}
+.blueTile h2 {
+    color: #dde;
+}
+.yellowTile {
+    background-color: #838340;
+    color: #221;
+}
+.yellowTile h2 {
+    color: #111;
+}
+.magentaTile {
+    background-color: #b03ad7;
+    color: #212;
+}
+.magentaTile h2 {
+    color: #111;
+}
+
+
+.BlueTile1 {
+    background-color: #55b3ff;
+    color: #222;
+}
+.BlueTile2 {
+    background-color: #a3e6ff;
+    color: #222;
+}
+.BlueTile3 {
+    background-color: #0088de;
+    color: #222;
+}
+.BlueTile4 {
+    background-color: #64d8ff;
+    color: #222;
+}
+.BlueTile5 {
+    background-color: #ffffff;
+    color: #757571;
+}
+.BlueTile5 h2 {
+    color: #B0aba0;
+}
+
+
+.BWTile1 {
+    background-color: #757571;
+    color: #222;
+}
+.BWTile2 {
+    background-color: #6abedb;
+    color: #222;
+}
+.BWTile3 {
+    background-color: #f0f0f0;
+    color: #222;
+}
+.BWTile4 {
+    background-color: #B0aba0;
+    color: #222;
+}
+.BWTile5 {
+    background-color: #181712;
+    color: #757571;
+}
+.BWTile5 h2 {
+    color: #B0aba0;
+}
+
+
+.WTTile1 {
+    background-color: #b7a85c;
+    color: #222;
+}
+.WTTile2 {
+    background-color: #151515;
+    color: #222;
+}
+.WTTile3 {
+    background-color: #43442b;
+    color: #222;
+}
+.WTTile4 {
+    background-color: #ffffff;
+    color: #222;
+}
+.WTTile5 {
+    background-color: #6a6a68;
+}
+.WTTile2 h2 {
+    color: #6a6a68;
+}
+
+
+.RedTile1 {
+    background-color: #d92b4b;
+    color: #222;
+}
+.RedTile2 {
+    background-color: #a62139;
+    color: #222;
+}
+.RedTile3 {
+    background-color: #d9d9d9;
+    color: #222;
+}
+.RedTile4 {
+    background-color: #0d0d0d;
+    color: #222;
+}
+.RedTile5 {
+    background-color: #73192a;
+}
+.RedTile4 h2 {
+    color: #d9d9d9;
+}
+
+
+.PDTile1 {
+    background-color: #a92f41;
+    color: #222;
+}
+.PDTile2 {
+    background-color: #e5dfc5;
+    color: #222;
+}
+.PDTile3 {
+    background-color: #b48375;
+    color: #222;
+}
+.PDTile4 {
+    background-color: #91c7a9;
+    color: #222;
+}
+.PDTile5 {
+    background-color: #252120;
+    color: #e5dfc5;
+}
+.PDTile5 h2 {
+    color: #e5dfc5;
+}
+
+
+.ORTile1 {
+    background-color: #868685;
+    color: #222;
+}
+.ORTile2 {
+    background-color: #ffffff;
+    color: #222;
+}
+.ORTile3 {
+    background-color: #de8d47;
+    color: #222;
+}
+.ORTile4 {
+    background-color: #dcdcdc;
+    color: #222;
+}
+.ORTile5 {
+    background-color: #201f1d;
+    color: #dcdcdc;
+}
+.ORTile5 h2 {
+    color: #de8d47;
+}
+
+
+.ROTile1 {
+    background-color: #AB0000;
+    color: #222;
+}
+.ROTile2 {
+    background-color: #d75813;
+    color: #222;
+}
+.ROTile3 {
+    background-color: #000000;
+    color: #5b6073;
+}
+.ROTile3 h2 {
+    color: #AB0000;
+}
+.ROTile4 {
+    background-color: #5b6073;
+    color: #222;
+}
+.ROTile5 {
+    background-color: #1c1f24;
+    color: #5b6073;
+}
+.ROTile5 h2 {
+    color: #d75813;
+}
+
+
+.BRTile1 {
+    background-color: #ffffff;
+    color: #222;
+}
+.BRTile2 {
+    background-color: #a2482e;
+    color: #222;
+}
+.BRTile3 {
+    background-color: #b7b7b6;
+    color: #222;
+}
+.BRTile4 {
+    background-color: #686766;
+    color: #222;
+}
+.BRTile5 {
+    background-color: #141311;
+    color: #b7b7b6;
+}
+.BRTile6 h2 {
+    color: #a2482e;
+}
+
+
+
+.TileColor5 {
+    background-color: #757571;
+    color: #222;
+}
+.TileColor1 {
+    background-color: #6abedb;
+    color: #222;
+}
+.TileColor2 {
+    background-color: #f0f0f0;
+    color: #222;
+}
+.TileColor3 {
+    background-color: #B0aba0;
+    color: #222;
+}
+.TileColor4 {
+    background-color: #2758ac;
+    color: #222;
+}
+.TileColor6 {
+    background-color: #f0f0f0;
+    color: #000;
+}          
+
+.TileColor1 h2 {    
+    color: #eee;
+}
+.TileColor2 h2 {
+    color: #000;
+}
+.TileColor3 h2 {
+    color: #444;
+}
+.TileColor4 h2 {
+    background-color: #2758ac;
+    color: #eee;
+}
+.TileColor5 h2 {
+    color: #000;
+}
+.TileColor6 h2 {
+    color: #444;
+}
+
+
+/* 
+   (c) Epic Games Slovakia s.r.o.
+*/
+
+circle.orthoCircle {
+  fill:yellow;
+  stroke-width: 0.2px;
+  stroke: red;
+}
+
+text.orthoText {
+    fill: red;
+    font-size: 3px;
+    font-weight: bold;
+}
+
+text.histText {
+	fill: black;
+	font-family: Courier New;
+}
+text.histBinText {
+	fill: gray;
+        font-size: 9px;
+	font-family: Courier New;
+}
+rect.bar {
+	fill: url(#Gradient);
+}
+      </style>
+  </head>
+  <body>
+
+    
+
+     
+    
+
+      <header>
+        <h1>Selected Model Report</h1>
+        <p class="projectName">Project: <em>MPLW_E_1194_clean</em></p>
+        <h2>Thu, Nov 26, 2026 12:33:11</h2>
+        <h2>RealityScan <b>2.2.0.119430 RS</b></h2>
+      </header>
+
+    
+    <!-- end of "{7E231598-B996-40A4-A4F6-54801294D6F4}"=="{111C6372-2E9E-4132-B4D5-0DDE66AE3CBE}" -->
+    
+    
+    <div>
+      <table class="propertiesTable">
+        <tr>
+          <th>Model name</th>
+          <td>Model_HighPoly</td>
+        </tr>
+        <tr>
+          <th>Triangles' count</th>
+          <td>14537351</td>
+        </tr>
+        <tr>
+          <th>Vertices' count</th>
+          <td>7271904</td>
+        </tr>
+        <tr>
+          <th>Parts' count</th>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <th>Quality level</th>
+          <td>Normal</td>
+        </tr>
+        <tr>
+          <th>Image downscale factor</th>
+          <td>2</td>
+        </tr>
+        <!-- end of ModelSettings -->
+        <tr>
+          <th>Colored</th>
+          <td>True</td>
+        </tr>
+        <tr>
+          <th>Textured</th>
+          <td>True</td>
+        </tr>
+      </table>
+    </div>
+
+     
+    <div>
+      <p class="itemTitle">Model textures </p>
+      <p class="componentSubTitle">Unwrap properties </p>
+      <table class="propertiesTable">
+        <tr>
+          <th>Unwrapping style</th>
+          <td>Maximal texture count</td>
+        </tr>
+        <tr>
+          <th>Textures' count</th>
+          <td>1</td>
+        </tr>
+        <tr>
+          <th>Texture resolution</th>
+          <td>8192 x 8192</td>
+        </tr>
+        <tr>
+          <th>Charts gutter size</th>
+          <td>2 texels</td>
+        </tr>
+        <tr>
+          <th>Texture utilization</th>
+          <td>66%</td>
+        </tr>
+        <tr>
+          <th>Optimal texel size</th>
+          <td>0.004367 units per texel</td>
+        </tr>
+        <tr>
+          <th>Texture quality</th>
+          <td>97%</td>
+        </tr>
+        <tr>
+          <th>Texel size</th>
+          <td>0.004500 units per texel</td>
+        </tr>
+      </table>
+      <p class="componentSubTitle">List of texture layers </p>
+      
+       
+      <table class="propertiesTable">
+        <tr>
+          <th>Texture layer name</th>
+          <td>Unwrap Layer</td>
+        </tr>
+        <tr>
+          <th>Texture layer serializable name</th>
+          <td>Unwrap_0</td>
+        </tr>
+        <tr>
+          <th>Texturing style</th>
+          <td>Unwrap (checkerboard)</td>
+        </tr>
+        <tr>
+          <th>Type</th>
+          <td>Unwrap</td>
+        </tr>
+        <tr>
+          <th>Pixel format</th>
+          <td>32-bit BGRA</td>
+        </tr>
+        
+        
+        <tr>
+          <th>Texturing time</th>
+          <td>00h:01m:10s</td>
+        </tr>
+      </table>
+      
+       
+      <table class="propertiesTable">
+        <tr>
+          <th>Texture layer name</th>
+          <td>Geometry layer</td>
+        </tr>
+        <tr>
+          <th>Texture layer serializable name</th>
+          <td>Color8_0</td>
+        </tr>
+        <tr>
+          <th>Texturing style</th>
+          <td>Visibility-based</td>
+        </tr>
+        <tr>
+          <th>Type</th>
+          <td>Color</td>
+        </tr>
+        <tr>
+          <th>Pixel format</th>
+          <td>32-bit BGRA</td>
+        </tr>
+        
+        <tr>
+          <th>Input layer</th>
+          <td>Geometry layer </td>
+        </tr>
+        
+        
+        <tr>
+          <th>Texturing time</th>
+          <td>00h:02m:07s</td>
+        </tr>
+      </table>
+      
+    </div>
+    <!-- end of ExportTextureInfo -->
+    
+    <div>
+      <p class="itemTitle">Time statistics </p>
+      <table class="propertiesTable">
+        <tr>
+          <th>Depth-map computation time</th>
+          <td>00h:05m:09s</td>
+        </tr>
+        <tr>
+          <th>Meshing time</th>
+          <td>00h:04m:38s</td>
+        </tr>
+        <tr>
+          <th>Post-processing time</th>
+          <td>00h:03m:00s</td>
+        </tr>
+        <tr>
+          <th>Coloring time</th>
+          <td>00h:00m:00s</td>
+        </tr>
+        <tr>
+          <th>Unwrapping time</th>
+          <td>00h:01m:10s</td>
+        </tr>
+        <tr>
+          <th>Overall processing time</th>
+          <td>00h:13m:58s</td>
+        </tr>
+      </table>
+    </div>
+    <!-- end of ModelStats -->
+    <!-- end of "{7E231598-B996-40A4-A4F6-54801294D6F4}"=="{7E231598-B996-40A4-A4F6-54801294D6F4}" -->
+    <!-- end of ExportModels -->
+    <!-- end of ExportProjectInfo -->
+
+</body>
+</html>
+

@@ -2,12 +2,12 @@ WYKAZ PLIKOW DOSTAWCZYCH — OBIEKT: MPŁ_W_E_1510 (Rzeźba drewniana (kategoria
 ====================================================================================================
 Sciezka wzgledna                                                   |    Rozmiar [B] | SHA-256
 ----------------------------------------------------------------------------------------------------
-01_Chmura_Punktow\MPŁ_W_E_1510_chmura_punktow.xyz                  |    447,241,162 | 25815b716ec3ea6b5062b725914c3467248822d7be1df7a706dbce914258abe6
+01_Chmura_Punktow\MPŁ_W_E_1510_chmura_punktow.xyz                  |    447,195,827 | e7ad48a5135a71c64eaf05bcd24ad4a76acf8110797385f26fce38193147288f
 02_Model_Archiwalny_HighPoly\MPL_W_E_1510_highpoly.obj             |  1,467,674,396 | d7f963f570a67013285f9f5f63cbe99683d389b6e9a0da0fd196d618bbfc0adc
 02_Model_Archiwalny_HighPoly\MPL_W_E_1510_highpoly.mtl             |            217 | b9648a1f766be71d1186c4040048896de0bf48f13addf76aa47bbce5d80a910b
 02_Model_Archiwalny_HighPoly\MPL_W_E_1510_highpoly_u1_v1_diffuse.png |     55,680,190 | 33bc692c049ab0689875f8f53e3fbe776195f8c468214509b3e3826f6489e3a8
-03_Model_Uzytkowy_LowPoly\MPŁ_W_E_1510_lowpoly.glb                 |      9,080,084 | fecfdbbf0d59e2bb31816f31861cce7ccbaca0e6520d2f49c5e175c2b80a7bcc
-03_Model_Uzytkowy_LowPoly\textures\MPL_W_E_1510_lowpoly_diffuse.jpg |      2,264,183 | 658c50abb79bcef078e3d52a4b5406d8b42297ab3147ec4cbcff5e2de91ffa74
+03_Model_Uzytkowy_LowPoly\MPŁ_W_E_1510_lowpoly.glb                 |      9,079,416 | af182fe88cc880a78391e6694b156ea1d96e61bfb32a9078e4e2d4cfe00edb97
+03_Model_Uzytkowy_LowPoly\textures\MPL_W_E_1510_lowpoly_diffuse.jpg |      2,264,412 | 0bd0d8218cf90dfaa87468dabdbccefedbee72cef37fb9da58708c3b0aeb540d
 04_Eksport_Geometrii\MPŁ_W_E_1510_geometria.stl                    |    633,225,784 | 2ba02c792503a304cf39238ad5c2f91e230b64b530451a387e77e3221cf5f703
 ----------------------------------------------------------------------------------------------------
 Dodatkowo w 05_Dokumentacja_QA/: raport QA + metadane JSON + wykresy kontrolne.

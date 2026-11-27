@@ -1,7 +1,7 @@
 {
   "inventory_number": "MPŁ_W_E_1510",
   "object_name": "Obiekt muzealny MPŁ_W_E_1510 (Rzeźba drewniana (kategoria 1A — zwarta))",
-  "digitization_date": "2026:11:27 13:42:59",
+  "digitization_date": "2026:11:27 19:20:28",
   "operator": "Digitalizacja: materiał dostarczony przez klienta | Opracowanie 3D: RealityScan 2.2 + Blender 5.2",
   "method_and_equipment": {
     "method": "Fotogrametria wieloobrazowa (SfM / MVS)",
@@ -29,45 +29,45 @@
     "web_points_count": 550000,
     "unit": "m",
     "web_spacing_mm": {
-      "global_median_mm": 0.2162,
-      "global_p95_mm": 0.3621
+      "global_median_mm": 0.2156,
+      "global_p95_mm": 0.3634
     },
     "spacing_3_regions_mm": [
       {
         "name": "Obszar 1: Góra obiektu",
         "center_m": [
-          -7.702405855525285e-05,
-          -0.059341561049222946,
+          -7.702395669184625e-05,
+          -0.059341542422771454,
           0.22821414470672607
         ],
         "radius_mm": 25.0,
-        "count": 306488,
-        "median_mm": 0.0374,
+        "count": 306465,
+        "median_mm": 0.0375,
         "p95_mm": 0.0779
       },
       {
         "name": "Obszar 2: Część środkowa",
         "center_m": [
-          0.001857226132415235,
-          -0.0026034654583781958,
+          0.0018572262488305569,
+          -0.0026034561451524496,
           0.12228645384311676
         ],
         "radius_mm": 25.0,
-        "count": 410751,
-        "median_mm": 0.0373,
-        "p95_mm": 0.0778
+        "count": 409892,
+        "median_mm": 0.0375,
+        "p95_mm": 0.0777
       },
       {
         "name": "Obszar 3: Dolna partia / podstawa",
         "center_m": [
           -0.010932786390185356,
-          -0.007849257439374924,
+          -0.007849250920116901,
           0.07534517347812653
         ],
         "radius_mm": 25.0,
-        "count": 324997,
-        "median_mm": 0.0375,
-        "p95_mm": 0.0779
+        "count": 325888,
+        "median_mm": 0.0374,
+        "p95_mm": 0.078
       }
     ]
   },

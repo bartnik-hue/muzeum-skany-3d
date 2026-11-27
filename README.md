@@ -7,6 +7,7 @@ Statyczna aplikacja webowa (Three.js + ES Modules) do interaktywnego przeglądan
 | ID obiektu | Nazwa | Wymiary (W × S × G) | Model webowy (GLB) | Chmura punktów web (PLY RGB) |
 |---|---|---|---|---|
 | `MPŁW_E_1212` | Rzeźba drewniana „Agnieszka na wsi” (sygn. Uścimiak) | `239,21 × 183,48 × 117,83 mm` | `325 674` trójkątów, `4096×4096 JPG`, `15,06 MB` | `4 338 695` pkt RGB (`62,07 MB`), mediana `0,087 mm`, P95 `0,193 mm` (ręce/tułów: `0,055 mm`) |
+| `MPŁ_W_E_862` | Rzeźba drewniana — skrzypek (`MPŁ_W_E_862`) | `227,45 × 90,76 × 61,30 mm` | `300 000` trójkątów, `4096×4096 JPG`, `25,85 MB` | `550 000` pkt RGB (`7,87 MB`), mediana `0,178 mm`, P95 `0,295 mm` (archiwum XYZ 12 mln pkt: med. `0,031 mm`) |
 
 ## Funkcje przeglądarki
 

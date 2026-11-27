@@ -1,0 +1,2430 @@
+<!DOCTYPE html>
+<html lang="pl"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista modeli 3D — stan prac i publikacji (37)</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --bg-elev: #faf7f2;
+      --bg-card: #ece4d6;
+      --ink: #241f1a;
+      --muted: #695f54;
+      --border: rgba(36, 31, 26, 0.14);
+      --accent: #734828;
+      --ok-bg: rgba(45, 90, 63, 0.12);
+      --ok-ink: #225438;
+      --ok-border: rgba(45, 90, 63, 0.35);
+      --warn-bg: rgba(168, 98, 28, 0.12);
+      --warn-ink: #8a4b0f;
+      --warn-border: rgba(168, 98, 28, 0.32);
+      --no-bg: rgba(36, 31, 26, 0.06);
+      --no-ink: #695f54;
+      --row-hover: rgba(115, 72, 40, 0.05);
+      --shadow: 0 4px 16px rgba(36, 31, 26, 0.06);
+    }
+    html.dark {
+      --bg: #151412;
+      --bg-elev: #1e1c19;
+      --bg-card: #272420;
+      --ink: #efe9df;
+      --muted: #a69c8e;
+      --border: rgba(239, 233, 223, 0.14);
+      --accent: #d49a6a;
+      --ok-bg: rgba(74, 168, 114, 0.16);
+      --ok-ink: #7ee0a4;
+      --ok-border: rgba(126, 224, 164, 0.35);
+      --warn-bg: rgba(235, 168, 72, 0.16);
+      --warn-ink: #f3c173;
+      --warn-border: rgba(243, 193, 115, 0.35);
+      --no-bg: rgba(255, 255, 255, 0.06);
+      --no-ink: #a69c8e;
+      --row-hover: rgba(212, 154, 106, 0.08);
+      --shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .wrap { max-width: 1420px; margin: 0 auto; }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    h1 { margin: 0 0 4px 0; font-size: 24px; font-weight: 700; }
+    .sub { color: var(--muted); font-size: 13px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    button, .link-btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--bg-elev);
+      color: var(--ink);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: 120ms ease;
+    }
+    button:hover, .link-btn:hover { border-color: var(--accent); color: var(--accent); }
+    button.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    button.primary:hover { opacity: 0.9; color: #fff; }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .kpi {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      box-shadow: var(--shadow);
+    }
+    .kpi-label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    .kpi-val { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .kpi.highlight { border-color: var(--ok-border); background: var(--ok-bg); }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .filters { display: flex; flex-wrap: wrap; gap: 6px; }
+    .filter-btn { padding: 6px 10px; font-size: 12px; font-weight: 600; }
+    .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .search {
+      padding: 7px 11px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      color: var(--ink);
+      min-width: 240px;
+      font-size: 13px;
+    }
+    .table-wrap {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow-x: auto;
+      box-shadow: var(--shadow);
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 960px; }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      background: var(--bg-card);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--muted);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    tr:hover td { background: var(--row-hover); }
+    tr.is-on-site td { background: var(--ok-bg); }
+    .id-cell strong { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+    .cat-tag {
+      display: inline-block;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+    .check-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      user-select: none;
+    }
+    input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .badge-ok { background: var(--ok-bg); color: var(--ok-ink); border-color: var(--ok-border); }
+    .badge-warn { background: var(--warn-bg); color: var(--warn-ink); border-color: var(--warn-border); }
+    .badge-no { background: var(--no-bg); color: var(--no-ink); border-color: var(--border); }
+    .note-input {
+      width: 100%;
+      min-width: 180px;
+      padding: 5px 8px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background: transparent;
+      color: var(--ink);
+      font-size: 12px;
+    }
+    .note-input:hover, .note-input:focus {
+      border-color: var(--border);
+      background: var(--bg);
+      outline: none;
+    }
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: var(--ink);
+      color: var(--bg);
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease;
+      z-index: 20;
+    }
+    .toast.show { opacity: 1; }
+    .preview-link { color: var(--accent); font-size: 12px; text-decoration: none; font-weight: 600; }
+    .preview-link:hover { text-decoration: underline; }
+  </style>
+<style>[click-to-component-browser] * {
+  pointer-events: auto !important;
+}
+
+[click-to-component-browser-target] {
+  cursor: var(--click-to-component-browser-cursor, context-menu) !important;
+  outline: 1px auto !important;
+}
+
+@supports (outline-color: Highlight) {
+  [click-to-component-browser-target] {
+    outline: var(--click-to-component-browser-outline, 1px auto Highlight) !important;
+  }
+}
+
+@supports (outline-color: -webkit-focus-ring-color) {
+  [click-to-component-browser-target] {
+    outline: var(--click-to-component-browser-outline, 1px auto -webkit-focus-ring-color) !important;
+  }
+}</style></head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Lista modeli 3D — stan prac i publikacji</h1>
+        <div class="sub">Klikaj checkboxy i wpisuj uwagi — zmiany zapisują się od razu w przeglądarce. Żeby zapisać je z powrotem do tego pliku HTML (dla AI), kliknij <strong>Zapisz do pliku HTML</strong>.</div>
+      </div>
+      <div class="actions">
+        <a class="link-btn" href="PRZEGLAD_HIGHPOLY.html" target="_blank">Galeria HighPoly</a>
+        <a class="link-btn" href="https://bartnik-hue.github.io/muzeum-skany-3d/" target="_blank">Strona Muzeum 3D</a>
+        <button id="themeBtn" type="button">Tryb ciemny / jasny</button>
+        <button id="copyJsonBtn" type="button">Kopiuj JSON</button>
+        <button id="resetBtn" type="button" title="Przywróć stan zapisany w pliku HTML">Resetuj z pliku</button>
+        <button id="saveFileBtn" class="primary" type="button">Zapisz do pliku HTML</button>
+      </div>
+    </header>
+
+    <section class="kpis">
+      <div class="kpi"><div class="kpi-label">Wszystkie modele</div><div class="kpi-val" id="kpiTotal">37</div></div>
+      <div class="kpi"><div class="kpi-label">HighPoly + 4 widoki</div><div class="kpi-val" id="kpiHp">37 / 37</div></div>
+      <div class="kpi"><div class="kpi-label">HP zaakceptowane</div><div class="kpi-val" id="kpiApproved">1 / 37</div></div>
+      <div class="kpi"><div class="kpi-label">GLB + PLY lokalnie</div><div class="kpi-val" id="kpiWebFiles">18 / 37</div></div>
+      <div class="kpi highlight"><div class="kpi-label">Wrzucone na stronę</div><div class="kpi-val" id="kpiOnSite">2 / 37</div></div>
+    </section>
+
+    <div class="toolbar">
+      <div class="filters" id="filterBar">
+        <button class="filter-btn active" data-filter="all" type="button">Wszystkie</button>
+        <button class="filter-btn" data-filter="onSite" type="button">Na stronie</button>
+        <button class="filter-btn" data-filter="notOnSite" type="button">Nie wrzucone na stronę</button>
+        <button class="filter-btn" data-filter="webFiles" type="button">Mają GLB/PLY lokalnie</button>
+        <button class="filter-btn" data-filter="noWebFiles" type="button">Brak GLB/PLY</button>
+        <button class="filter-btn" data-filter="wiezyczki" type="button">Wieżyczki (6)</button>
+        <button class="filter-btn" data-filter="rzezby" type="button">Rzeźby (31)</button>
+      </div>
+      <input id="searchInput" class="search" type="search" placeholder="Szukaj po ID lub notatce...">
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Obiekt</th>
+            <th>Wymiary / Trójkąty HP</th>
+            <th>HighPoly</th>
+            <th>HP OK</th>
+            <th>GLB + PLY lokalnie</th>
+            <th>Na stronie</th>
+            <th>Uwagi</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"><tr>
+          <td class="mono">1</td>
+          <td class="id-cell">
+            <strong>H_III_130</strong><br>
+            <span class="cat-tag">Srebrna wieżyczka · gr. 02</span>
+            · <a class="preview-link" href="file:///e:/skany baza/02_Srebrne_Wiezyczki_Azurowe/H_III_130/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">66.5 × 66.9 × 295.9 mm</div>
+            <div class="cat-tag">24&nbsp;641&nbsp;220 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_130" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_130" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_130" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_130" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="H_III_130" value="Maski v7+feedback do akceptacji + wycięcie klatki drzwiczek + nowe LP/QA" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">2</td>
+          <td class="id-cell">
+            <strong>H_III_82</strong><br>
+            <span class="cat-tag">Srebrna wieżyczka · gr. 02</span>
+            · <a class="preview-link" href="file:///e:/skany baza/02_Srebrne_Wiezyczki_Azurowe/H_III_82/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">64.1 × 50.3 × 223.5 mm</div>
+            <div class="cat-tag">13&nbsp;165&nbsp;787 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_82" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_82" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_82" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_82" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="H_III_82" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">3</td>
+          <td class="id-cell">
+            <strong>H_III_84</strong><br>
+            <span class="cat-tag">Srebrna wieżyczka · gr. 02</span>
+            · <a class="preview-link" href="file:///e:/skany baza/02_Srebrne_Wiezyczki_Azurowe/H_III_84/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">62.4 × 39.5 × 197.0 mm</div>
+            <div class="cat-tag">7&nbsp;036&nbsp;685 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_84" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_84" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_84" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_84" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="H_III_84" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">4</td>
+          <td class="id-cell">
+            <strong>H_III_86</strong><br>
+            <span class="cat-tag">Srebrna wieżyczka · gr. 02</span>
+            · <a class="preview-link" href="file:///e:/skany baza/02_Srebrne_Wiezyczki_Azurowe/H_III_86/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">92.8 × 67.4 × 273.3 mm</div>
+            <div class="cat-tag">18&nbsp;172&nbsp;626 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_86" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_86" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_86" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_86" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="H_III_86" value="3 drobne ślady podłoża pod stópkami" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">5</td>
+          <td class="id-cell">
+            <strong>H_III_92</strong><br>
+            <span class="cat-tag">Srebrna wieżyczka · gr. 02</span>
+            · <a class="preview-link" href="file:///e:/skany baza/02_Srebrne_Wiezyczki_Azurowe/H_III_92/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">103.9 × 97.9 × 194.5 mm</div>
+            <div class="cat-tag">12&nbsp;332&nbsp;323 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_92" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_92" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_92" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_92" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="H_III_92" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">6</td>
+          <td class="id-cell">
+            <strong>H_III_96</strong><br>
+            <span class="cat-tag">Srebrna wieżyczka · gr. 02</span>
+            · <a class="preview-link" href="file:///e:/skany baza/02_Srebrne_Wiezyczki_Azurowe/H_III_96/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">56.5 × 56.6 × 225.8 mm</div>
+            <div class="cat-tag">13&nbsp;968&nbsp;893 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_96" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_96" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_96" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="H_III_96" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="H_III_96" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">7</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1073</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 01</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1073/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">101.5 × 97.0 × 325.5 mm</div>
+            <div class="cat-tag">9&nbsp;557&nbsp;371 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1073" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1073" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1073" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1073" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1073" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">8</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1085</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 01</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1085/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">172.5 × 226.8 × 377.1 mm</div>
+            <div class="cat-tag">29&nbsp;421&nbsp;078 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1085" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1085" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1085" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1085" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1085" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">9</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1189</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 01</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1189/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">132.2 × 83.1 × 385.1 mm</div>
+            <div class="cat-tag">20&nbsp;690&nbsp;272 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1189" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1189" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1189" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1189" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1189" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">10</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1193</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 01</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1193/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">86.3 × 97.3 × 281.3 mm</div>
+            <div class="cat-tag">34&nbsp;959&nbsp;797 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1193" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1193" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1193" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1193" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1193" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">11</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1194</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 01</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1194/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">200.8 × 94.8 × 300.0 mm</div>
+            <div class="cat-tag">14&nbsp;537&nbsp;351 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1194" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1194" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1194" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1194" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1194" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">12</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1195</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1195/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">179.7 × 201.9 × 316.9 mm</div>
+            <div class="cat-tag">29&nbsp;879&nbsp;010 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1195" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1195" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1195" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1195" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1195" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">13</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1196</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1196/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">212.3 × 209.1 × 273.6 mm</div>
+            <div class="cat-tag">13&nbsp;813&nbsp;207 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1196" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1196" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1196" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1196" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1196" value="Sprawdzić fragmenty białego kołnierza na spodzie" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">14</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1197</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1197/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">226.7 × 191.7 × 286.2 mm</div>
+            <div class="cat-tag">10&nbsp;748&nbsp;415 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1197" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1197" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1197" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1197" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1197" value="Sprawdzić fragmenty białego kołnierza na spodzie" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">15</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1198</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 01</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1198/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">263.4 × 190.6 × 310.5 mm</div>
+            <div class="cat-tag">19&nbsp;572&nbsp;037 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1198" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1198" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1198" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1198" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1198" value="Drobne szare trójkąty przy rancie spodu" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">16</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1211</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 01</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1211/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">115.1 × 63.0 × 289.6 mm</div>
+            <div class="cat-tag">11&nbsp;011&nbsp;650 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1211" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1211" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1211" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1211" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1211" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr class="is-on-site">
+          <td class="mono">17</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1212</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 01</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1212/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">174.7 × 143.1 × 239.2 mm</div>
+            <div class="cat-tag">72&nbsp;066&nbsp;560 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1212" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1212" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1212" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1212" data-field="onSite" checked="">
+              <span class="badge badge-ok">NA STRONIE</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1212" value="Model wzorcowy (opublikowany na stronie)" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">18</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1213</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 01</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1213/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">129.6 × 115.4 × 255.2 mm</div>
+            <div class="cat-tag">7&nbsp;936&nbsp;836 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1213" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1213" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1213" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1213" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1213" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">19</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1271</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 01</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1271/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">185.5 × 137.8 × 433.5 mm</div>
+            <div class="cat-tag">20&nbsp;459&nbsp;788 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1271" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1271" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1271" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1271" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1271" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">20</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1272</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 01</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1272/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">258.8 × 94.0 × 452.0 mm</div>
+            <div class="cat-tag">16&nbsp;908&nbsp;453 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1272" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1272" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1272" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1272" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1272" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">21</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1482</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1482/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">123.3 × 117.2 × 283.4 mm</div>
+            <div class="cat-tag">6&nbsp;282&nbsp;057 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1482" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1482" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1482" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1482" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1482" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">22</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1485</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1485/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">148.8 × 149.0 × 318.4 mm</div>
+            <div class="cat-tag">15&nbsp;171&nbsp;474 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1485" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1485" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1485" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1485" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1485" value="Sprawdzić fragmenty białego kołnierza na spodzie" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">23</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1489</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1489/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">173.9 × 86.2 × 457.7 mm</div>
+            <div class="cat-tag">13&nbsp;959&nbsp;096 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1489" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1489" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1489" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1489" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1489" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">24</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1491</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1B</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1491/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">115.0 × 253.7 × 344.7 mm</div>
+            <div class="cat-tag">14&nbsp;106&nbsp;524 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1491" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1491" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1491" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1491" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1491" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">25</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1496</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1496/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">144.9 × 81.5 × 326.0 mm</div>
+            <div class="cat-tag">5&nbsp;143&nbsp;439 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1496" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1496" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1496" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1496" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1496" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">26</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_1582</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1B</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1582/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">308.8 × 90.9 × 416.9 mm</div>
+            <div class="cat-tag">11&nbsp;262&nbsp;607 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1582" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1582" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1582" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_1582" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_1582" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">27</td>
+          <td class="id-cell">
+            <strong>MPŁW_E_869</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_869/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">177.4 × 130.3 × 447.5 mm</div>
+            <div class="cat-tag">19&nbsp;225&nbsp;267 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_869" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_869" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_869" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁW_E_869" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁW_E_869" value="Brak przymiaru — skala przeniesiona z MPŁ_W_E_869" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">28</td>
+          <td class="id-cell">
+            <strong>MPŁ_W_E_1483</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1B</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_1483/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">157.8 × 94.9 × 287.8 mm</div>
+            <div class="cat-tag">11&nbsp;203&nbsp;751 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1483" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1483" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1483" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1483" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁ_W_E_1483" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">29</td>
+          <td class="id-cell">
+            <strong>MPŁ_W_E_1484</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_1484/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">118.2 × 87.2 × 307.9 mm</div>
+            <div class="cat-tag">7&nbsp;264&nbsp;724 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1484" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1484" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1484" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1484" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁ_W_E_1484" value="Sprawdzić fragmenty białego kołnierza na spodzie" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">30</td>
+          <td class="id-cell">
+            <strong>MPŁ_W_E_1486</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_1486/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">124.8 × 102.6 × 342.9 mm</div>
+            <div class="cat-tag">13&nbsp;951&nbsp;041 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1486" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1486" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1486" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1486" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁ_W_E_1486" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">31</td>
+          <td class="id-cell">
+            <strong>MPŁ_W_E_1488</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_1488/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">79.9 × 97.8 × 283.4 mm</div>
+            <div class="cat-tag">8&nbsp;502&nbsp;478 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1488" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1488" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1488" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1488" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁ_W_E_1488" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">32</td>
+          <td class="id-cell">
+            <strong>MPŁ_W_E_1492</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_1492/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">86.2 × 106.8 × 257.9 mm</div>
+            <div class="cat-tag">10&nbsp;368&nbsp;322 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1492" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1492" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1492" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1492" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁ_W_E_1492" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">33</td>
+          <td class="id-cell">
+            <strong>MPŁ_W_E_1510</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_1510/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">70.4 × 118.9 × 291.7 mm</div>
+            <div class="cat-tag">12&nbsp;664&nbsp;514 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1510" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1510" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1510" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_1510" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁ_W_E_1510" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr class="is-on-site">
+          <td class="mono">34</td>
+          <td class="id-cell">
+            <strong>MPŁ_W_E_862</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_862/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">122.0 × 111.0 × 229.0 mm</div>
+            <div class="cat-tag">8&nbsp;939&nbsp;577 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_862" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_862" data-field="hpApproved" checked="">
+              <span class="badge badge-ok">OK</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_862" data-field="webFilesDone" checked="">
+              <span class="badge badge-ok">W folderze</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_862" data-field="onSite" checked="">
+              <span class="badge badge-ok">NA STRONIE</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁ_W_E_862" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">35</td>
+          <td class="id-cell">
+            <strong>MPŁ_W_E_864</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1B</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_864/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">81.3 × 61.8 × 248.2 mm</div>
+            <div class="cat-tag">7&nbsp;680&nbsp;326 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_864" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_864" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_864" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_864" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁ_W_E_864" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">36</td>
+          <td class="id-cell">
+            <strong>MPŁ_W_E_865</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_865/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">111.7 × 135.2 × 270.8 mm</div>
+            <div class="cat-tag">11&nbsp;856&nbsp;323 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_865" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_865" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_865" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_865" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁ_W_E_865" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr><tr>
+          <td class="mono">37</td>
+          <td class="id-cell">
+            <strong>MPŁ_W_E_869</strong><br>
+            <span class="cat-tag">Rzeźba drewniana · gr. 1A</span>
+            · <a class="preview-link" href="file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_869/05_Dokumentacja_QA/assets/hp_4views.png" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">152.5 × 125.9 × 332.8 mm</div>
+            <div class="cat-tag">22&nbsp;811&nbsp;913 tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_869" data-field="hpDone" checked="">
+              <span class="badge badge-ok">Gotowe</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_869" data-field="hpApproved">
+              <span class="badge badge-warn">Do oceny</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_869" data-field="webFilesDone">
+              <span class="badge badge-no">Brak</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="MPŁ_W_E_869" data-field="onSite">
+              <span class="badge badge-no">Nie wrzucono</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="MPŁ_W_E_869" value="" placeholder="Dodaj uwagę...">
+          </td>
+        </tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Zapisano</div>
+
+  <script id="models-state" type="application/json">
+[
+  {
+    "id": "H_III_130",
+    "slug": "H_III_130",
+    "category": "Srebrna wieżyczka",
+    "group": "02",
+    "tris": 24641220,
+    "dims": "66.5 × 66.9 × 295.9 mm",
+    "preview": "file:///e:/skany baza/02_Srebrne_Wiezyczki_Azurowe/H_III_130/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": "Maski v7+feedback do akceptacji + wycięcie klatki drzwiczek + nowe LP/QA"
+  },
+  {
+    "id": "H_III_82",
+    "slug": "H_III_82",
+    "category": "Srebrna wieżyczka",
+    "group": "02",
+    "tris": 13165787,
+    "dims": "64.1 × 50.3 × 223.5 mm",
+    "preview": "file:///e:/skany baza/02_Srebrne_Wiezyczki_Azurowe/H_III_82/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "H_III_84",
+    "slug": "H_III_84",
+    "category": "Srebrna wieżyczka",
+    "group": "02",
+    "tris": 7036685,
+    "dims": "62.4 × 39.5 × 197.0 mm",
+    "preview": "file:///e:/skany baza/02_Srebrne_Wiezyczki_Azurowe/H_III_84/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "H_III_86",
+    "slug": "H_III_86",
+    "category": "Srebrna wieżyczka",
+    "group": "02",
+    "tris": 18172626,
+    "dims": "92.8 × 67.4 × 273.3 mm",
+    "preview": "file:///e:/skany baza/02_Srebrne_Wiezyczki_Azurowe/H_III_86/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": "3 drobne ślady podłoża pod stópkami"
+  },
+  {
+    "id": "H_III_92",
+    "slug": "H_III_92",
+    "category": "Srebrna wieżyczka",
+    "group": "02",
+    "tris": 12332323,
+    "dims": "103.9 × 97.9 × 194.5 mm",
+    "preview": "file:///e:/skany baza/02_Srebrne_Wiezyczki_Azurowe/H_III_92/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "H_III_96",
+    "slug": "H_III_96",
+    "category": "Srebrna wieżyczka",
+    "group": "02",
+    "tris": 13968893,
+    "dims": "56.5 × 56.6 × 225.8 mm",
+    "preview": "file:///e:/skany baza/02_Srebrne_Wiezyczki_Azurowe/H_III_96/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1073",
+    "slug": "MPLW_E_1073",
+    "category": "Rzeźba drewniana",
+    "group": "01",
+    "tris": 9557371,
+    "dims": "101.5 × 97.0 × 325.5 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1073/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1085",
+    "slug": "MPLW_E_1085",
+    "category": "Rzeźba drewniana",
+    "group": "01",
+    "tris": 29421078,
+    "dims": "172.5 × 226.8 × 377.1 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1085/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1189",
+    "slug": "MPLW_E_1189",
+    "category": "Rzeźba drewniana",
+    "group": "01",
+    "tris": 20690272,
+    "dims": "132.2 × 83.1 × 385.1 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1189/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1193",
+    "slug": "MPLW_E_1193",
+    "category": "Rzeźba drewniana",
+    "group": "01",
+    "tris": 34959797,
+    "dims": "86.3 × 97.3 × 281.3 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1193/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1194",
+    "slug": "MPLW_E_1194",
+    "category": "Rzeźba drewniana",
+    "group": "01",
+    "tris": 14537351,
+    "dims": "200.8 × 94.8 × 300.0 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1194/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1195",
+    "slug": "MPLW_E_1195",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 29879010,
+    "dims": "179.7 × 201.9 × 316.9 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1195/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1196",
+    "slug": "MPLW_E_1196",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 13813207,
+    "dims": "212.3 × 209.1 × 273.6 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1196/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": "Sprawdzić fragmenty białego kołnierza na spodzie"
+  },
+  {
+    "id": "MPŁW_E_1197",
+    "slug": "MPLW_E_1197",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 10748415,
+    "dims": "226.7 × 191.7 × 286.2 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1197/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": "Sprawdzić fragmenty białego kołnierza na spodzie"
+  },
+  {
+    "id": "MPŁW_E_1198",
+    "slug": "MPLW_E_1198",
+    "category": "Rzeźba drewniana",
+    "group": "01",
+    "tris": 19572037,
+    "dims": "263.4 × 190.6 × 310.5 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1198/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": "Drobne szare trójkąty przy rancie spodu"
+  },
+  {
+    "id": "MPŁW_E_1211",
+    "slug": "MPLW_E_1211",
+    "category": "Rzeźba drewniana",
+    "group": "01",
+    "tris": 11011650,
+    "dims": "115.1 × 63.0 × 289.6 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1211/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1212",
+    "slug": "MPLW_E_1212",
+    "category": "Rzeźba drewniana",
+    "group": "01",
+    "tris": 72066560,
+    "dims": "174.7 × 143.1 × 239.2 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1212/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": true,
+    "note": "Model wzorcowy (opublikowany na stronie)"
+  },
+  {
+    "id": "MPŁW_E_1213",
+    "slug": "MPLW_E_1213",
+    "category": "Rzeźba drewniana",
+    "group": "01",
+    "tris": 7936836,
+    "dims": "129.6 × 115.4 × 255.2 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1213/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1271",
+    "slug": "MPLW_E_1271",
+    "category": "Rzeźba drewniana",
+    "group": "01",
+    "tris": 20459788,
+    "dims": "185.5 × 137.8 × 433.5 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1271/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1272",
+    "slug": "MPLW_E_1272",
+    "category": "Rzeźba drewniana",
+    "group": "01",
+    "tris": 16908453,
+    "dims": "258.8 × 94.0 × 452.0 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1272/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": true,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1482",
+    "slug": "MPLW_E_1482",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 6282057,
+    "dims": "123.3 × 117.2 × 283.4 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1482/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1485",
+    "slug": "MPLW_E_1485",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 15171474,
+    "dims": "148.8 × 149.0 × 318.4 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1485/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": "Sprawdzić fragmenty białego kołnierza na spodzie"
+  },
+  {
+    "id": "MPŁW_E_1489",
+    "slug": "MPLW_E_1489",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 13959096,
+    "dims": "173.9 × 86.2 × 457.7 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1489/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1491",
+    "slug": "MPLW_E_1491",
+    "category": "Rzeźba drewniana",
+    "group": "1B",
+    "tris": 14106524,
+    "dims": "115.0 × 253.7 × 344.7 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1491/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1496",
+    "slug": "MPLW_E_1496",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 5143439,
+    "dims": "144.9 × 81.5 × 326.0 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1496/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_1582",
+    "slug": "MPLW_E_1582",
+    "category": "Rzeźba drewniana",
+    "group": "1B",
+    "tris": 11262607,
+    "dims": "308.8 × 90.9 × 416.9 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_1582/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁW_E_869",
+    "slug": "MPLW_E_869",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 19225267,
+    "dims": "177.4 × 130.3 × 447.5 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁW_E_869/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": "Brak przymiaru — skala przeniesiona z MPŁ_W_E_869"
+  },
+  {
+    "id": "MPŁ_W_E_1483",
+    "slug": "MPL_W_E_1483",
+    "category": "Rzeźba drewniana",
+    "group": "1B",
+    "tris": 11203751,
+    "dims": "157.8 × 94.9 × 287.8 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_1483/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁ_W_E_1484",
+    "slug": "MPL_W_E_1484",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 7264724,
+    "dims": "118.2 × 87.2 × 307.9 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_1484/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": "Sprawdzić fragmenty białego kołnierza na spodzie"
+  },
+  {
+    "id": "MPŁ_W_E_1486",
+    "slug": "MPL_W_E_1486",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 13951041,
+    "dims": "124.8 × 102.6 × 342.9 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_1486/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁ_W_E_1488",
+    "slug": "MPL_W_E_1488",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 8502478,
+    "dims": "79.9 × 97.8 × 283.4 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_1488/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁ_W_E_1492",
+    "slug": "MPL_W_E_1492",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 10368322,
+    "dims": "86.2 × 106.8 × 257.9 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_1492/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁ_W_E_1510",
+    "slug": "MPL_W_E_1510",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 12664514,
+    "dims": "70.4 × 118.9 × 291.7 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_1510/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁ_W_E_862",
+    "slug": "MPL_W_E_862",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 8939577,
+    "dims": "122.0 × 111.0 × 229.0 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_862/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": true,
+    "webFilesDone": true,
+    "onSite": true,
+    "note": ""
+  },
+  {
+    "id": "MPŁ_W_E_864",
+    "slug": "MPL_W_E_864",
+    "category": "Rzeźba drewniana",
+    "group": "1B",
+    "tris": 7680326,
+    "dims": "81.3 × 61.8 × 248.2 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_864/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁ_W_E_865",
+    "slug": "MPL_W_E_865",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 11856323,
+    "dims": "111.7 × 135.2 × 270.8 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_865/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": ""
+  },
+  {
+    "id": "MPŁ_W_E_869",
+    "slug": "MPL_W_E_869",
+    "category": "Rzeźba drewniana",
+    "group": "1A",
+    "tris": 22811913,
+    "dims": "152.5 × 125.9 × 332.8 mm",
+    "preview": "file:///e:/skany baza/01_Rzezby_Drewniane/MPŁ_W_E_869/05_Dokumentacja_QA/assets/hp_4views.png",
+    "hpDone": true,
+    "hpApproved": false,
+    "webFilesDone": false,
+    "onSite": false,
+    "note": ""
+  }
+]
+  </script>
+
+  <script>
+    const STORAGE_KEY = 'muzeum_skany_lista_modeli_v1';
+    const THEME_KEY = 'muzeum_skany_lista_theme';
+    const fileModels = JSON.parse(document.getElementById('models-state').textContent);
+
+    function loadModels() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return structuredClone(fileModels);
+        const parsed = JSON.parse(saved);
+        const map = new Map(parsed.map(m => [m.id, m]));
+        return fileModels.map(fm => map.has(fm.id) ? { ...fm, ...map.get(fm.id) } : structuredClone(fm));
+      } catch {
+        return structuredClone(fileModels);
+      }
+    }
+
+    let models = loadModels();
+    let activeFilter = 'all';
+    let searchQuery = '';
+
+    if (localStorage.getItem(THEME_KEY) === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    function saveLocal() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(models));
+      updateKpis();
+    }
+
+    function updateKpis() {
+      const total = models.length;
+      document.getElementById('kpiTotal').textContent = total;
+      document.getElementById('kpiHp').textContent = `${models.filter(m => m.hpDone).length} / ${total}`;
+      document.getElementById('kpiApproved').textContent = `${models.filter(m => m.hpApproved).length} / ${total}`;
+      document.getElementById('kpiWebFiles').textContent = `${models.filter(m => m.webFilesDone).length} / ${total}`;
+      document.getElementById('kpiOnSite').textContent = `${models.filter(m => m.onSite).length} / ${total}`;
+    }
+
+    function matchesFilter(m) {
+      if (activeFilter === 'onSite' && !m.onSite) return false;
+      if (activeFilter === 'notOnSite' && m.onSite) return false;
+      if (activeFilter === 'webFiles' && !m.webFilesDone) return false;
+      if (activeFilter === 'noWebFiles' && m.webFilesDone) return false;
+      if (activeFilter === 'wiezyczki' && !m.category.includes('wieżyczka')) return false;
+      if (activeFilter === 'rzezby' && !m.category.includes('Rzeźba')) return false;
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        const hay = `${m.id} ${m.slug} ${m.category} ${m.note}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    }
+
+    function render() {
+      const tbody = document.getElementById('tbody');
+      tbody.innerHTML = '';
+      const filtered = models.filter(matchesFilter);
+
+      filtered.forEach((m, idx) => {
+        const tr = document.createElement('tr');
+        if (m.onSite) tr.className = 'is-on-site';
+
+        const trisFmt = Number(m.tris).toLocaleString('pl-PL');
+        tr.innerHTML = `
+          <td class="mono">${idx + 1}</td>
+          <td class="id-cell">
+            <strong>${m.id}</strong><br>
+            <span class="cat-tag">${m.category}${m.group ? ' · gr. ' + m.group : ''}</span>
+            · <a class="preview-link" href="${m.preview}" target="_blank">4 widoki</a>
+          </td>
+          <td>
+            <div class="mono">${m.dims}</div>
+            <div class="cat-tag">${trisFmt} tris</div>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="${m.id}" data-field="hpDone" ${m.hpDone ? 'checked' : ''} />
+              <span class="badge ${m.hpDone ? 'badge-ok' : 'badge-no'}">${m.hpDone ? 'Gotowe' : 'Brak'}</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="${m.id}" data-field="hpApproved" ${m.hpApproved ? 'checked' : ''} />
+              <span class="badge ${m.hpApproved ? 'badge-ok' : 'badge-warn'}">${m.hpApproved ? 'OK' : 'Do oceny'}</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="${m.id}" data-field="webFilesDone" ${m.webFilesDone ? 'checked' : ''} />
+              <span class="badge ${m.webFilesDone ? 'badge-ok' : 'badge-no'}">${m.webFilesDone ? 'W folderze' : 'Brak'}</span>
+            </label>
+          </td>
+          <td>
+            <label class="check-wrap">
+              <input type="checkbox" data-id="${m.id}" data-field="onSite" ${m.onSite ? 'checked' : ''} />
+              <span class="badge ${m.onSite ? 'badge-ok' : 'badge-no'}">${m.onSite ? 'NA STRONIE' : 'Nie wrzucono'}</span>
+            </label>
+          </td>
+          <td>
+            <input class="note-input" type="text" data-id="${m.id}" value="${(m.note || '').replace(/"/g, '&quot;')}" placeholder="Dodaj uwagę..." />
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      updateKpis();
+    }
+
+    document.getElementById('tbody').addEventListener('change', (e) => {
+      const el = e.target;
+      if (el.type === 'checkbox') {
+        const m = models.find(x => x.id === el.dataset.id);
+        if (!m) return;
+        m[el.dataset.field] = el.checked;
+        saveLocal();
+        render();
+        showToast(`Zaktualizowano ${m.id}`);
+      }
+    });
+
+    document.getElementById('tbody').addEventListener('input', (e) => {
+      const el = e.target;
+      if (el.classList.contains('note-input')) {
+        const m = models.find(x => x.id === el.dataset.id);
+        if (!m) return;
+        m.note = el.value;
+        saveLocal();
+      }
+    });
+
+    document.getElementById('filterBar').addEventListener('click', (e) => {
+      const btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      render();
+    });
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim();
+      render();
+    });
+
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      const dark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light');
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_KEY);
+      models = structuredClone(fileModels);
+      render();
+      showToast('Przywrócono stan z pliku HTML');
+    });
+
+    document.getElementById('copyJsonBtn').addEventListener('click', async () => {
+      await navigator.clipboard.writeText(JSON.stringify(models, null, 2));
+      showToast('Skopiowano JSON stanu do schowka');
+    });
+
+    document.getElementById('saveFileBtn').addEventListener('click', async () => {
+      const stateEl = document.getElementById('models-state');
+      stateEl.textContent = '\n' + JSON.stringify(models, null, 2) + '\n  ';
+      const fullHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      if (window.showSaveFilePicker) {
+        try {
+          const handle = await window.showSaveFilePicker({
+            suggestedName: 'LISTA_MODELI.html',
+            types: [{ description: 'HTML', accept: { 'text/html': ['.html'] } }]
+          });
+          const writable = await handle.createWritable();
+          await writable.write(fullHtml);
+          await writable.close();
+          showToast('Zapisano do pliku LISTA_MODELI.html');
+          return;
+        } catch (err) {
+          if (err.name === 'AbortError') return;
+        }
+      }
+      const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'LISTA_MODELI.html';
+      a.click();
+      URL.revokeObjectURL(a.href);
+      showToast('Pobrano zaktualizowany LISTA_MODELI.html');
+    });
+
+    render();
+  </script>
+
+
+<script type="module" src="chrome-extension://hdiiegojkjkgaakbdjpoaaadhnddpfdc/injected_scripts/click_to_component.js"></script></body></html>

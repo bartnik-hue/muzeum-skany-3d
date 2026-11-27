@@ -2,7 +2,7 @@
   "collectionTitle": "Cyfrowe Archiwum Muzealne 3D",
   "institution": "Digitalizacja 3D obiektów zabytkowych",
   "archiveBaseUrl": "",
-  "cacheVersion": "20261127-1938",
+  "cacheVersion": "20261127-1953",
   "objects": [
     {
       "id": "MPŁW_E_1212",
@@ -407,21 +407,21 @@
           "pointsWeb": "550 000 pkt RGB",
           "webFileSize": "7,87 MB",
           "fullFileSize": "427,4 MB (.xyz, archiwum lokalne)",
-          "webSpacing": "mediana 0,2284 mm • P95 0,3877 mm",
-          "fullSpacing": "3 strefy kontrolne: Góra obiektu med. 0,0401 mm (P95 0,0834 mm) • Część środkowa med. 0,0400 mm (P95 0,0833 mm) • Dolna partia / podstawa med. 0,0400 mm (P95 0,0831 mm)",
+          "webSpacing": "mediana 0,2284 mm • P95 0,3882 mm",
+          "fullSpacing": "3 strefy kontrolne: Góra obiektu med. 0,0401 mm (P95 0,0833 mm) • Część środkowa med. 0,0401 mm (P95 0,0832 mm) • Dolna partia / podstawa med. 0,0402 mm (P95 0,0832 mm)",
           "specLimit": "limit dla 10–100 cm: mediana ≤ 0,50 mm, P95 ≤ 1,00 mm"
         },
         "highPoly": {
           "triangles": "11 856 323 trójkątów (surowy scan) / 9 004 521 (po oczyszczeniu i edycji ≤ 5M)",
           "vertices": "5 931 648 wierzchołków (surowy scan) / 4 502 255 (po oczyszczeniu i edycji ≤ 5M)",
-          "fileSize": "1311,4 MB surowy / 948,8 MB po edycji (.obj + .mtl, archiwum lokalne)",
+          "fileSize": "1311,4 MB surowy / 949,6 MB po edycji (.obj + .mtl, archiwum lokalne)",
           "texture": "8192 × 8192 px PNG"
         },
         "lowPolyGlb": {
           "triangles": "219 999 trójkątów",
           "vertices": "109 994 wierzchołków",
-          "fileSize": "9,25 MB (.glb)",
-          "texture": "4096 × 4096 px JPG (2,60 MB)"
+          "fileSize": "9,07 MB (.glb)",
+          "texture": "4096 × 4096 px JPG (2,42 MB)"
         },
         "stl": {
           "triangles": "11 856 323 trójkątów",
@@ -446,12 +446,12 @@
           {
             "title": "2. Kontrola chmury punktów (3 obszary)",
             "status": "PASS",
-            "detail": "XYZ (12 000 000 pkt): Góra obiektu med. 0,0401 mm (P95 0,0834 mm) • Część środkowa med. 0,0400 mm (P95 0,0833 mm) • Dolna partia / podstawa med. 0,0400 mm (P95 0,0831 mm). Web PLY (550 000 pkt, 7,87 MB): globalnie med. 0,2284 mm (P95 0,3877 mm). Limit: ≤ 0,50 / 1,00 mm."
+            "detail": "XYZ (12 000 000 pkt): Góra obiektu med. 0,0401 mm (P95 0,0833 mm) • Część środkowa med. 0,0401 mm (P95 0,0832 mm) • Dolna partia / podstawa med. 0,0402 mm (P95 0,0832 mm). Web PLY (550 000 pkt, 7,87 MB): globalnie med. 0,2284 mm (P95 0,3882 mm). Limit: ≤ 0,50 / 1,00 mm."
           },
           {
             "title": "3. Kontrola geometrii (Low Poly vs High Poly po edycji)",
             "status": "PASS",
-            "detail": "Mediana odchyłki: 0,0537 mm • P95: 0,0884 mm • P99: 0,1128 mm • Maks.: 1,3473 mm. Powierzchnia w tolerancji ≤ 1,0 mm: 99,999% (limit ≥ 95%)."
+            "detail": "Mediana odchyłki: 0,0537 mm • P95: 0,0884 mm • P99: 0,1127 mm • Maks.: 1,3473 mm. Powierzchnia w tolerancji ≤ 1,0 mm: 99,999% (limit ≥ 95%)."
           },
           {
             "title": "4. Kontrola tekstur (GLB 4K vs zdjęcia źródłowe)",
@@ -461,7 +461,7 @@
           {
             "title": "5. Kontrola końcowa i weryfikacja pakietu",
             "status": "PASS",
-            "detail": "Komplet 7 grup plików: XYZRGB (12 000 000 pkt, 427,4 MB), Web PLY (550 000 pkt, 7,87 MB), OBJ HighPoly + wersja oczyszczona ≤ 5M z drewnianym spodem + PNG 8K, GLB (9,25 MB ≤ 50 MB, 219 999 trójk.), STL, projekt .rsproj oraz raport QA z sumami SHA-256."
+            "detail": "Komplet 7 grup plików: XYZRGB (12 000 000 pkt, 427,4 MB), Web PLY (550 000 pkt, 7,87 MB), OBJ HighPoly + wersja oczyszczona ≤ 5M z drewnianym spodem + PNG 8K, GLB (9,07 MB ≤ 50 MB, 219 999 trójk.), STL, projekt .rsproj oraz raport QA z sumami SHA-256."
           }
         ]
       },
@@ -484,12 +484,12 @@
         {
           "title": "Porównanie tekstur ze zdjęciami źródłowymi",
           "url": "objects/MPL_W_E_865/qa/assets/qa_texture_comparison.png",
-          "caption": "Rys. 4. Zestawienie trzech wycinków fotografii źródłowej (_D1A0088.jpg) z renderami finalnego modelu GLB (9,25 MB, 4096×4096 JPG)."
+          "caption": "Rys. 4. Zestawienie trzech wycinków fotografii źródłowej (_D1A0088.jpg) z renderami finalnego modelu GLB (9,07 MB, 4096×4096 JPG)."
         },
         {
           "title": "Widok kontrolny modelu GLB — przód",
           "url": "objects/MPL_W_E_865/qa/assets/glb_overview_front.png",
-          "caption": "Kontrola bryły, orientacji i tekstury 4K finalnego modelu użytkowego GLB (9,25 MB, 219 999 trójk.) od strony frontowej."
+          "caption": "Kontrola bryły, orientacji i tekstury 4K finalnego modelu użytkowego GLB (9,07 MB, 219 999 trójk.) od strony frontowej."
         },
         {
           "title": "Widok kontrolny modelu GLB — tył",

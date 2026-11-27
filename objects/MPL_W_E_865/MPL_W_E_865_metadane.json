@@ -1,7 +1,7 @@
 {
   "inventory_number": "MPŁ_W_E_865",
   "object_name": "Obiekt muzealny MPŁ_W_E_865 (Rzeźba drewniana (kategoria 1A — zwarta))",
-  "digitization_date": "2026:11:27 13:43:28",
+  "digitization_date": "2026:11:27 19:52:47",
   "operator": "Digitalizacja: materiał dostarczony przez klienta | Opracowanie 3D: RealityScan 2.2 + Blender 5.2",
   "method_and_equipment": {
     "method": "Fotogrametria wieloobrazowa (SfM / MVS)",
@@ -30,44 +30,44 @@
     "unit": "m",
     "web_spacing_mm": {
       "global_median_mm": 0.2284,
-      "global_p95_mm": 0.3877
+      "global_p95_mm": 0.3882
     },
     "spacing_3_regions_mm": [
       {
         "name": "Obszar 1: Góra obiektu",
         "center_m": [
           -0.022109702229499817,
-          -0.03505357354879379,
+          -0.0350535586476326,
           0.19794447720050812
         ],
         "radius_mm": 25.0,
-        "count": 247288,
+        "count": 247120,
         "median_mm": 0.0401,
-        "p95_mm": 0.0834
+        "p95_mm": 0.0833
       },
       {
         "name": "Obszar 2: Część środkowa",
         "center_m": [
-          0.00032415922032669187,
-          -0.042361799627542496,
+          0.0003241588710807264,
+          -0.0423617921769619,
           0.11781124770641327
         ],
         "radius_mm": 25.0,
-        "count": 454125,
-        "median_mm": 0.04,
-        "p95_mm": 0.0833
+        "count": 454868,
+        "median_mm": 0.0401,
+        "p95_mm": 0.0832
       },
       {
         "name": "Obszar 3: Dolna partia / podstawa",
         "center_m": [
-          -0.0009570391848683357,
-          -0.04943745583295822,
-          0.027308817952871323
+          -0.0009570429683662951,
+          -0.04943745210766792,
+          0.02730882167816162
         ],
         "radius_mm": 25.0,
-        "count": 305103,
-        "median_mm": 0.04,
-        "p95_mm": 0.0831
+        "count": 305446,
+        "median_mm": 0.0402,
+        "p95_mm": 0.0832
       }
     ]
   },
@@ -86,7 +86,7 @@
     },
     "low_poly": {
       "file": "03_Model_Uzytkowy_LowPoly/MPŁ_W_E_865_lowpoly.glb",
-      "file_size_mb": 9.25,
+      "file_size_mb": 9.07,
       "triangles": 219999,
       "vertices": 109994,
       "textures": [
@@ -101,7 +101,7 @@
         "median_mm": 0.0537,
         "mean_mm": 0.0541,
         "p95_mm": 0.0884,
-        "p99_mm": 0.1128,
+        "p99_mm": 0.1127,
         "max_mm": 1.3473,
         "within_tol_pct": 99.999
       }

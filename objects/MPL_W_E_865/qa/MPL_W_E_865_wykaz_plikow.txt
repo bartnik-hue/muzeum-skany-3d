@@ -2,12 +2,12 @@ WYKAZ PLIKOW DOSTAWCZYCH — OBIEKT: MPŁ_W_E_865 (Rzeźba drewniana (kategoria 
 ====================================================================================================
 Sciezka wzgledna                                                   |    Rozmiar [B] | SHA-256
 ----------------------------------------------------------------------------------------------------
-01_Chmura_Punktow\MPŁ_W_E_865_chmura_punktow.xyz                   |    448,211,385 | 70d83bc3162b2685651b0b001d584d674e9964691a73a48fb077cda36602c266
+01_Chmura_Punktow\MPŁ_W_E_865_chmura_punktow.xyz                   |    448,190,178 | e188816ca1b5854bd9a7ab839d3aeb33a3523e13150feb53e59eb0d0e738092a
 02_Model_Archiwalny_HighPoly\MPL_W_E_865_highpoly.obj              |  1,375,120,636 | fc3c1e31be31aefd62bd9a17f25627b9ef1d6e361c7aa8ff6b1dd455f60d83ec
 02_Model_Archiwalny_HighPoly\MPL_W_E_865_highpoly.mtl              |            215 | 412323c933ba5f7101d7e281598c109697d6dff4317a3b9de87b74c9df2656ac
 02_Model_Archiwalny_HighPoly\MPL_W_E_865_highpoly_u1_v1_diffuse.png |     63,732,431 | 5a390c578e13315e79245c0fa65a406510ceb8721e539900efa1bd02a4a1489c
-03_Model_Uzytkowy_LowPoly\MPŁ_W_E_865_lowpoly.glb                  |      9,694,096 | e61516029971ef1b555f94c042af48db91c455602c5084f47c968d6e3b722323
-03_Model_Uzytkowy_LowPoly\textures\MPL_W_E_865_lowpoly_diffuse.jpg |      2,725,700 | 1c9bfe9caec4318af83866422ca6c736608c084f116295dcd96655f3d785144c
+03_Model_Uzytkowy_LowPoly\MPŁ_W_E_865_lowpoly.glb                  |      9,508,108 | 6305929efa97d97ccc15ec235ac09744831f4ff4ccf94c88c523743c6427a4d5
+03_Model_Uzytkowy_LowPoly\textures\MPL_W_E_865_lowpoly_diffuse.jpg |      2,541,373 | 5030e6546967cafc0ceb80461df8fb268a1a1c3fd1a7fdfa89356528d9d5f1d5
 04_Eksport_Geometrii\MPŁ_W_E_865_geometria.stl                     |    592,816,234 | 1ba92b38e549aa25d7e7cc186217ed1bb50642acad73cad69636cf5e8f01d3bb
 ----------------------------------------------------------------------------------------------------
 Dodatkowo w 05_Dokumentacja_QA/: raport QA + metadane JSON + wykresy kontrolne.

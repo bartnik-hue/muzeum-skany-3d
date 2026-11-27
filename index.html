@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=3" />
   <script type="importmap">
     {
       "imports": {
@@ -227,16 +227,29 @@
           <section class="downloads-box" aria-label="Dokumentacja do pobrania">
             <h3>Dokumentacja i pliki źródłowe</h3>
             <div class="download-actions">
-              <a id="dlGlb" class="btn btn-primary" href="#" download>Pobierz model GLB</a>
-              <a id="dlPly" class="btn btn-secondary" href="#" download>Pobierz chmurę PLY</a>
+              <a id="dlGlb" class="btn btn-primary btn-dl" href="#" download>
+                <span class="btn-dl-title">Model 3D (GLB)</span>
+                <span id="dlGlbMeta" class="btn-dl-meta mono">LowPoly</span>
+              </a>
+              <a id="dlPly" class="btn btn-secondary btn-dl" href="#" download>
+                <span class="btn-dl-title">Chmura punktów (PLY)</span>
+                <span id="dlPlyMeta" class="btn-dl-meta mono">Web</span>
+              </a>
+              <a id="dlHighPoly" class="btn btn-archive btn-dl" href="#" download>
+                <span class="btn-dl-title">Model 3D HighPoly</span>
+                <span id="dlHighPolyMeta" class="btn-dl-meta mono">OBJ + 8K</span>
+              </a>
+              <a id="dlPointCloudHighPoly" class="btn btn-archive btn-dl" href="#" download>
+                <span class="btn-dl-title">Chmura HighPoly (XYZ)</span>
+                <span id="dlPointCloudHighPolyMeta" class="btn-dl-meta mono">Pełna gęstość</span>
+              </a>
               <a id="dlQaHtml" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Pełny raport QA (HTML)</a>
               <a id="dlJson" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Metadane (JSON)</a>
               <a id="dlManifest" class="btn btn-secondary btn-full" href="#" target="_blank" rel="noopener">Wykaz plików i sum SHA-256 (TXT)</a>
             </div>
-            <p class="archive-note">
-              Pełne pliki archiwalne &gt;100 MB (<code>OBJ HighPoly 8,71 GB</code>, <code>STL 3,60 GB</code>, <code>XYZ 1,28 GB</code>)
-              przechowywane są w lokalnym archiwum produkcyjnym. Wersja webowa chmury punktów (<code>4,34 mln pkt RGB</code>, <code>62,07 MB</code>)
-              została wygenerowana z poprawionego modelu 3D ze szczególnym zagęszczeniem pod dłońmi trzymającymi garnek oraz przy styku ręki z tułowiem.
+            <div id="highPolyNotice" class="archive-notice hidden" role="status" aria-live="polite"></div>
+            <p id="archiveNote" class="archive-note">
+              Pełne pliki archiwalne HighPoly (&gt;100 MB) pominięte w repozytorium GitHub są gotowe do podpięcia po przeniesieniu strony na serwer docelowy.
             </p>
           </section>
         </div>
@@ -286,6 +299,6 @@
     </div>
   </div>
 
-  <script type="module" src="app.js?v=2"></script>
+  <script type="module" src="app.js?v=3"></script>
 </body>
 </html>

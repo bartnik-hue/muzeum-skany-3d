@@ -365,6 +365,56 @@ canvas.addEventListener('pointerup', (e) => {
   }
 });
 
+function resolveArchiveUrl(relPath) {
+  const base = (catalogData?.archiveBaseUrl || '').replace(/\/+$/, '');
+  if (!base) return relPath;
+  return `${base}/${String(relPath || '').replace(/^\/+/, '')}`;
+}
+
+function shortenSizeLabel(raw, fallback) {
+  if (!raw) return fallback;
+  const firstPart = String(raw).split('/')[0].trim();
+  const m = firstPart.match(/[\d.,]+\s*(?:MB|GB|GiB)/i);
+  return m ? m[0] : fallback;
+}
+
+function showHighPolyNotice(label, url) {
+  const notice = document.getElementById('highPolyNotice');
+  if (!notice) return;
+  notice.innerHTML = '';
+  const strong = document.createElement('strong');
+  strong.textContent = `${label} — plik archiwalny (> 100 MB): `;
+  const span = document.createElement('span');
+  span.textContent = 'paczki HighPoly nie są hostowane w darmowym repozytorium GitHub Pages i zostaną podpięte automatycznie po wdrożeniu na docelowy serwer plików (ścieżka: ';
+  const code = document.createElement('code');
+  code.textContent = url;
+  const end = document.createTextNode(').');
+  notice.append(strong, span, code, end);
+  notice.classList.remove('hidden');
+}
+
+async function handleHighPolyDownload(e, label, url) {
+  e.preventDefault();
+  if (!url || url === '#') return;
+  const notice = document.getElementById('highPolyNotice');
+  if (notice) notice.classList.add('hidden');
+  try {
+    const res = await fetch(url, { method: 'HEAD' });
+    if (res.ok) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = '';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      return;
+    }
+  } catch {
+    // Fallback to notice when file is not hosted on current static origin
+  }
+  showHighPolyNotice(label, url);
+}
+
 // --- Sidebar Population ---
 function populateSidebar(obj) {
   document.getElementById('objIdBadge').textContent = obj.id;
@@ -417,14 +467,53 @@ function populateSidebar(obj) {
     specsList.appendChild(row);
   }
 
+  const highPolyRel = obj.highPolyUrl || `objects/${obj.slug}/highpoly/${obj.slug}_highpoly.zip`;
+  const highPolyPcRel = obj.highPolyPointCloudUrl || `objects/${obj.slug}/highpoly/${obj.slug}_chmura_punktow_highpoly.xyz`;
+  const highPolyHref = resolveArchiveUrl(highPolyRel);
+  const highPolyPcHref = resolveArchiveUrl(highPolyPcRel);
+
   document.getElementById('dlGlb').href = obj.glbUrl;
+  document.getElementById('dlGlbMeta').textContent = shortenSizeLabel(obj.specs?.lowPolyGlb?.fileSize, 'GLB');
   document.getElementById('dlPly').href = obj.pointCloudUrl;
+  document.getElementById('dlPlyMeta').textContent = shortenSizeLabel(obj.specs?.pointCloud?.webFileSize, 'PLY');
+
+  const dlHighPoly = document.getElementById('dlHighPoly');
+  dlHighPoly.href = highPolyHref;
+  dlHighPoly.onclick = (e) => handleHighPolyDownload(e, 'Model 3D HighPoly', highPolyHref);
+  document.getElementById('dlHighPolyMeta').textContent = `${shortenSizeLabel(obj.specs?.highPoly?.fileSize, 'OBJ')} • OBJ+8K`;
+
+  const dlPcHighPoly = document.getElementById('dlPointCloudHighPoly');
+  dlPcHighPoly.href = highPolyPcHref;
+  dlPcHighPoly.onclick = (e) => handleHighPolyDownload(e, 'Chmura HighPoly (XYZ)', highPolyPcHref);
+  const ptsFullShort = String(obj.specs?.pointCloud?.pointsFull || 'HighPoly').replace(' pkt RGB', ' pkt').replace(' 000 000', ' mln');
+  document.getElementById('dlPointCloudHighPolyMeta').textContent = `${ptsFullShort} • ${shortenSizeLabel(obj.specs?.pointCloud?.fullFileSize, 'XYZ')}`;
+
   document.getElementById('dlJson').href = obj.metadataUrl;
 
   const qaReportHref = obj.qaReportUrl || '#';
   document.getElementById('dlQaHtml').href = qaReportHref;
   document.getElementById('dlQaHtmlTab').href = qaReportHref;
   document.getElementById('dlManifest').href = obj.manifestUrl || '#';
+
+  const highPolyNotice = document.getElementById('highPolyNotice');
+  if (highPolyNotice) highPolyNotice.classList.add('hidden');
+
+  const archiveNote = document.getElementById('archiveNote');
+  if (archiveNote) {
+    const hpSz = shortenSizeLabel(obj.specs?.highPoly?.fileSize, 'HighPoly OBJ');
+    const stlSz = shortenSizeLabel(obj.specs?.stl?.fileSize, 'STL');
+    const xyzSz = shortenSizeLabel(obj.specs?.pointCloud?.fullFileSize, 'XYZ');
+    archiveNote.innerHTML = '';
+    archiveNote.append(
+      document.createTextNode('Pełne pliki archiwalne >100 MB ('),
+      Object.assign(document.createElement('code'), { textContent: `OBJ HighPoly ${hpSz}` }),
+      document.createTextNode(', '),
+      Object.assign(document.createElement('code'), { textContent: `STL ${stlSz}` }),
+      document.createTextNode(', '),
+      Object.assign(document.createElement('code'), { textContent: `XYZ ${xyzSz}` }),
+      document.createTextNode(') nie są wrzucane na GitHub Pages — po przeniesieniu na docelowy serwer plików przyciski HighPoly pobierają pełne archiwa automatycznie.')
+    );
+  }
 
   const qaStatusText = document.getElementById('qaStatusText');
   qaStatusText.textContent = obj.qa?.status || 'Brak danych raportu QA';

@@ -1,4 +1,7 @@
 # Archiwalne pliki >100 MB przechowywane lokalnie
+objects/*/highpoly/
+*_highpoly.zip
+*_chmura_punktow_highpoly.*
 *.obj
 *.stl
 *.xyz

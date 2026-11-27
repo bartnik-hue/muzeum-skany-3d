@@ -2,12 +2,12 @@ WYKAZ PLIKOW DOSTAWCZYCH — OBIEKT: MPŁW_E_869 (Rzeźba drewniana (kategoria 1
 ====================================================================================================
 Sciezka wzgledna                                                   |    Rozmiar [B] | SHA-256
 ----------------------------------------------------------------------------------------------------
-01_Chmura_Punktow\MPŁW_E_869_chmura_punktow.xyz                    |    460,868,801 | 8d45d60e10d5c07d99493588e8fc5ddb6911fba73cf7e391b841c861d679f540
-02_Model_Archiwalny_HighPoly\MPLW_E_869_highpoly.obj               |  2,230,912,852 | 3b57560b89fc319f407ed3541571c7552b51417d5acbddfe9c83eb63860c9f73
-02_Model_Archiwalny_HighPoly\MPLW_E_869_highpoly.mtl               |            213 | 55650dd3cdb7ca02ffd93d1035d37d6608daa54c510a3ce2a2c3a42cb2c56155
-02_Model_Archiwalny_HighPoly\MPLW_E_869_highpoly_u1_v1_diffuse.png |     63,449,097 | f60e69ee6d2e8e8425795ae2d7fc13a6ae68ff127a005f13dc6af3e2fd21bfee
-03_Model_Uzytkowy_LowPoly\MPŁW_E_869_lowpoly.glb                   |     10,633,340 | 8716937c086132d2ba9404aea50070c99b7426c2d916e916a21bd9da346d6ef5
-03_Model_Uzytkowy_LowPoly\textures\MPLW_E_869_lowpoly_diffuse.jpg  |      2,259,845 | 9db8edc9886467b712d0e09bbb71756e672211106e561e2d7ffe85b91bac7fc0
-04_Eksport_Geometrii\MPŁW_E_869_geometria.stl                      |    961,263,434 | 8ddf126d5d4d92e3c5c6dc47c5ebe28887e602592e7d9b43ca0f15ea28c7ba82
+01_Chmura_Punktow\MPŁW_E_869_chmura_punktow.xyz                   |    463,219,175 | 1d6edf65c87b59375241c2b4e39447742470b4993316222da2a8e8e96b65b4de
+02_Model_Archiwalny_HighPoly\MPLW_E_869_highpoly.obj              |  2,673,218,107 | 061c5f75abec55a0213e3e9149d246c867cb4273dbc8795239ec8e7031404f07
+02_Model_Archiwalny_HighPoly\MPLW_E_869_highpoly.mtl              |            215 | bf11a7a32709436a966333abd39c1ec794bde1c92163920f9f3807f38d5a3f6a
+02_Model_Archiwalny_HighPoly\MPLW_E_869_highpoly_u1_v1_diffuse.png |     62,012,292 | ff7d20d97d317712da5c0d529d071cda93c9b273c064bccf540f9cbcfd43c902
+03_Model_Uzytkowy_LowPoly\MPŁW_E_869_lowpoly.glb                  |     10,467,660 | fffce15e09bd5278e456284aa8630695ba221b52fb658ec86d309394f38461f0
+03_Model_Uzytkowy_LowPoly\textures\MPLW_E_869_lowpoly_diffuse.jpg |      2,494,897 | befe0d5464dcc8800572b9c24443cb6caa623851ac2670585d593d28c4481e9f
+04_Eksport_Geometrii\MPŁW_E_869_geometria.stl                     |  1,140,595,734 | c9a498604c9300942302b543f25e1e9969b9d77bfad9a4848ac37ea3a97a9f05
 ----------------------------------------------------------------------------------------------------
 Dodatkowo w 05_Dokumentacja_QA/: raport QA + metadane JSON + wykresy kontrolne.

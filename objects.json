@@ -507,130 +507,6 @@
       "qaReportUrl": "objects/MPLW_E_869/qa/MPLW_E_869_raport_QA_i_metadane.html",
       "manifestUrl": "objects/MPLW_E_869/qa/MPLW_E_869_wykaz_plikow.txt",
       "dimensionsMm": {
-        "height": 446.73,
-        "width": 177.32,
-        "depth": 129.95,
-        "label": "446,73 × 177,32 × 129,95 mm"
-      },
-      "specs": {
-        "digitization": "Fotogrametria (Canon EOS R5 C + EF 100mm Macro) • 140 zdjęć (139 dopasowanych) • RealityScan 2.2 + PyMeshLab + Blender 5.2",
-        "scaleMethod": "Jednostka: metr (m), skala 1:1 • kalibracja referencyjna (MPŁ_W_E_869 (tożsame stanowisko obrotowe)) + wzorzec ColorChecker",
-        "pointCloud": {
-          "format": "XYZRGB (archiwum) / PLY RGB (web)",
-          "pointsFull": "12 000 000 pkt RGB",
-          "pointsWeb": "550 000 pkt RGB",
-          "webFileSize": "7,87 MB",
-          "fullFileSize": "439,5 MB (.xyz, archiwum lokalne)",
-          "webSpacing": "mediana 0,3080 mm • P95 0,5533 mm",
-          "fullSpacing": "3 strefy kontrolne: Góra obiektu med. 0,0575 mm (P95 0,1198 mm) • Część środkowa med. 0,0575 mm (P95 0,1195 mm) • Dolna partia / podstawa med. 0,0572 mm (P95 0,1193 mm)",
-          "specLimit": "limit dla 10–100 cm: mediana ≤ 0,50 mm, P95 ≤ 1,00 mm"
-        },
-        "highPoly": {
-          "triangles": "19 225 267 trójkątów (surowy scan) / 9 188 676 (po oczyszczeniu i edycji ≤ 5M)",
-          "vertices": "9 614 946 wierzchołków (surowy scan) / 4 594 338 (po oczyszczeniu i edycji ≤ 5M)",
-          "fileSize": "2127,6 MB surowy / 972,1 MB po edycji (.obj + .mtl, archiwum lokalne)",
-          "texture": "8192 × 8192 px PNG"
-        },
-        "lowPolyGlb": {
-          "triangles": "260 000 trójkątów",
-          "vertices": "130 000 wierzchołków",
-          "fileSize": "10,14 MB (.glb)",
-          "texture": "4096 × 4096 px JPG (2,16 MB)"
-        },
-        "stl": {
-          "triangles": "19 225 267 trójkątów",
-          "fileSize": "916,7 MB (.stl, archiwum lokalne)"
-        },
-        "deviation": {
-          "median": "0,0755 mm",
-          "p95": "0,1349 mm",
-          "max": "1,8966 mm",
-          "within1mm": "99,998% ≤ 1,0 mm (limit ≥ 95%)"
-        },
-        "filledAreas": "Brak zdjęć przymiaru w katalogu obiektu — skalę metryczną przeniesiono z geometrii stanowiska (MPŁ_W_E_869 (tożsame stanowisko obrotowe), promień kamer 1.119 m). Wyrównano płaszczyznę spodu podstawy (Z = 0.80 mm) na wersji edycyjnej HighPoly ≤ 5M. Domknięto spód podstawy płaską ścianką (Z = 0) z proceduralną fakturą słojów drewna dobraną kolorystycznie do krawędzi podstawy."
-      },
-      "qa": {
-        "status": "ZATWIERDZONO — WSZYSTKIE WYMOGI SPEŁNIONE",
-        "sections": [
-          {
-            "title": "1. Kontrola wymiarów",
-            "status": "PASS",
-            "detail": "Wysokość całkowita (Z): 446,73 mm; szerokość × głębokość: 177,32 × 129,95 mm. kalibracja referencyjna (MPŁ_W_E_869 (tożsame stanowisko obrotowe)) + wzorzec ColorChecker."
-          },
-          {
-            "title": "2. Kontrola chmury punktów (3 obszary)",
-            "status": "PASS",
-            "detail": "XYZ (12 000 000 pkt): Góra obiektu med. 0,0575 mm (P95 0,1198 mm) • Część środkowa med. 0,0575 mm (P95 0,1195 mm) • Dolna partia / podstawa med. 0,0572 mm (P95 0,1193 mm). Web PLY (550 000 pkt, 7,87 MB): globalnie med. 0,3080 mm (P95 0,5533 mm). Limit: ≤ 0,50 / 1,00 mm."
-          },
-          {
-            "title": "3. Kontrola geometrii (Low Poly vs High Poly po edycji)",
-            "status": "PASS",
-            "detail": "Mediana odchyłki: 0,0755 mm • P95: 0,1349 mm • P99: 0,1616 mm • Maks.: 1,8966 mm. Powierzchnia w tolerancji ≤ 1,0 mm: 99,998% (limit ≥ 95%)."
-          },
-          {
-            "title": "4. Kontrola tekstur (GLB 4K vs zdjęcia źródłowe)",
-            "status": "PASS",
-            "detail": "Zestawienie porównawcze 3 obszarów finalnej tekstury 4096×4096 JPG z fotografią źródłową Canon EOS R5 C (_D1A1207.jpg) potwierdza pełne zachowanie detalu rzeźbienia i polichromii."
-          },
-          {
-            "title": "5. Kontrola końcowa i weryfikacja pakietu",
-            "status": "PASS",
-            "detail": "Komplet 7 grup plików: XYZRGB (12 000 000 pkt, 439,5 MB), Web PLY (550 000 pkt, 7,87 MB), OBJ HighPoly + wersja oczyszczona ≤ 5M z drewnianym spodem + PNG 8K, GLB (10,14 MB ≤ 50 MB, 260 000 trójk.), STL, projekt .rsproj oraz raport QA z sumami SHA-256."
-          }
-        ]
-      },
-      "qaImages": [
-        {
-          "title": "Wymiarowanie i kalibracja skali",
-          "url": "objects/MPLW_E_869/qa/assets/qa_dimensions_scale.png",
-          "caption": "Rys. 1. Weryfikacja wymiarów rzeczywistych (446,73 × 177,32 × 129,95 mm) i zdjęć kalibracyjnych."
-        },
-        {
-          "title": "Analiza gęstości chmury punktów",
-          "url": "objects/MPLW_E_869/qa/assets/qa_pointcloud_regions.png",
-          "caption": "Rys. 2. Trzy rozłączne obszary pomiarowe chmury 12 000 000 pkt (limit ≤ 0,50 / 1,00 mm)."
-        },
-        {
-          "title": "Mapa odchyłek LowPoly vs HighPoly",
-          "url": "objects/MPLW_E_869/qa/assets/qa_deviation_map.png",
-          "caption": "Rys. 3. Odchyłka geometryczna Low Poly (260 000 trójk.) vs High Poly po edycji (9 188 676 trójk.): mediana 0,0755 mm, 99,998% ≤ 1,0 mm."
-        },
-        {
-          "title": "Porównanie tekstur ze zdjęciami źródłowymi",
-          "url": "objects/MPLW_E_869/qa/assets/qa_texture_comparison.png",
-          "caption": "Rys. 4. Zestawienie trzech wycinków fotografii źródłowej (_D1A1207.jpg) z renderami finalnego modelu GLB (10,14 MB, 4096×4096 JPG)."
-        },
-        {
-          "title": "Widok kontrolny modelu GLB — przód",
-          "url": "objects/MPLW_E_869/qa/assets/glb_overview_front.png",
-          "caption": "Kontrola bryły, orientacji i tekstury 4K finalnego modelu użytkowego GLB (10,14 MB, 260 000 trójk.) od strony frontowej."
-        },
-        {
-          "title": "Widok kontrolny modelu GLB — tył",
-          "url": "objects/MPLW_E_869/qa/assets/glb_overview_back.png",
-          "caption": "Kontrola kompletności geometrii, oczyszczenia krawędzi podstawy i ciągłości tekstury od strony tylnej."
-        },
-        {
-          "title": "Widok kontrolny modelu GLB — spód",
-          "url": "objects/MPLW_E_869/qa/assets/glb_overview_bottom.png",
-          "caption": "Kontrola domknięcia podstawy (Z = 0) płaską ścianką z proceduralną teksturą słojów drewna."
-        }
-      ]
-    },
-    {
-      "id": "MPŁ_W_E_869",
-      "slug": "MPL_W_E_869",
-      "title": "Rzeźba drewniana (MPŁ_W_E_869)",
-      "author": "Rzeźba ludowa (zbiory muzealne)",
-      "category": "Rzeźba drewniana / etnografia",
-      "material": "Drewno rzeźbione / polichromowane",
-      "glbUrl": "objects/MPL_W_E_869/MPL_W_E_869_lowpoly.glb",
-      "pointCloudUrl": "objects/MPL_W_E_869/MPL_W_E_869_chmura_punktow_web.ply",
-      "textureUrl": "objects/MPL_W_E_869/textures/MPL_W_E_869_lowpoly_diffuse.jpg",
-      "metadataUrl": "objects/MPL_W_E_869/MPL_W_E_869_metadane.json",
-      "qaReportUrl": "objects/MPL_W_E_869/qa/MPL_W_E_869_raport_QA_i_metadane.html",
-      "manifestUrl": "objects/MPL_W_E_869/qa/MPL_W_E_869_wykaz_plikow.txt",
-      "dimensionsMm": {
         "height": 329.75,
         "width": 120.89,
         "depth": 92.97,
@@ -706,37 +582,37 @@
       "qaImages": [
         {
           "title": "Wymiarowanie i kalibracja skali",
-          "url": "objects/MPL_W_E_869/qa/assets/qa_dimensions_scale.png",
+          "url": "objects/MPLW_E_869/qa/assets/qa_dimensions_scale.png",
           "caption": "Rys. 1. Weryfikacja wymiarów rzeczywistych (329,75 × 120,89 × 92,97 mm) i zdjęć kalibracyjnych."
         },
         {
           "title": "Analiza gęstości chmury punktów",
-          "url": "objects/MPL_W_E_869/qa/assets/qa_pointcloud_regions.png",
+          "url": "objects/MPLW_E_869/qa/assets/qa_pointcloud_regions.png",
           "caption": "Rys. 2. Trzy rozłączne obszary pomiarowe chmury 12 000 000 pkt (limit ≤ 0,50 / 1,00 mm)."
         },
         {
           "title": "Mapa odchyłek LowPoly vs HighPoly",
-          "url": "objects/MPL_W_E_869/qa/assets/qa_deviation_map.png",
+          "url": "objects/MPLW_E_869/qa/assets/qa_deviation_map.png",
           "caption": "Rys. 3. Odchyłka geometryczna Low Poly (250 000 trójk.) vs High Poly po edycji (8 995 603 trójk.): mediana 0,0548 mm, 100,000% ≤ 1,0 mm."
         },
         {
           "title": "Porównanie tekstur ze zdjęciami źródłowymi",
-          "url": "objects/MPL_W_E_869/qa/assets/qa_texture_comparison.png",
+          "url": "objects/MPLW_E_869/qa/assets/qa_texture_comparison.png",
           "caption": "Rys. 4. Zestawienie trzech wycinków fotografii źródłowej (_D1A0958.jpg) z renderami finalnego modelu GLB (9,98 MB, 4096×4096 JPG)."
         },
         {
           "title": "Widok kontrolny modelu GLB — przód",
-          "url": "objects/MPL_W_E_869/qa/assets/glb_overview_front.png",
+          "url": "objects/MPLW_E_869/qa/assets/glb_overview_front.png",
           "caption": "Kontrola bryły, orientacji i tekstury 4K finalnego modelu użytkowego GLB (9,98 MB, 250 000 trójk.) od strony frontowej."
         },
         {
           "title": "Widok kontrolny modelu GLB — tył",
-          "url": "objects/MPL_W_E_869/qa/assets/glb_overview_back.png",
+          "url": "objects/MPLW_E_869/qa/assets/glb_overview_back.png",
           "caption": "Kontrola kompletności geometrii, oczyszczenia krawędzi podstawy i ciągłości tekstury od strony tylnej."
         },
         {
           "title": "Widok kontrolny modelu GLB — spód",
-          "url": "objects/MPL_W_E_869/qa/assets/glb_overview_bottom.png",
+          "url": "objects/MPLW_E_869/qa/assets/glb_overview_bottom.png",
           "caption": "Kontrola domknięcia podstawy (Z = 0) płaską ścianką z proceduralną teksturą słojów drewna."
         }
       ]

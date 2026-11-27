@@ -623,6 +623,12 @@ function handleProgress(xhr, gen) {
   }
 }
 
+function withCacheBust(url) {
+  const ver = catalogData?.cacheVersion;
+  if (!ver || !url || url.startsWith('http')) return url;
+  return `${url}${url.includes('?') ? '&' : '?'}v=${encodeURIComponent(ver)}`;
+}
+
 async function ensureMeshLoaded(obj, gen) {
   if (gen !== loadGeneration) return null;
   if (cachedMeshGroup) return cachedMeshGroup;
@@ -633,7 +639,7 @@ async function ensureMeshLoaded(obj, gen) {
 
   const promise = (async () => {
     const gltf = await new Promise((resolve, reject) => {
-      gltfLoader.load(obj.glbUrl, resolve, (xhr) => handleProgress(xhr, gen), reject);
+      gltfLoader.load(withCacheBust(obj.glbUrl), resolve, (xhr) => handleProgress(xhr, gen), reject);
     });
 
     const root = gltf.scene;
@@ -700,7 +706,7 @@ async function ensurePointCloudLoaded(obj, gen) {
 
   const promise = (async () => {
     const geometry = await new Promise((resolve, reject) => {
-      plyLoader.load(obj.pointCloudUrl, resolve, (xhr) => handleProgress(xhr, gen), reject);
+      plyLoader.load(withCacheBust(obj.pointCloudUrl), resolve, (xhr) => handleProgress(xhr, gen), reject);
     });
 
     if (gen !== loadGeneration) {
@@ -817,7 +823,7 @@ async function loadObject(obj) {
 
 async function init() {
   try {
-    const res = await fetch('objects.json');
+    const res = await fetch(`objects.json?t=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     catalogData = await res.json();
 

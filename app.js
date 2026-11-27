@@ -113,12 +113,19 @@ shadowPlane.position.y = -0.0005;
 shadowPlane.receiveShadow = true;
 scene.add(shadowPlane);
 
+// Dedicated stage container for active 3D object (mesh + point cloud)
+const modelStageGroup = new THREE.Group();
+scene.add(modelStageGroup);
+
 // State
 let catalogData = null;
 let currentObject = null;
 let displayMode = 'mesh'; // 'mesh' | 'pointcloud'
 let cachedMeshGroup = null;
 let cachedPointCloudGroup = null;
+let pendingMeshPromise = null;
+let pendingPointCloudPromise = null;
+let loadGeneration = 0;
 let sharedAlignmentOffset = null; // keeps GLB and point cloud locked to the exact same origin
 let modelCenter = new THREE.Vector3(0, 0.12, 0);
 let modelRadius = 0.16;
@@ -479,10 +486,10 @@ function populateSidebar(obj) {
 
 function disposeGroup(group) {
   if (!group) return;
-  scene.remove(group);
+  if (group.parent) group.parent.remove(group);
   group.traverse((child) => {
-    if (child.isMesh || child.isPoints) {
-      if (child.geometry) child.geometry.dispose();
+    if (child.geometry) child.geometry.dispose();
+    if (child.material) {
       const mats = Array.isArray(child.material) ? child.material : [child.material];
       mats.forEach((m) => {
         if (!m) return;
@@ -495,6 +502,17 @@ function disposeGroup(group) {
   });
 }
 
+function clearSceneModels() {
+  while (modelStageGroup.children.length > 0) {
+    disposeGroup(modelStageGroup.children[modelStageGroup.children.length - 1]);
+  }
+  cachedMeshGroup = null;
+  cachedPointCloudGroup = null;
+  pendingMeshPromise = null;
+  pendingPointCloudPromise = null;
+  sharedAlignmentOffset = null;
+}
+
 function showLoading(title, subtitle) {
   loadingTitle.textContent = title;
   loadingBar.style.width = '0%';
@@ -502,7 +520,8 @@ function showLoading(title, subtitle) {
   loadingOverlay.classList.remove('hidden');
 }
 
-function handleProgress(xhr) {
+function handleProgress(xhr, gen) {
+  if (gen !== loadGeneration) return;
   if (xhr.lengthComputable && xhr.total > 0) {
     const pct = Math.min(100, Math.round((xhr.loaded / xhr.total) * 100));
     const mbLoaded = (xhr.loaded / (1024 * 1024)).toFixed(1);
@@ -515,83 +534,129 @@ function handleProgress(xhr) {
   }
 }
 
-async function ensureMeshLoaded(obj) {
+async function ensureMeshLoaded(obj, gen) {
+  if (gen !== loadGeneration) return null;
   if (cachedMeshGroup) return cachedMeshGroup;
+  if (pendingMeshPromise) return pendingMeshPromise;
 
-  showLoading(`Ładowanie modelu 3D ${obj.id}…`, 'Pobieranie siatki GLB i tekstury…');
-  const gltf = await new Promise((resolve, reject) => {
-    gltfLoader.load(obj.glbUrl, resolve, handleProgress, reject);
-  });
+  const glbSizeLabel = obj.specs?.lowPolyGlb?.fileSize ? ` (${obj.specs.lowPolyGlb.fileSize})` : '';
+  showLoading(`Ładowanie modelu 3D ${obj.id}…`, `Pobieranie siatki GLB i tekstury${glbSizeLabel}…`);
 
-  const root = gltf.scene;
-  root.traverse((child) => {
-    if (child.isMesh) {
-      child.castShadow = true;
-      child.receiveShadow = true;
-      if (child.material) {
-        const mats = Array.isArray(child.material) ? child.material : [child.material];
-        mats.forEach((m) => {
-          m.wireframe = isWireframe;
-          if (m.roughness !== undefined && m.roughness < 0.7) m.roughness = 0.85;
-          if (m.metalness !== undefined) m.metalness = 0.0;
-        });
-      }
+  const promise = (async () => {
+    const gltf = await new Promise((resolve, reject) => {
+      gltfLoader.load(obj.glbUrl, resolve, (xhr) => handleProgress(xhr, gen), reject);
+    });
+
+    const root = gltf.scene;
+    if (gen !== loadGeneration) {
+      disposeGroup(root);
+      return null;
     }
-  });
 
-  const box = new THREE.Box3().setFromObject(root);
-  const center = box.getCenter(new THREE.Vector3());
-  if (!sharedAlignmentOffset) {
-    sharedAlignmentOffset = new THREE.Vector3(-center.x, -box.min.y, -center.z);
+    root.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+        if (child.material) {
+          const mats = Array.isArray(child.material) ? child.material : [child.material];
+          mats.forEach((m) => {
+            m.wireframe = isWireframe;
+            if (m.roughness !== undefined && m.roughness < 0.7) m.roughness = 0.85;
+            if (m.metalness !== undefined) m.metalness = 0.0;
+          });
+        }
+      }
+    });
+
+    const box = new THREE.Box3().setFromObject(root);
+    const center = box.getCenter(new THREE.Vector3());
+    if (!sharedAlignmentOffset) {
+      sharedAlignmentOffset = new THREE.Vector3(-center.x, -box.min.y, -center.z);
+    }
+    root.position.copy(sharedAlignmentOffset);
+
+    const wrapper = new THREE.Group();
+    wrapper.add(root);
+    if (cachedMeshGroup) {
+      disposeGroup(cachedMeshGroup);
+    }
+    modelStageGroup.add(wrapper);
+    cachedMeshGroup = wrapper;
+
+    const finalBox = new THREE.Box3().setFromObject(wrapper);
+    modelCenter = finalBox.getCenter(new THREE.Vector3());
+    const sphere = finalBox.getBoundingSphere(new THREE.Sphere());
+    modelRadius = Math.max(0.08, sphere.radius);
+
+    return cachedMeshGroup;
+  })();
+
+  pendingMeshPromise = promise;
+  try {
+    return await promise;
+  } finally {
+    if (pendingMeshPromise === promise) {
+      pendingMeshPromise = null;
+    }
   }
-  root.position.copy(sharedAlignmentOffset);
-
-  const wrapper = new THREE.Group();
-  wrapper.add(root);
-  scene.add(wrapper);
-  cachedMeshGroup = wrapper;
-
-  const finalBox = new THREE.Box3().setFromObject(wrapper);
-  modelCenter = finalBox.getCenter(new THREE.Vector3());
-  const sphere = finalBox.getBoundingSphere(new THREE.Sphere());
-  modelRadius = Math.max(0.08, sphere.radius);
-
-  return cachedMeshGroup;
 }
 
-async function ensurePointCloudLoaded(obj) {
+async function ensurePointCloudLoaded(obj, gen) {
+  if (gen !== loadGeneration) return null;
   if (cachedPointCloudGroup) return cachedPointCloudGroup;
+  if (pendingPointCloudPromise) return pendingPointCloudPromise;
 
-  showLoading(`Ładowanie chmury punktów ${obj.id}…`, 'Pobieranie chmury PLY RGB (62,1 MB)…');
-  const geometry = await new Promise((resolve, reject) => {
-    plyLoader.load(obj.pointCloudUrl, resolve, handleProgress, reject);
-  });
+  const plySizeLabel = obj.specs?.pointCloud?.webFileSize ? ` (${obj.specs.pointCloud.webFileSize})` : '';
+  showLoading(`Ładowanie chmury punktów ${obj.id}…`, `Pobieranie chmury PLY RGB${plySizeLabel}…`);
 
-  // Original PLY preserves Z-up coordinates from XYZ; rotate -90 deg around X to match Three.js Y-up
-  geometry.rotateX(-Math.PI / 2);
-  geometry.computeBoundingBox();
+  const promise = (async () => {
+    const geometry = await new Promise((resolve, reject) => {
+      plyLoader.load(obj.pointCloudUrl, resolve, (xhr) => handleProgress(xhr, gen), reject);
+    });
 
-  if (!sharedAlignmentOffset) {
-    const c = geometry.boundingBox.getCenter(new THREE.Vector3());
-    sharedAlignmentOffset = new THREE.Vector3(-c.x, -geometry.boundingBox.min.y, -c.z);
+    if (gen !== loadGeneration) {
+      geometry.dispose();
+      return null;
+    }
+
+    // Original PLY preserves Z-up coordinates from XYZ; rotate -90 deg around X to match Three.js Y-up
+    geometry.rotateX(-Math.PI / 2);
+    geometry.computeBoundingBox();
+
+    if (!sharedAlignmentOffset) {
+      const c = geometry.boundingBox.getCenter(new THREE.Vector3());
+      sharedAlignmentOffset = new THREE.Vector3(-c.x, -geometry.boundingBox.min.y, -c.z);
+    }
+
+    const sizeMeters = parseFloat(pointSizeInput.value) * 0.001;
+    const material = new THREE.PointsMaterial({
+      size: sizeMeters,
+      sizeAttenuation: true,
+      vertexColors: true
+    });
+
+    const points = new THREE.Points(geometry, material);
+    points.position.copy(sharedAlignmentOffset);
+
+    const wrapper = new THREE.Group();
+    wrapper.add(points);
+    if (cachedPointCloudGroup) {
+      disposeGroup(cachedPointCloudGroup);
+    }
+    modelStageGroup.add(wrapper);
+    cachedPointCloudGroup = wrapper;
+
+    return cachedPointCloudGroup;
+  })();
+
+  pendingPointCloudPromise = promise;
+  try {
+    return await promise;
+  } finally {
+    if (pendingPointCloudPromise === promise) {
+      pendingPointCloudPromise = null;
+    }
   }
-
-  const sizeMeters = parseFloat(pointSizeInput.value) * 0.001;
-  const material = new THREE.PointsMaterial({
-    size: sizeMeters,
-    sizeAttenuation: true,
-    vertexColors: true
-  });
-
-  const points = new THREE.Points(geometry, material);
-  points.position.copy(sharedAlignmentOffset);
-
-  const wrapper = new THREE.Group();
-  wrapper.add(points);
-  scene.add(wrapper);
-  cachedPointCloudGroup = wrapper;
-
-  return cachedPointCloudGroup;
 }
 
 function updateModeUI() {
@@ -612,17 +677,23 @@ function updateModeUI() {
 
 async function setDisplayMode(mode) {
   if (!currentObject || displayMode === mode) return;
+  const gen = loadGeneration;
   displayMode = mode;
+  updateModeUI();
 
   try {
     if (mode === 'mesh') {
-      await ensureMeshLoaded(currentObject);
+      await ensureMeshLoaded(currentObject, gen);
     } else {
-      await ensurePointCloudLoaded(currentObject);
+      await ensurePointCloudLoaded(currentObject, gen);
     }
+    if (gen !== loadGeneration) return;
     updateModeUI();
-    loadingOverlay.classList.add('hidden');
+    if (displayMode === mode) {
+      loadingOverlay.classList.add('hidden');
+    }
   } catch (err) {
+    if (gen !== loadGeneration) return;
     console.error('Błąd ładowania reprezentacji 3D:', err);
     loadingTitle.textContent = 'Nie udało się załadować danych 3D';
     loadingText.textContent = err?.message || 'Sprawdź połączenie lub serwer HTTP.';
@@ -633,23 +704,22 @@ modeMeshBtn.addEventListener('click', () => setDisplayMode('mesh'));
 modeCloudBtn.addEventListener('click', () => setDisplayMode('pointcloud'));
 
 async function loadObject(obj) {
+  const gen = ++loadGeneration;
   currentObject = obj;
   populateSidebar(obj);
   clearRuler();
-
-  disposeGroup(cachedMeshGroup);
-  disposeGroup(cachedPointCloudGroup);
-  cachedMeshGroup = null;
-  cachedPointCloudGroup = null;
-  sharedAlignmentOffset = null;
+  clearSceneModels();
   displayMode = 'mesh';
+  updateModeUI();
 
   try {
-    await ensureMeshLoaded(obj);
+    const loaded = await ensureMeshLoaded(obj, gen);
+    if (gen !== loadGeneration || !loaded) return;
     updateModeUI();
     setCameraView('reset');
     loadingOverlay.classList.add('hidden');
   } catch (err) {
+    if (gen !== loadGeneration) return;
     console.error('Błąd ładowania modelu GLB:', err);
     loadingTitle.textContent = 'Nie udało się załadować modelu';
     loadingText.textContent = err?.message || 'Sprawdź połączenie lub uruchom aplikację przez serwer HTTP.';

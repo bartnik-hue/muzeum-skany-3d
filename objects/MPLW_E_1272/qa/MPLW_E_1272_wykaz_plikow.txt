@@ -1,0 +1,13 @@
+WYKAZ PLIKOW DOSTAWCZYCH — OBIEKT: MPŁW_E_1272 (01_Rzezby_Drewniane)
+====================================================================================================
+Sciezka wzgledna                                                   |    Rozmiar [B] | SHA-256
+----------------------------------------------------------------------------------------------------
+01_Chmura_Punktow\MPŁW_E_1272_chmura_punktow.xyz                   |    473,805,243 | 6cb56ddbbe1a25541d0b38ab63d96a3f272685122b3eb8a4293073ceb47cfa79
+02_Model_Archiwalny_HighPoly\MPLW_E_1272_highpoly.obj              |  1,953,033,127 | 4b01c388393e61c73a0b122f9392417352d33d6f6ae3dabc95a028e605056a58
+02_Model_Archiwalny_HighPoly\MPLW_E_1272_highpoly.mtl              |            215 | 09dbf55d08b4a5c9fc62197cf05acf25fb721b135a78711788a826e3551f7cad
+02_Model_Archiwalny_HighPoly\MPLW_E_1272_highpoly_u1_v1_diffuse.png |     54,616,491 | c4a4d556af0924fb63cb0a9f523e9c96a80b5a04ecc9fb85f56b76bc09db310e
+03_Model_Uzytkowy_LowPoly\MPŁW_E_1272_lowpoly.glb                  |     10,531,464 | e78817711dc97e20a57e5edf4a4fbc539b6b7f670b929d61d4e5690b473b54e0
+03_Model_Uzytkowy_LowPoly\textures\MPLW_E_1272_lowpoly_diffuse.jpg |      2,460,699 | 070db962cc8b79f0ea36cbae5a5ed9d8084a6ec03d2e550c4920fe88958bcdb0
+04_Eksport_Geometrii\MPŁW_E_1272_geometria.stl                     |    845,422,734 | d519d781123e6d14db7fdfdec5c2052662f2bffa57d5da124a72164c2e2a77dc
+----------------------------------------------------------------------------------------------------
+Dodatkowo w 05_Dokumentacja_QA/: raport QA + metadane JSON + wykresy kontrolne.

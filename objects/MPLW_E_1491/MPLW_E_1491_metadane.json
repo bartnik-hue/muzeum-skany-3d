@@ -1,0 +1,129 @@
+{
+  "inventory_number": "MPŁW_E_1491",
+  "object_name": "Obiekt muzealny MPŁW_E_1491 (Rzeźba drewniana z elementami cienkimi / prześwitami (kategoria 1B — pełna podstawa, bez masek RemBG))",
+  "digitization_date": "2026:11:27 13:35:55",
+  "operator": "Digitalizacja: materiał dostarczony przez klienta | Opracowanie 3D: RealityScan 2.2 + Blender 5.2",
+  "method_and_equipment": {
+    "method": "Fotogrametria wieloobrazowa (SfM / MVS)",
+    "camera_make": "Canon",
+    "camera_model": "Canon EOS R5 C",
+    "lens": "EF100mm f/2.8L Macro IS USM",
+    "image_resolution_px": [
+      8192,
+      5464
+    ],
+    "calibration_targets": "Przymiar L-kształtny (_D1A3724.jpg) + ColorChecker Passport"
+  },
+  "software": {
+    "photogrammetry": "RealityScan 2.2.0.119430",
+    "postprocessing_qa": "Blender 5.2 / Python 3.14"
+  },
+  "photos": {
+    "total_in_set": 345,
+    "registered": 332
+  },
+  "point_cloud": {
+    "file": "01_Chmura_Punktow/MPŁW_E_1491_chmura_punktow.xyz",
+    "format": "XYZRGB (ASCII, X Y Z R G B)",
+    "points_count": 12000000,
+    "web_points_count": 550000,
+    "unit": "m",
+    "web_spacing_mm": {
+      "global_median_mm": 0.2167,
+      "global_p95_mm": 0.3647
+    },
+    "spacing_3_regions_mm": [
+      {
+        "name": "Obszar 1: Góra obiektu",
+        "center_m": [
+          0.01680515892803669,
+          -0.043436236679553986,
+          0.297505646944046
+        ],
+        "radius_mm": 25.0,
+        "count": 332425,
+        "median_mm": 0.0376,
+        "p95_mm": 0.0782
+      },
+      {
+        "name": "Obszar 2: Część środkowa",
+        "center_m": [
+          0.055738549679517746,
+          -0.12681236863136292,
+          0.15377061069011688
+        ],
+        "radius_mm": 25.0,
+        "count": 58360,
+        "median_mm": 0.0377,
+        "p95_mm": 0.0787
+      },
+      {
+        "name": "Obszar 3: Dolna partia / podstawa",
+        "center_m": [
+          -0.010739484801888466,
+          -0.020270412787795067,
+          0.03475337475538254
+        ],
+        "radius_mm": 25.0,
+        "count": 376781,
+        "median_mm": 0.0376,
+        "p95_mm": 0.0781
+      }
+    ]
+  },
+  "models": {
+    "high_poly": {
+      "file": "02_Model_Archiwalny_HighPoly/MPLW_E_1491_highpoly.obj",
+      "triangles": 9119685,
+      "vertices": 4559843,
+      "textures": [
+        {
+          "count": 1,
+          "resolution": "8192x8192",
+          "format": "PNG"
+        }
+      ]
+    },
+    "low_poly": {
+      "file": "03_Model_Uzytkowy_LowPoly/MPŁW_E_1491_lowpoly.glb",
+      "file_size_mb": 10.39,
+      "triangles": 269999,
+      "vertices": 135000,
+      "textures": [
+        {
+          "count": 1,
+          "resolution": "4096x4096",
+          "format": "JPG (Q=92)"
+        }
+      ],
+      "deviation_vs_highpoly_mm": {
+        "tol_mm": 1.0,
+        "median_mm": 0.0508,
+        "mean_mm": 0.051,
+        "p95_mm": 0.0843,
+        "p99_mm": 0.0991,
+        "max_mm": 0.2275,
+        "within_tol_pct": 100.0
+      }
+    },
+    "stl_export": {
+      "file": "04_Eksport_Geometrii/MPŁW_E_1491_geometria.stl",
+      "format": "Binary STL",
+      "triangles": 14106524,
+      "unit": "m"
+    }
+  },
+  "scale": {
+    "unit": "m (1 jednostka = 1 metr)",
+    "scaling_method": "Kalibracja 3D z przymiaru L-kształtnego (21.06 px/mm -> -defineDistance + -update w RealityScan).",
+    "dimensions_model_mm": {
+      "height_Z": 341.2,
+      "width_X": 114.95,
+      "depth_Y": 253.65
+    }
+  },
+  "interpolated_or_filled_areas": [
+    "Wyrównano płaszczyznę spodu podstawy (Z = 3.50 mm) na wersji edycyjnej HighPoly ≤ 5M.",
+    "Domknięto spód podstawy płaską ścianką (Z = 0) z proceduralną fakturą słojów drewna dobraną kolorystycznie do krawędzi podstawy."
+  ]
+}

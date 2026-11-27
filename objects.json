@@ -2,7 +2,7 @@
   "collectionTitle": "Cyfrowe Archiwum Muzealne 3D",
   "institution": "Digitalizacja 3D obiektów zabytkowych",
   "archiveBaseUrl": "",
-  "cacheVersion": "20261127-1932",
+  "cacheVersion": "20261127-1938",
   "objects": [
     {
       "id": "MPŁW_E_1212",
@@ -3557,8 +3557,8 @@
           "pointsWeb": "550 000 pkt RGB",
           "webFileSize": "7,87 MB",
           "fullFileSize": "426,5 MB (.xyz, archiwum lokalne)",
-          "webSpacing": "mediana 0,2156 mm • P95 0,3634 mm",
-          "fullSpacing": "3 strefy kontrolne: Góra obiektu med. 0,0375 mm (P95 0,0779 mm) • Część środkowa med. 0,0375 mm (P95 0,0777 mm) • Dolna partia / podstawa med. 0,0374 mm (P95 0,0780 mm)",
+          "webSpacing": "mediana 0,2157 mm • P95 0,3629 mm",
+          "fullSpacing": "3 strefy kontrolne: Góra obiektu med. 0,0374 mm (P95 0,0777 mm) • Część środkowa med. 0,0374 mm (P95 0,0777 mm) • Dolna partia / podstawa med. 0,0374 mm (P95 0,0779 mm)",
           "specLimit": "limit dla 10–100 cm: mediana ≤ 0,50 mm, P95 ≤ 1,00 mm"
         },
         "highPoly": {
@@ -3596,7 +3596,7 @@
           {
             "title": "2. Kontrola chmury punktów (3 obszary)",
             "status": "PASS",
-            "detail": "XYZ (12 000 000 pkt): Góra obiektu med. 0,0375 mm (P95 0,0779 mm) • Część środkowa med. 0,0375 mm (P95 0,0777 mm) • Dolna partia / podstawa med. 0,0374 mm (P95 0,0780 mm). Web PLY (550 000 pkt, 7,87 MB): globalnie med. 0,2156 mm (P95 0,3634 mm). Limit: ≤ 0,50 / 1,00 mm."
+            "detail": "XYZ (12 000 000 pkt): Góra obiektu med. 0,0374 mm (P95 0,0777 mm) • Część środkowa med. 0,0374 mm (P95 0,0777 mm) • Dolna partia / podstawa med. 0,0374 mm (P95 0,0779 mm). Web PLY (550 000 pkt, 7,87 MB): globalnie med. 0,2157 mm (P95 0,3629 mm). Limit: ≤ 0,50 / 1,00 mm."
           },
           {
             "title": "3. Kontrola geometrii (Low Poly vs High Poly po edycji)",

@@ -1,7 +1,7 @@
 {
   "inventory_number": "MPŁ_W_E_1510",
   "object_name": "Obiekt muzealny MPŁ_W_E_1510 (Rzeźba drewniana (kategoria 1A — zwarta))",
-  "digitization_date": "2026:11:27 19:20:28",
+  "digitization_date": "2026:11:27 19:37:36",
   "operator": "Digitalizacja: materiał dostarczony przez klienta | Opracowanie 3D: RealityScan 2.2 + Blender 5.2",
   "method_and_equipment": {
     "method": "Fotogrametria wieloobrazowa (SfM / MVS)",
@@ -29,8 +29,8 @@
     "web_points_count": 550000,
     "unit": "m",
     "web_spacing_mm": {
-      "global_median_mm": 0.2156,
-      "global_p95_mm": 0.3634
+      "global_median_mm": 0.2157,
+      "global_p95_mm": 0.3629
     },
     "spacing_3_regions_mm": [
       {
@@ -41,9 +41,9 @@
           0.22821414470672607
         ],
         "radius_mm": 25.0,
-        "count": 306465,
-        "median_mm": 0.0375,
-        "p95_mm": 0.0779
+        "count": 308252,
+        "median_mm": 0.0374,
+        "p95_mm": 0.0777
       },
       {
         "name": "Obszar 2: Część środkowa",
@@ -53,8 +53,8 @@
           0.12228645384311676
         ],
         "radius_mm": 25.0,
-        "count": 409892,
-        "median_mm": 0.0375,
+        "count": 411395,
+        "median_mm": 0.0374,
         "p95_mm": 0.0777
       },
       {
@@ -65,9 +65,9 @@
           0.07534517347812653
         ],
         "radius_mm": 25.0,
-        "count": 325888,
+        "count": 326385,
         "median_mm": 0.0374,
-        "p95_mm": 0.078
+        "p95_mm": 0.0779
       }
     ]
   },
